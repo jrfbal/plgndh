@@ -1,0 +1,85 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualNetworkExistingRGName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "If using existing VNet, specifies the resource group for the existing VNet"
+      }
+    },
+    "vnetAddressPrefix": {
+      "type": "string",
+      "defaultValue": "10.0.0.0/16",
+      "metadata": {
+        "description": "IP address for the virtual network"
+      }
+    },
+    "FESubnetName": {
+      "type": "string",
+      "defaultValue": "FEsubnet",
+      "metadata": {
+        "description": "subnet name for the FE"
+      }
+    },
+    "FESubnetAddressPrefix": {
+      "type": "string",
+      "defaultValue": "10.0.0.0/24",
+      "metadata": {
+        "description": "IP address for FE subnet"
+      }
+    },
+    "FESubnetStartAddress": {
+      "type": "string",
+      "defaultValue": "10.0.0.4",
+      "metadata": {
+        "description": "Start IP address for the VMs in FE subnet"
+      }
+    },
+    "BESubnetName": {
+      "type": "string",
+      "defaultValue": "BEsubnet",
+      "metadata": {
+        "description": "subnet name for the BE"
+      }
+    },
+    "BESubnetAddressPrefix": {
+      "type": "string",
+      "defaultValue": "10.0.1.0/24",
+      "metadata": {
+        "description": "IP address for the BE subnet"
+      }
+    },
+    "BESubnetStartAddress": {
+      "type": "string",
+      "defaultValue": "10.0.1.4",
+      "metadata": {
+        "description": "Start IP address for the VMs in BE subnet"
+      }
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "defaultValue": "outvn",
+      "metadata": {
+        "description": "Virtual network name"
+      }
+    }
+  },
+  "variables": {
+    "vnetID": "[resourceId(parameters('virtualNetworkExistingRGName'),concat('Microsoft.Network','/','virtualNetworks'),parameters('virtualNetworkName'))]"
+  },
+  "resources": [
+
+  ],
+  "outputs": {
+   "FESubnetRef": {
+      "value": "[concat(variables('vnetID'), '/subnets/', parameters('FESubnetName'))]",
+      "type": "string"
+    },
+    "BESubnetRef": {
+      "value": "[concat(variables('vnetID'), '/subnets/', parameters('BESubnetName'))]",
+      "type": "string"
+    }
+  }
+}

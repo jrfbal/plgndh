@@ -1,0 +1,80 @@
+﻿{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "AdminUserName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "AdminPassword": {
+      "type": "securestring"
+    },
+    "CONTName": {
+      "type": "string",
+      "minLength": 1,
+      "defaultValue": "CONT",
+      "metadata": {
+        "description": "DCS hostname"
+      }
+    },
+    "CONTVmSize": {
+      "type": "string",
+      "defaultValue": "Standard_D1",
+      "metadata": {
+        "description": "VM Size Controller"
+      }
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "defaultValue": "outVN",
+      "metadata": {
+        "description": "Virtual network name"
+      }
+    },
+    "StorageACCName": {
+      "type": "string",
+      "metadata": {
+        "description": "Storage Account Unique name"
+      }
+    },
+    "FEImagePublisher": {
+      "type": "string",
+      "metadata": {
+        "description": "FE image publisher"
+      }
+    },
+    "FEImageOffer": {
+      "type": "string",
+      "metadata": {
+        "description": "FE image offer"
+      }
+    },
+    "FEWindowsOSVersion": {
+      "type": "string",
+      "metadata": {
+        "description": "FE Windows OS version"
+      }
+    },
+    "FEStorageAccountContainerName": {
+      "type": "string",
+      "metadata": {
+        "description": "FE Storage Container Name"
+      }
+    },
+    "FESubnetRef": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet Reference"
+      }
+    }
+
+
+  },
+  "variables": {
+    "location": "[resourceGroup().location]"
+
+  },
+  "resources": [  ],
+    "outputs": {
+    }
+}

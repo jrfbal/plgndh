@@ -1,0 +1,229 @@
+﻿{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualNetworkExistingRGName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "If using existing VNet, specifies the resource group for the existing VNet"
+      }
+    },
+    "vnetAddressPrefix": {
+      "type": "string",
+      "defaultValue": "10.0.0.0/16",
+      "metadata": {
+        "description": "IP address for the virtual network"
+      }
+    },
+    "FESubnetName": {
+      "type": "string",
+      "defaultValue": "FEsubnet",
+      "metadata": {
+        "description": "subnet name for the FE"
+      }
+    },
+    "FESubnetAddressPrefix": {
+      "type": "string",
+      "defaultValue": "10.0.0.0/24",
+      "metadata": {
+        "description": "IP address for FE subnet"
+      }
+    },
+    "FESubnetStartAddress": {
+      "type": "string",
+      "defaultValue": "10.0.0.4",
+      "metadata": {
+        "description": "Start IP address for the VMs in FE subnet"
+      }
+    },
+    "BESubnetName": {
+      "type": "string",
+      "defaultValue": "BEsubnet",
+      "metadata": {
+        "description": "subnet name for the BE"
+      }
+    },
+    "BESubnetAddressPrefix": {
+      "type": "string",
+      "defaultValue": "10.0.1.0/24",
+      "metadata": {
+        "description": "IP address for the BE subnet"
+      }
+    },
+    "BESubnetStartAddress": {
+      "type": "string",
+      "defaultValue": "10.0.1.4",
+      "metadata": {
+        "description": "Start IP address for the VMs in BE subnet"
+      }
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "defaultValue": "outvn",
+      "metadata": {
+        "description": "Virtual network name"
+      }
+    }
+  },
+  "variables": {
+    "FESubnetNameSG": "[concat(parameters('FESubnetName'), 'SG')]",
+    "BESubnetNameSG": "[concat(parameters('BESubnetName'), 'SG')]",
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+    "FESubnet": "[concat(variables('vnetID'),'/subnets/',parameters('FESubnetName'))]",
+    "BESubnet": "[concat(variables('vnetID'),'/subnets/',parameters('BESubnetName'))]",
+    "location": "[resourceGroup().location]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[variables('FESubnetNameSG')]",
+      "location": "[variables('location')]",
+      "tags": {
+        "displayName": "[variables('FESubnetNameSG')]"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "rdp_rule",
+            "properties": {
+              "description": "Allow RDP",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "3389",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 100,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "web_rule",
+            "properties": {
+              "description": "Allow WEB",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 101,
+              "direction": "Inbound"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2015-06-15",
+      "name": "[variables('BESubnetNameSG')]",
+      "location": "[variables('location')]",
+      "tags": {
+        "displayName": "[variables('BESubnetNameSG')]"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "Allow_FE",
+            "properties": {
+              "description": "Allow FE Subnet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "1433",
+              "sourceAddressPrefix": "10.0.0.0/24",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 100,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "Block_FE",
+            "properties": {
+              "description": "Block App Subnet",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "10.0.0.0/24",
+              "destinationAddressPrefix": "*",
+              "access": "Deny",
+              "priority": 121,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "Block_Internet",
+            "properties": {
+              "description": "Block Internet",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "Internet",
+              "access": "Deny",
+              "priority": 200,
+              "direction": "Outbound"
+            }
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "[parameters('virtualNetworkName')]",
+      "type": "Microsoft.Network/virtualNetworks",
+      "location": "[variables('location')]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkSecurityGroups/', variables('FESubnetNameSG'))]",
+        "[concat('Microsoft.Network/networkSecurityGroups/', variables('BESubnetNameSG'))]"
+      ],
+      "tags": {
+        "displayName": "[parameters('virtualNetworkName')]"
+      },
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('vnetAddressPrefix')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[parameters('FESubnetName')]",
+            "properties": {
+              "addressPrefix": "[parameters('FESubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('FESubnetNameSG'))]"
+              }
+            }
+          },
+          {
+            "name": "[parameters('BESubnetName')]",
+            "properties": {
+              "addressPrefix": "[parameters('BESubnetAddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('BESubnetNameSG'))]"
+              }
+            }
+          }
+
+        ]
+      }
+    }
+  ],
+  "outputs": {
+
+    "FESubnetRef": {
+      "value": "[variables('FESubnet')]",
+      "type": "string"
+    },
+
+    "BESubnetRef": {
+      "value": "[variables('BESubnet')]",
+      "type": "string"
+    }
+  }
+}

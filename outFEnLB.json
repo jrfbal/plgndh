@@ -1,0 +1,193 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "AdminUserName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "AdminPassword": {
+      "type": "securestring"
+    },
+    "FEName": {
+      "type": "string",
+      "minLength": 1,
+      "defaultValue": "FE",
+      "metadata": {
+        "description": "FE hostname"
+      }
+    },
+    "FEImagePublisher": {
+      "type": "string",
+      "metadata": {
+        "description": "FE image publisher"
+      }
+    },
+    "FEImageOffer": {
+      "type": "string",
+      "metadata": {
+        "description": "FE image offer"
+      }
+    },
+    "FEWindowsOSVersion": {
+      "type": "string",
+      "metadata": {
+        "description": "FE Windows OS version"
+      }
+    },
+    "FEStorageAccountContainerName": {
+      "type": "string",
+      "metadata": {
+        "description": "FE Storage Container Name"
+      }
+    },
+    "FESubnetRef": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet Reference"
+      }
+    },
+    "count": {
+      "type": "int",
+      "defaultValue": 3,
+      "metadata": {
+        "description": "Number of FE to deploy"
+      }
+    },
+    "dnsNameforLBIP": {
+      "type": "string",
+      "defaultValue": "uniqueDnsNameforLBIP",
+      "metadata": {
+        "description": "Unique DNS name"
+      }
+    },
+    "StorageACCName": {
+      "type": "string",
+      "metadata": {
+        "description": "Storage Account Unique name"
+      }
+    },
+    "FEVmSize": {
+      "type": "string",
+      "defaultValue": "Standard_D1",
+      "metadata": {
+        "description": "VM Size Controller"
+      }
+    }
+
+  },
+  "variables": {
+
+    "location": "[resourceGroup().location]",
+    "lbName": "[concat('LB', parameters('FEName'))]",
+    "publicIPname": "[concat('PublicIP', variables('lbName'))]",
+    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPname'))]",
+    "lbID": "[resourceId('Microsoft.Network/loadBalancers', variables('lbName'))]",
+    "AVsetName": "[concat('AVset-', parameters('FEName'))]",
+    "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]",
+    "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]"
+  },
+  "resources": [
+
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[concat('publicip',toLower(parameters('FEName')), copyIndex(1))]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic"
+      },
+      "copy": {
+        "name": "PublicIPcopy",
+        "count": "[parameters('count')]"
+      }
+    },
+
+    {
+      "name": "[concat(parameters('FEName'), copyIndex(1), 'NIC')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', concat('publicip',toLower(parameters('FEName')), copyIndex(1)))]"
+      ],
+      "apiVersion": "2015-06-15",
+      "tags": {
+        "displayName": "[concat(parameters('FEName'), copyIndex(1), 'NIC')]"
+      },
+      "copy": {
+        "name": "NICcopy",
+        "count": "[parameters('count')]"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[parameters('FESubnetRef')]"
+              },
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat('publicip',toLower(parameters('FEName')), copyIndex(1)))]"
+              }
+            }
+          }
+        ]
+      }
+    },
+
+
+
+    {
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('FEName'), copyIndex(1), 'NIC')]"
+      ],
+      "location": "[variables('location')]",
+      "name": "[concat(parameters('FEName'), copyIndex(1))]",
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('FEVmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[concat(parameters('FEName'), copyIndex(1))]",
+          "adminUsername": "[parameters('AdminUsername')]",
+          "adminPassword": "[parameters('AdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[parameters('FEImagePublisher')]",
+            "offer": "[parameters('FEImageOffer')]",
+            "sku": "[parameters('FEWindowsOSVersion')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "[concat('FEOSDisk', copyIndex(1))]",
+            "vhd": {
+              "uri": "[concat('http://', parameters('StorageACCName'), '.blob.core.windows.net/', parameters('FEStorageAccountContainerName'), '/', concat('FEOSDisk', copyIndex(1)), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('FEName'), copyIndex(1), 'NIC'))]"
+            }
+          ]
+        }
+      },
+      "tags": {
+        "displayName": "[concat(parameters('FEName'), copyIndex(1))]"
+      },
+      "type": "Microsoft.Compute/virtualMachines",
+      "copy": {
+        "name": "VMcopy",
+        "count": "[parameters('count')]"
+      }
+    }
+  ],
+  "outputs": {
+  }
+}

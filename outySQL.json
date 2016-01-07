@@ -1,0 +1,144 @@
+﻿{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "AdminUserName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "AdminPassword": {
+      "type": "securestring"
+    },
+    "SQLWindowsOSVersion": {
+      "type": "string",
+      "defaultValue": "Standard",
+      "allowedValues": [
+        "Enterprise",
+        "Standard",
+        "Web"
+      ]
+    },
+    "SQLName": {
+      "type": "string",
+      "minLength": 1,
+      "defaultValue": "SQL",
+      "metadata": {
+        "description": "SQL server hostname"
+      }
+    },
+    "SQLImageOffer": {
+      "type": "string",
+      "defaultValue": "SQL2014-WS2012R2",
+      "allowedValues": [
+        "SQL2014-WS2012R2"
+      ]
+    },
+    "SubnetRef": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet Reference"
+      }
+    },
+    "StorageACCName": {
+      "type": "string",
+      "metadata": {
+        "description": "Storage Account Unique name"
+      }
+    },
+    "SQLVmSize": {
+      "type": "string",
+      "defaultValue": "Standard_D1",
+      "allowedValues": [
+        "Standard_A0",
+        "Standard_A1",
+        "Standard_D1"
+      ],
+      "metadata": {
+        "description": "VM Size SQL"
+      }
+    },
+    "StorageAccountContainerName": {
+      "type": "string",
+      "metadata": {
+        "description": "Storage Container Name"
+      }
+    }
+  },
+
+  "variables": {
+    "SQLImagePublisher": "MicrosoftSQLServer"
+  },
+  "resources": [
+    {
+      "name": "[concat(parameters('SQLName'), 'NIC')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "tags": {
+        "displayName": "[concat(parameters('SQLName'), 'NIC')]"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[parameters('SubnetRef')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('SQLName'), 'NIC')]"
+      ],
+      "location": "[resourceGroup().location]",
+      "name": "[parameters('SQLName')]",
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('SQLVmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('SQLName')]",
+          "adminUsername": "[parameters('AdminUsername')]",
+          "adminPassword": "[parameters('AdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('SQLImagePublisher')]",
+            "offer": "[parameters('SQLImageOffer')]",
+            "sku": "[parameters('SQLWindowsOSVersion')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "SQLOSDisk",
+            "vhd": {
+              "uri": "[concat('http://', parameters('StorageACCName'), '.blob.core.windows.net/', parameters('StorageAccountContainerName'), '/', 'SQLOSDisk', '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('SQLName'), 'NIC'))]"
+            }
+          ]
+        }
+      },
+      "tags": {
+        "displayName": "[parameters('SQLName')]"
+      },
+      "type": "Microsoft.Compute/virtualMachines"
+    }
+
+
+  ],
+    "outputs": {
+    }
+}
