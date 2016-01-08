@@ -117,7 +117,7 @@
           "osDisk": {
             "name": "SQLOSDisk",
             "vhd": {
-              "uri": "[concat('http://', parameters('StorageACCName'), '.blob.core.windows.net/', parameters('StorageAccountContainerName'), '/', 'SQLOSDisk', '.vhd')]"
+              "uri": "[concat('http://', parameters('StorageACCName'), '.blob.core.windows.net/', parameters('StorageAccountContainerName'), '/', parameters('SQLName'), '.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
