@@ -129,7 +129,7 @@
           {
             "name": "Allow_FE",
             "properties": {
-              "description": "Allow FE Subnet",
+              "description": "Allow FE Subnet SQL",
               "protocol": "Tcp",
               "sourcePortRange": "*",
               "destinationPortRange": "1433",
@@ -141,16 +141,31 @@
             }
           },
           {
+            "name": "Allow_FE_RDP",
+            "properties": {
+              "description": "Allow FE Subnet RDP",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "3389",
+              "sourceAddressPrefix": "[parameters('FESubnetAddressPrefix')]",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 110,
+              "direction": "Inbound"
+            }
+          },
+
+          {
             "name": "Block_FE",
             "properties": {
               "description": "Block App Subnet",
               "protocol": "*",
               "sourcePortRange": "*",
               "destinationPortRange": "*",
-              "sourceAddressPrefix": "10.0.0.0/24",
+              "sourceAddressPrefix": "[parameters('FESubnetAddressPrefix')]",
               "destinationAddressPrefix": "*",
               "access": "Deny",
-              "priority": 121,
+              "priority": 150,
               "direction": "Inbound"
             }
           },
