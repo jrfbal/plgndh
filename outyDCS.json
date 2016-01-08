@@ -124,7 +124,7 @@
           "osDisk": {
             "name": "CONTOSDisk",
             "vhd": {
-              "uri": "[concat('http://', parameters('StorageACCName'), '.blob.core.windows.net/', parameters('FEStorageAccountContainerName'), '/', parameters('CONTName'), '.vhd')]"
+              "uri": "[concat('http://', parameters('StorageACCName'), '.blob.core.windows.net/', parameters('FEStorageAccountContainerName'), '/', parameters('CONTName'),'OSDisk', '.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"

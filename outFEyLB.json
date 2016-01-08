@@ -263,7 +263,7 @@
           "osDisk": {
             "name": "[concat('FEOSDisk', copyIndex(1))]",
             "vhd": {
-              "uri": "[concat('http://', parameters('StorageACCName'), '.blob.core.windows.net/', parameters('FEStorageAccountContainerName'), '/', concat(parameters('FEName'), copyIndex(1)), '.vhd')]"
+              "uri": "[concat('http://', parameters('StorageACCName'), '.blob.core.windows.net/', parameters('FEStorageAccountContainerName'), '/', concat(parameters('FEName'),'OSDisk', copyIndex(1)), '.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
