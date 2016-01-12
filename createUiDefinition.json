@@ -98,12 +98,6 @@
             "type": "Microsoft.Storage.StorageAccountSelector",
             "label": "Storage account",
             "value": {
-              "name": "vavav",
-              "constraints": {
-                "required": true,
-                "regex": "[a-zA-Z0-9._]{16,64}",
-                "validationMessage": "Storage name must be between 16 and 64 characters long."
-              },
               "type": "Standard_LRS",
               "recommendedSizes": [
                 "Standard_LRS",
@@ -430,31 +424,7 @@
 
     ],
     "outputs": {
-      "AdminUserName": "[steps('FESetup').WFEadminUsername]",
-      "AdminPassword": "[steps('FESetup').WFEadminPassword]",
-      "virtualNetworkName": "[steps('VNETSetup').vnetSpec.name]",
-      "vnetNewOrExisting": "[steps('VNETSetup').vnetSpec.newOrExisting]",
-      "virtualNetworkExistingRGName": "[steps('VNETSetup').vnetSpec.name]",
-      "vnetAddressPrefix": "[steps('VNETSetup').vnetSpec.addressPrefixSize]",
-      "FESubnetName": "[steps('VNETSetup').vnetSpec.subnets.subnet1.name]",
-      "FESubnetAddressPrefix": "[steps('VNETSetup').vnetSpec.subnets.subnet1.addressPrefix]",
-      "BESubnetName": "[steps('VNETSetup').vnetSpec.subnets.subnet2.name]",
-      "BESubnetAddressPrefix": "[steps('VNETSetup').vnetSpec.subnets.subnet2.addressPrefix]",
-      "StorageNewOrExisting": "[steps('FESetup').storageAccount2.newOrExisting]",
-      "StorageACCName": "[steps('FESetup').storageAccount2.name]",
-      "StorageACCType": "[steps('FESetup').storageAccount2.type]",
-      "CreateLBchoosebox": "[steps('FESetup').deployLB.name]",
-      "dnsNameforLBIP": "[steps('FESetup').publicDNS.domainNameLabel]",
-      "FEName": "[steps('FESetup').FENAME]",
-      "FEVmSize": "[steps('FESetup').FEVmSize]",
-      "count": "[steps('FESetup').FEVmCount]",
-      "CreateDCSchoosebox": "[steps('FESetup').deployDCS.name]",
-      "CONTName": "[steps('FESetup').ContName]",
-      "CONTVmSize": "[steps('FESetup').ContVmSize]",
-      "CreateSQLchoosebox": "[steps('SQLSetup').deploySQL]",
-      "SQLName": "[steps('SQLSetup').SQLNAME]",
-      "SQLVmSize": "[steps('SQLSetup').SQLVmSize]",
-      "SQLWindowsOSVersion": "[steps('SQLSetup').SQL_SKU]"
+
     }
   }
 }
