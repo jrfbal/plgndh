@@ -1,0 +1,57 @@
+﻿{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualNetworkExistingRGName": {
+            "value": "virtual"
+        },
+        "BESubnetName": {
+            "value": "BEsubnet"
+        },
+        "virtualNetworkName": {
+            "value": "virtual"
+        },
+        "vnetNewOrExisting": {
+            "value": "new"
+        },
+        "StorageACCName": {
+            "value": "d3dadd23"
+        },
+        "StorageNewOrExisting": {
+            "value": "new"
+        },
+        "AdminUserName": {
+            "value": "jrfbal"
+        },
+        "FESubnetName": {
+            "value": "FEsubnet"
+        },
+        "CreateDCSchoosebox": {
+            "value": "nDCS"
+        },
+        "count": {
+            "value": 2
+        },
+        "dnsNameforLBIP": {
+            "value": "vvrwvqdz"
+        },
+        "CreateLBchoosebox": {
+            "value": "nLB"
+        },
+        "FEName": {
+            "value": "FETESTE"
+        },
+        "SQLWindowsOSVersion": {
+            "value": "Standard"
+        },
+        "SQLName": {
+            "value": "SQL"
+        },
+        "CONTName": {
+            "value": "DCS"
+        },
+        "CreateSQLchoosebox": {
+            "value": "ySQL"
+        }
+    }
+}

@@ -21,6 +21,13 @@
         "description": "Identifies whether to use new or existing Virtual Network"
       }
     },
+    "virtualNetworkName": {
+      "type": "string",
+      "defaultValue": "OutSystems_VN",
+      "metadata": {
+        "description": "Virtual network name"
+      }
+    },
     "virtualNetworkExistingRGName": {
       "type": "string",
       "defaultValue": "",
@@ -39,61 +46,42 @@
       "type": "string",
       "defaultValue": "FEsubnet",
       "metadata": {
-        "description": "subnet name for the FE"
+        "description": "subnet name for the Front-End"
       }
     },
     "FESubnetAddressPrefix": {
       "type": "string",
       "defaultValue": "10.0.0.0/24",
       "metadata": {
-        "description": "IP address for FE subnet"
+        "description": "IP address for Front-End subnet"
       }
     },
     "FESubnetStartAddress": {
       "type": "string",
       "defaultValue": "10.0.0.4",
       "metadata": {
-        "description": "Start IP address for the VMs in FE subnet"
+        "description": "Start IP address for the VMs in Front-End subnet"
       }
     },
     "BESubnetName": {
       "type": "string",
       "defaultValue": "BEsubnet",
       "metadata": {
-        "description": "subnet name for the BE"
+        "description": "subnet name for the Back-End"
       }
     },
     "BESubnetAddressPrefix": {
       "type": "string",
       "defaultValue": "10.0.1.0/24",
       "metadata": {
-        "description": "IP address for the BE subnet"
+        "description": "IP address for the Back-End subnet"
       }
     },
     "BESubnetStartAddress": {
       "type": "string",
       "defaultValue": "10.0.1.4",
       "metadata": {
-        "description": "Start IP address for the VMs in BE subnet"
-      }
-    },
-     "virtualNetworkName": {
-      "type": "string",
-      "defaultValue": "outVN",
-      "metadata": {
-        "description": "Virtual network name"
-      }
-    },
-    "SQLVmSize": {
-      "type": "string",
-      "defaultValue": "Standard_D1",
-      "allowedValues": [
-        "Standard_A0",
-        "Standard_A1",
-        "Standard_D1"
-      ],
-      "metadata": {
-        "description": "VM Size SQL"
+        "description": "Start IP address for the VMs in Back-End subnet"
       }
     },
 
@@ -125,21 +113,62 @@
         "description": "Storage Account Unique name"
       }
     },
-    "SQLWindowsOSVersion": {
+    "CreateLBchoosebox": {
       "type": "string",
-      "defaultValue": "Standard",
+      "defaultValue": "yLB",
       "allowedValues": [
-        "Enterprise",
-        "Standard",
-        "Web"
-      ]
+        "yLB",
+        "nLB"
+      ],
+      "metadata": {
+        "description": "Identifies whether to deploy a Load Balancer and AV group"
+      }
     },
-    "SQLName": {
+    "dnsNameforLBIP": {
+      "type": "string",
+      "defaultValue": "uniqueDnsNameforLBIP",
+      "metadata": {
+        "description": "Unique DNS name"
+      }
+    },
+    "FEName": {
       "type": "string",
       "minLength": 1,
-      "defaultValue": "SQL",
+      "defaultValue": "FE",
       "metadata": {
-        "description": "SQL server hostname"
+        "description": "Front-End hostname"
+      }
+    },
+    "FEVmSize": {
+      "type": "string",
+      "defaultValue": "Standard_D1",
+      "allowedValues": [
+        "Standard_A1",
+        "Standard_D1",
+        "Standard_D2",
+        "Standard_DS2",
+        "Standard_D3",
+        "Standard_DS3",
+        "Standard_D4",
+        "Standard_DS4",
+        "Standard_D11",
+        "Standard_DS11",
+        "Standard_D12",
+        "Standard_DS12",
+        "Standard_D13",
+        "Standard_DS13",
+        "Standard_D14",
+        "Standard_DS14"
+      ],
+      "metadata": {
+        "description": "VM Size Controller"
+      }
+    },
+    "count": {
+      "type": "int",
+      "defaultValue": 2,
+      "metadata": {
+        "description": "Number of Front-Ends to deploy"
       }
     },
     "CreateDCSchoosebox": {
@@ -153,15 +182,38 @@
         "description": "Identifies whether to deploy a dedicated DCS server"
       }
     },
-    "CreateLBchoosebox": {
+
+    "CONTName": {
       "type": "string",
-      "defaultValue": "yLB",
+      "minLength": 1,
+      "defaultValue": "DC",
+      "metadata": {
+        "description": "Deployment Controller server hostname"
+      }
+    },
+    "CONTVmSize": {
+      "type": "string",
+      "defaultValue": "Standard_D1",
       "allowedValues": [
-        "yLB",
-        "nLB"
+        "Standard_A1",
+        "Standard_D1",
+        "Standard_D2",
+        "Standard_DS2",
+        "Standard_D3",
+        "Standard_DS3",
+        "Standard_D4",
+        "Standard_DS4",
+        "Standard_D11",
+        "Standard_DS11",
+        "Standard_D12",
+        "Standard_DS12",
+        "Standard_D13",
+        "Standard_DS13",
+        "Standard_D14",
+        "Standard_DS14"
       ],
       "metadata": {
-        "description": "Identifies whether to deploy a Load Balancer and AV group"
+        "description": "VM Size Controller"
       }
     },
     "CreateSQLchoosebox": {
@@ -175,51 +227,49 @@
         "description": "Identifies whether to deploy a SQL server in the BE"
       }
     },
-    "CONTName": {
+    "SQLName": {
       "type": "string",
       "minLength": 1,
-      "defaultValue": "DCS",
+      "defaultValue": "SQL",
       "metadata": {
-        "description": "DCS hostname"
+        "description": "SQL server hostname"
       }
     },
-    "CONTVmSize": {
-      "type": "string",
-      "defaultValue": "Standard_D1",
-      "metadata": {
-        "description": "VM Size Controller"
-      }
-    },
-    "FEName": {
-      "type": "string",
-      "minLength": 1,
-      "defaultValue": "WFE",
-      "metadata": {
-        "description": "FE hostname"
-      }
-    },
-    "FEVmSize": {
-      "type": "string",
-      "defaultValue": "Standard_D1",
-      "metadata": {
-        "description": "VM Size Controller"
-      }
-    },
-    "count": {
-      "type": "int",
-      "defaultValue": 3,
-      "metadata": {
-        "description": "Number of FE to deploy"
-      }
-    },
-    "dnsNameforLBIP": {
-      "type": "string",
-      "defaultValue": "uniqueDnsNameforLBIP",
-      "metadata": {
-        "description": "Unique DNS name"
-      }
-    }
 
+    "SQLVmSize": {
+      "type": "string",
+      "defaultValue": "Standard_D1",
+      "allowedValues": [
+        "Standard_A1",
+        "Standard_D1",
+        "Standard_D2",
+        "Standard_DS2",
+        "Standard_D3",
+        "Standard_DS3",
+        "Standard_D4",
+        "Standard_DS4",
+        "Standard_D11",
+        "Standard_DS11",
+        "Standard_D12",
+        "Standard_DS12",
+        "Standard_D13",
+        "Standard_DS13",
+        "Standard_D14",
+        "Standard_DS14"
+      ],
+      "metadata": {
+        "description": "VM Size SQL"
+      }
+    },
+    "SQLWindowsOSVersion": {
+      "type": "string",
+      "defaultValue": "Enterprise",
+      "allowedValues": [
+        "Enterprise",
+        "Standard",
+        "Web"
+      ]
+    }
   },
   "variables": {
     "URIbase": "https://raw.githubusercontent.com/jrfbal/plgndh/master/",
