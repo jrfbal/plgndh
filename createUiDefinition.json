@@ -97,6 +97,7 @@
             "name": "storageAccount2",
             "type": "Microsoft.Storage.StorageAccountSelector",
             "label": "Storage account",
+			"defaultValue": "Standard_LRS",
             "value": {
               "type": "Standard_LRS",
               "recommendedSizes": [
