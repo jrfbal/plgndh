@@ -446,8 +446,7 @@
               }
 
             ],
-            "outputs",
-            : {
+            "outputs": {
               "AdminUserName": "[steps('FESetup').WFEadminUsername]",
               "AdminPassword": "[steps('FESetup').WFEadminPassword]",
               "virtualNetworkName": "[steps('VNETSetup').vnetSpec.name]",
