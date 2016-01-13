@@ -1,120 +1,160 @@
+Skip to content
+This repository  
+Search
+Pull requests
+Issues
+Gist
+ @jrfbal
+ Watch 103
+  Star 5
+  Fork 1 elastic/azure-marketplace
+ Code  Issues 2  Pull requests 0  Wiki  Pulse  Graphs
+Branch: master Find file Copy pathazure-marketplace/src/createUiDefinition.json
+b5fa47d  27 days ago
+@Mpdreamz Mpdreamz fix #6 unify defaults between arm-template and azure marketplace ui
+1 contributor
+RawBlameHistory     470 lines (469 sloc)  14.6 KB
 {
   "handler": "Microsoft.Compute.MultiVm",
   "version": "0.0.1-preview",
   "parameters": {
     "basics": [
+      {
+        "name": "adminUsername",
+        "type": "Microsoft.Compute.UserNameTextBox",
+        "label": "User name",
+        "defaultValue": "",
+        "toolTip": "Specify a user for accessing the virtual machines within your cluster.",
+        "constraints": {
+          "required": true
+        },
+        "osPlatform": "Linux"
+      },
+      {
+        "name": "password",
+        "type": "Microsoft.Compute.CredentialsCombo",
+        "label": {
+          "authenticationType": "Authentication type",
+          "password": "Password",
+          "confirmPassword": "Confirm password",
+          "sshPublicKey": "SSH public key"
+        },
+        "toolTip": {
+          "authenticationType": "Choose Authentication type Password or PublicKey(SSH).",
+          "password": "Enter the password for the specified user name.",
+          "sshPublicKey": "Copy Public key into field."
+        },
+        "constraints": {
+          "required": true
+        },
+        "options": {
+          "hideConfirmation": false
+        },
+        "osPlatform": "Linux"
+      }
     ],
     "steps": [
       {
-        "name": "VNETSetup",
-        "label": "Virtual Network Setup",
+        "name": "clusterSettingsStep",
+        "label": "Cluster Settings",
         "subLabel": {
-          "preValidation": "Configure the Virtual Network",
+          "preValidation": "Required",
           "postValidation": "Done"
         },
-        "bladeTitle": "Virtual Network Settings",
+        "bladeTitle": "Cluster Settings",
         "elements": [
           {
-            "name": "vnetSpec",
-            "type": "Microsoft.Network.VirtualNetworkCombo",
-            "label": {
-              "virtualNetwork": "Virtual network",
-              "subnets": "Subnets"
-            },
-            "toolTip": {
-              "virtualNetwork": "",
-              "subnets": ""
-            },
-            "defaultValue": {
-              "name": "OutSystems_VN",
-              "addressPrefixSize": "/16"
-            },
+            "name": "esVersion",
+            "type": "Microsoft.Common.DropDown",
+            "label": "Elasticsearch version",
+            "defaultValue": "v2.0.0",
+            "toolTip": "Choose a version of Elasticsearch.",
             "constraints": {
-              "minAddressPrefixSize": "/29"
-            },
-            "subnets": {
-              "subnet1": {
-                "label": "Front-End subnet",
-                "defaultValue": {
-                  "name": "FEsubnet",
-                  "addressPrefixSize": "/24"
+              "allowedValues": [
+                {
+                  "label": "v2.0.0",
+                  "value": "2.0.0"
                 },
-                "constraints": {
-                  "minAddressPrefixSize": "/29",
-                  "minAddressCount": 2,
-                  "requireContiguousAddresses": true
-                }
-              },
-              "subnet2": {
-                "label": "Back-End subnet",
-                "defaultValue": {
-                  "name": "BEsubnet",
-                  "addressPrefixSize": "/24"
+                {
+                  "label": "v2.0.1",
+                  "value": "2.0.1"
                 },
-                "constraints": {
-                  "minAddressPrefixSize": "/29",
-                  "minAddressCount": 2,
-                  "requireContiguousAddresses": true
+                {
+                  "label": "v2.1.0",
+                  "value": "2.1.0"
                 }
-              }
-            }
-          }
-
-
-        ]
-      },
-      {
-        "name": "FESetup",
-        "label": "Front-End Setup",
-        "subLabel": {
-          "preValidation": "Configure the Front-End Environment",
-          "postValidation": "Done"
-        },
-        "bladeTitle": "Front-End Settings",
-        "elements": [
-          {
-            "name": "WFEadminUsername",
-            "type": "Microsoft.Compute.UserNameTextBox",
-            "label": "Username",
-            "toolTip": "Admin username for the production virtual machines.",
-            "osPlatform": "Windows"
-          },
-          {
-            "name": "WFEadminPassword",
-            "type": "Microsoft.Compute.CredentialsCombo",
-            "label": {
-              "password": "Password",
-              "confirmPassword": "Confirm password"
-            },
-            "toolTip": {
-              "password": "Admin password for the production virtual machines."
-            },
-            "osPlatform": "Windows"
-          },
-
-
-          {
-            "name": "storageAccount2",
-            "type": "Microsoft.Storage.StorageAccountSelector",
-            "label": "Storage account",
-            "defaultValue": {
-              "type": "Standard_LRS",
-              "recommendedSizes": [
-                "Standard_LRS",
-                "Standard_ZRS",
-                "Standard_GRS",
-                "Standard_RAGRS",
-                "Premium_LRS"
               ]
             }
           },
-
           {
-            "name": "FEVmCount",
+            "name": "esClusterName",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Cluster name",
+            "defaultValue": "",
+            "toolTip": "Name your Elasticsearch cluster.",
+            "constraints": {
+              "required": true,
+              "validationMessage": "TODO"
+            }
+          }
+        ]
+      },
+      {
+        "name": "nodesStep",
+        "label": "Nodes Configuration",
+        "subLabel": {
+          "preValidation": "Required",
+          "postValidation": "Done"
+        },
+        "bladeTitle": "Nodes Configuration",
+        "elements": [
+          {
+            "name": "vmSizeMasterNodes",
+            "type": "Microsoft.Compute.SizeSelector",
+            "label": "Master node VM size",
+            "toolTip": "Choose VM SKU, Standard D1, D2, D3",
+            "defaultValue": "Standard_D1",
+            "recommendedSizes": [
+              "Standard_D1",
+              "Standard_D2",
+              "Standard_D3"
+            ],
+            "constraints": {
+              "allowedSizes": [],
+              "excludedSizes": [],
+              "allowedValues": [
+                "Standard_A0",
+                "Standard_A1",
+                "Standard_A2",
+                "Standard_A3",
+                "Standard_A4",
+                "Standard_A7",
+                "Standard_D1",
+                "Standard_D2",
+                "Standard_D3",
+                "Standard_D4",
+                "Standard_DS1",
+                "Standard_DS2",
+                "Standard_DS3",
+                "Standard_DS4",
+                "Standard_DS13"
+              ]
+            },
+            "osPlatform": "Linux",
+            "imageReference": {
+              "publisher": "Canonical",
+              "offer": "UbuntuServer",
+              "sku": "14.04.2-LTS",
+              "version": "latest"
+            },
+            "count": "3"
+          },
+          {
+            "name": "vmDataNodeCount",
             "type": "Microsoft.Common.DropDown",
-            "label": "Number of Front-End VMs",
-            "defaultValue": "2",
-            "toolTip": "",
+            "label": "Number of data nodes",
+            "defaultValue": "3",
+            "toolTip": "Specify the number of data nodes for this cluster.",
             "constraints": {
               "allowedValues": [
                 {
@@ -136,335 +176,312 @@
                 {
                   "label": "5",
                   "value": 5
-                },
-                {
-                  "label": "6",
-                  "value": 6
-                },
-                {
-                  "label": "7",
-                  "value": 7
-                },
-                {
-                  "label": "8",
-                  "value": 8
                 }
               ]
             }
           },
-
           {
-            "name": "deployLB",
+            "name": "vmSizeDataNodes",
+            "type": "Microsoft.Compute.SizeSelector",
+            "label": "Data node VM size",
+            "defaultValue": "Standard_D1",
+            "toolTip": "Choose VM SKU, Standard D1, D2, D3",
+            "recommendedSizes": [
+              "Standard_D1",
+              "Standard_D2",
+              "Standard_D3"
+            ],
+            "constraints": {
+              "allowedSizes": [],
+              "excludedSizes": [],
+              "allowedValues": [
+                "Standard_A0",
+                "Standard_A1",
+                "Standard_A2",
+                "Standard_A3",
+                "Standard_A4",
+                "Standard_A7",
+                "Standard_D1",
+                "Standard_D2",
+                "Standard_D3",
+                "Standard_D4",
+                "Standard_DS1",
+                "Standard_DS2",
+                "Standard_DS3",
+                "Standard_DS4",
+                "Standard_DS13"
+              ]
+            },
+            "osPlatform": "Linux",
+            "imageReference": {
+              "publisher": "Canonical",
+              "offer": "UbuntuServer",
+              "sku": "14.04.2-LTS",
+              "version": "latest"
+            },
+            "count": "[steps('nodesStep').vmDataNodeCount]"
+          },
+          {
+            "name": "dataNodesAreMasterEligible",
             "type": "Microsoft.Common.OptionsGroup",
-            "label": "Deploy LoadBalancer and Availability Set?",
-            "toolTip": "Choose if you wish to deploy a LoadBalancer for multiple VM",
-            "defaultValue": "yLB",
+            "label": "Data nodes are master eligible",
+            "defaultValue": "No",
+            "toolTip": "Allow data nodes to be master eligible, setting this to Yes will no longer deploy the 3 dedicated master nodes",
             "constraints": {
               "allowedValues": [
                 {
                   "label": "Yes",
-                  "value": "yLB"
+                  "value": "Yes"
                 },
                 {
                   "label": "No",
-                  "value": "nLB"
+                  "value": "No"
                 }
               ]
             }
           },
           {
-            "name": "publicDNS",
-            "type": "Microsoft.Network.PublicIpAddressCombo",
-            "label": {
-              "domainNameLabel": "DNS label"
-            },
-            "defaultValue": {
-              "publicIpAddressName": "ip01"
-            },
-            "toolTip": {
-              "domainNameLabel": "DNS label for the public IP address. This option is only used if a LoadBalancer is selected."
-            },
-            "options": {
-              "hideNone": true
-            }
-          },
-
-
-          {
-            "name": "FENAME",
-            "type": "Microsoft.Common.TextBox",
-            "label": "Front-End hostname prefix",
-            "toolTip": "Hostname prefix for the Front-End.",
-            "defaultValue": "FE",
-            "constraints": {
-              "required": true
-            }
-          },
-
-          {
-            "name": "FEVmSize",
-            "type": "Microsoft.Compute.SizeSelector",
-            "label": "Front-End Virtual machine size",
-            "defaultValue": "Standard_D1",
-            "toolTip": "The size of the Front-End VMs.",
-            "recommendedSizes": [
-              "Standard_D1",
-              "Standard_DS2",
-              "Standard_DS3",
-              "Standard_DS4"
-            ],
-            "constraints": {
-              "allowedSizes": [
-                "Standard_D1",
-                "Standard_D2",
-                "Standard_DS2",
-                "Standard_D3",
-                "Standard_DS3",
-                "Standard_D4",
-                "Standard_DS4",
-                "Standard_D11",
-                "Standard_DS11",
-                "Standard_D12",
-                "Standard_DS12",
-                "Standard_D13",
-                "Standard_DS13",
-                "Standard_D14",
-                "Standard_DS14"
-              ]
-            },
-            "osPlatform": "Windows",
-            "imageReference": {
-              "publisher": "MicrosoftWindowsServer",
-              "offer": "WindowsServer",
-              "sku": "2012-R2-Datacenter"
-            },
-            "count": 1
-          },
-
-          {
-            "name": "deployCONT",
-            "type": "Microsoft.Common.OptionsGroup",
-            "label": "Standalone Deployment Controller server?",
-            "toolTip": "Check if you wish to deploy a dedicated Deployment Controller server",
-            "defaultValue": "yCONT",
+            "name": "vmClientNodeCount",
+            "type": "Microsoft.Common.DropDown",
+            "label": "Number of client nodes",
+            "defaultValue": "0",
+            "toolTip": "Specify the number of client nodes for this cluster (optional).",
             "constraints": {
               "allowedValues": [
                 {
-                  "label": "Yes",
-                  "value": "yCONT"
+                  "label": "0",
+                  "value": 0
                 },
                 {
-                  "label": "No",
-                  "value": "nCONT"
+                  "label": "2",
+                  "value": 2
+                },
+                {
+                  "label": "3",
+                  "value": 3
+                },
+                {
+                  "label": "4",
+                  "value": 4
+                },
+                {
+                  "label": "5",
+                  "value": 5
                 }
               ]
             }
           },
-
           {
-            "name": "ContName",
-            "type": "Microsoft.Common.TextBox",
-            "label": "Deployment Controller server hostname",
-            "defaultValue": "DC",
-            "toolTip": "The name of the Deployment Controller server VM.",
-            "constraints": {
-              "required": true
-            }
-          },
-
-          {
-            "name": "ContVmSize",
+            "name": "vmSizeClientNodes",
             "type": "Microsoft.Compute.SizeSelector",
-            "label": "Deployment Controller Virtual Machine size",
+            "label": "Client node VM size",
+            "toolTip": "Choose VM SKU, Standard D1, D2, D3",
             "defaultValue": "Standard_D1",
-            "toolTip": "The size of the virtual machine for the Deployment Controller.",
             "recommendedSizes": [
               "Standard_D1",
-              "Standard_DS2",
-              "Standard_DS3",
-              "Standard_DS4"
+              "Standard_D2",
+              "Standard_D3"
             ],
             "constraints": {
-              "allowedSizes": [
+              "allowedSizes": [],
+              "excludedSizes": [],
+              "allowedValues": [
+                "Standard_A0",
+                "Standard_A1",
+                "Standard_A2",
+                "Standard_A3",
+                "Standard_A4",
+                "Standard_A7",
                 "Standard_D1",
                 "Standard_D2",
-                "Standard_DS2",
                 "Standard_D3",
-                "Standard_DS3",
                 "Standard_D4",
+                "Standard_DS1",
+                "Standard_DS2",
+                "Standard_DS3",
                 "Standard_DS4",
-                "Standard_D11",
-                "Standard_DS11",
-                "Standard_D12",
-                "Standard_DS12",
-                "Standard_D13",
-                "Standard_DS13",
-                "Standard_D14",
-                "Standard_DS14"
+                "Standard_DS13"
               ]
             },
-            "osPlatform": "Windows",
+            "osPlatform": "Linux",
             "imageReference": {
-              "publisher": "MicrosoftWindowsServer",
-              "offer": "WindowsServer",
-              "sku": "2012-R2-Datacenter"
+              "publisher": "Canonical",
+              "offer": "UbuntuServer",
+              "sku": "14.04.2-LTS",
+              "version": "latest"
             },
-            "count": 1
+            "count": "[steps('nodesStep').vmClientNodeCount]"
           }
-
-
         ]
       },
-
       {
-        "name": "SQLSetup",
-        "label": "SQL settings setup",
+        "name": "shieldStep",
+        "label": "Shield Users",
         "subLabel": {
-          "preValidation": "Configure the SQL settings",
+          "preValidation": "Required",
           "postValidation": "Done"
         },
-        "bladeTitle": "SQL settings setup",
+        "bladeTitle": "Shield Users",
         "elements": [
           {
-            "name": "deploySQL",
+            "name": "es_admin",
+            "type": "Microsoft.Common.Section",
+            "label": "es_admin",
+            "elements": [
+              {
+                "name": "shieldAdminPassword",
+                "type": "Microsoft.Common.PasswordBox",
+                "label": {
+                  "password": "es_admin Password",
+                  "confirmPassword": "Confirm password"
+                },
+                "toolTip": "Password to use for the es_admin Shield user.",
+                "constraints": {
+                  "required": true
+                },
+                "options": {
+                  "hideConfirmation": false
+                }
+              }
+            ]
+          },
+          {
+            "name": "es_read",
+            "type": "Microsoft.Common.Section",
+            "label": "es_read",
+            "elements": [
+              {
+                "name": "shieldReadPassword",
+                "type": "Microsoft.Common.PasswordBox",
+                "label": {
+                  "password": "es_read Password",
+                  "confirmPassword": "Confirm password"
+                },
+                "toolTip": "Password to use for the es_read Shield user.",
+                "constraints": {
+                  "required": true
+                },
+                "options": {
+                  "hideConfirmation": false
+                }
+              }
+            ]
+          },
+          {
+            "name": "es_kibana",
+            "type": "Microsoft.Common.Section",
+            "label": "es_kibana",
+            "elements": [
+              {
+                "name": "shieldKibanaPassword",
+                "type": "Microsoft.Common.PasswordBox",
+                "label": {
+                  "password": "es_kibana Password",
+                  "confirmPassword": "Confirm password"
+                },
+                "toolTip": "Password to use for the es_kibana Shield user.",
+                "constraints": {
+                  "required": true
+                },
+                "options": {
+                  "hideConfirmation": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "externalAccessStep",
+        "label": "External Access",
+        "subLabel": {
+          "preValidation": "Required",
+          "postValidation": "Done"
+        },
+        "bladeTitle": "External Access Control",
+        "elements": [
+          {
+            "name": "kibana",
             "type": "Microsoft.Common.OptionsGroup",
-            "label": "Deploy SQL server?",
-            "toolTip": "Choose if you wish to deploy a SQL server",
-            "defaultValue": "ySQL",
+            "label": "Install Kibana?",
+            "defaultValue": "Yes",
+            "toolTip": "Yes, to provision a single Kibana instance.",
             "constraints": {
               "allowedValues": [
                 {
                   "label": "Yes",
-                  "value": "ySQL"
+                  "value": "Yes"
                 },
                 {
                   "label": "No",
-                  "value": "nSQL"
+                  "value": "No"
                 }
               ]
             }
           },
-
           {
-            "name": "SQLNAME",
-            "type": "Microsoft.Common.TextBox",
-            "label": "SQL hostname",
-            "toolTip": "Hostname for the SQL server.",
-            "defaultValue": "SQL",
-            "constraints": {
-              "required": true
-            }
-          },
-
-          {
-            "name": "SQLVmSize",
-            "type": "Microsoft.Compute.SizeSelector",
-            "label": "Virtual machine size",
-            "toolTip": "The size of the virtual machine for the SQL server.",
-            "defaultValue": "Standard_D1",
-            "recommendedSizes": [
-              "Standard_D1",
-              "Standard_DS2",
-              "Standard_DS3",
-              "Standard_DS4"
-            ],
-            "constraints": {
-              "allowedSizes": [
-                "Standard_D1",
-                "Standard_D2",
-                "Standard_DS2",
-                "Standard_D3",
-                "Standard_DS3",
-                "Standard_D4",
-                "Standard_DS4",
-                "Standard_D11",
-                "Standard_DS11",
-                "Standard_D12",
-                "Standard_DS12",
-                "Standard_D13",
-                "Standard_DS13",
-                "Standard_D14",
-                "Standard_DS14"
-              ]
-            },
-            "osPlatform": "Windows",
-            "imageReference": {
-              "publisher": "MicrosoftWindowsServer",
-              "offer": "SQL2014-WS2012R2",
-              "sku": "Standard"
-            },
-            "count": 1
-          },
-
-          {
-            "name": "storageAccount",
-            "type": "Microsoft.Storage.StorageAccountSelector",
-            "label": "SQL Storage account",
-            "defaultValue": {
-              "type": "Standard_LRS",
-              "recommendedSizes": [
-                "Standard_LRS",
-                "Standard_ZRS",
-                "Standard_GRS",
-                "Standard_RAGRS",
-                "Premium_LRS"
-              ]
-            }
-          },
-
-          {
-            "name": "SQL_SKU",
-            "type": "Microsoft.Common.DropDown",
-            "label": "SQL Version",
-            "defaultValue": "Enterprise",
-            "toolTip": "",
+            "name": "jumpbox",
+            "type": "Microsoft.Common.OptionsGroup",
+            "label": "Use a jump box?",
+            "defaultValue": "No",
+            "toolTip": "A jump box allows you to connect to your cluster from a public access point like SSH. This is usually not necessary if Kibana is installed, since Kibana itself acts as a jump box.",
             "constraints": {
               "allowedValues": [
                 {
-                  "label": "Enterprise",
-                  "value": "Enterprise"
+                  "label": "Yes",
+                  "value": "Yes"
                 },
                 {
-                  "label": "Standard",
-                  "value": "Standard"
+                  "label": "No",
+                  "value": "No"
+                }
+              ]
+            }
+          },
+          {
+            "name": "loadBalancerType",
+            "type": "Microsoft.Common.OptionsGroup",
+            "label": "Load balancer type",
+            "defaultValue": "internal",
+            "toolTip": "Choose whether the load balancer should be public facing or internal.",
+            "constraints": {
+              "allowedValues": [
+                {
+                  "label": "Internal",
+                  "value": "internal"
+                },
+                {
+                  "label": "External",
+                  "value": "external"
                 }
               ]
             }
           }
-
         ]
       }
-
     ],
     "outputs": {
-      "AdminUserName": "[steps('FESetup').WFEadminUsername]",
-      "AdminPassword": "[steps('FESetup').WFEadminPassword]",
-      "virtualNetworkName": "[steps('VNETSetup').vnetSpec.name]",
-      "vnetNewOrExisting": "[steps('VNETSetup').vnetSpec.newOrExisting]",
-      "virtualNetworkExistingRGName": "[steps('VNETSetup').vnetSpec.name]",
-      "vnetAddressPrefix": "[steps('VNETSetup').vnetSpec.addressPrefixSize]",
-      "FESubnetName": "[steps('VNETSetup').vnetSpec.subnets.subnet1.name]",
-      "FESubnetAddressPrefix": "[steps('VNETSetup').vnetSpec.subnets.subnet1.addressPrefix]",
-      "BESubnetName": "[steps('VNETSetup').vnetSpec.subnets.subnet2.name]",
-      "BESubnetAddressPrefix": "[steps('VNETSetup').vnetSpec.subnets.subnet2.addressPrefix]",
-      "StorageNewOrExisting": "[steps('FESetup').storageAccount2.newOrExisting]",
-      "StorageACCName": "[steps('FESetup').storageAccount2.name]",
-      "StorageACCType": "[steps('FESetup').storageAccount2.type]",
-      "CreateLBchoosebox": "[steps('FESetup').deployLB.name]",
-      "dnsNameforLBIP": "[steps('FESetup').publicDNS.domainNameLabel]",
-      "FEName": "[steps('FESetup').FENAME]",
-      "FEVmSize": "[steps('FESetup').FEVmSize]",
-      "count": "[steps('FESetup').FEVmCount]",
-      "CreateDCSchoosebox": "[steps('FESetup').deployDCS.name]",
-      "CONTName": "[steps('FESetup').ContName]",
-      "CONTVmSize": "[steps('FESetup').ContVmSize]",
-      "CreateSQLchoosebox": "[steps('SQLSetup').deploySQL]",
-      "SQLName": "[steps('SQLSetup').SQLNAME]",
-      "SQLVmSize": "[steps('SQLSetup').SQLVmSize]",
-      "SQLWindowsOSVersion": "[steps('SQLSetup').SQL_SKU]",
-      "SQLStorageNewOrExisting": "[steps('SQLSetup').storageAccount.newOrExisting]",
-      "SQLStorageACCName": "[steps('SQLSetup').storageAccount.name]",
-      "SQLStorageACCType": "[steps('SQLSetup').storageAccount.type]"
+      "esVersion": "[steps('clusterSettingsStep').esVersion]",
+      "esClusterName": "[steps('clusterSettingsStep').esClusterName]",
+      "loadBalancerType": "[steps('externalAccessStep').loadBalancerType]",
+      "kibana": "[steps('externalAccessStep').kibana]",
+      "jumpbox": "[steps('externalAccessStep').jumpbox]",
+      "vmSizeDataNodes": "[steps('nodesStep').vmSizeDataNodes]",
+      "vmDataNodeCount": "[steps('nodesStep').vmDataNodeCount]",
+      "dataNodesAreMasterEligible": "[steps('nodesStep').dataNodesAreMasterEligible]",
+      "vmSizeMasterNodes": "[steps('nodesStep').vmSizeMasterNodes]",
+      "vmClientNodeCount": "[steps('nodesStep').vmClientNodeCount]",
+      "vmSizeClientNodes": "[steps('nodesStep').vmSizeClientNodes]",
+      "adminUsername": "[basics('adminUsername')]",
+      "authenticationType": "[basics('password').authenticationType]",
+      "adminPassword": "[basics('password').password]",
+      "sshPublicKey": "[basics('password').sshPublicKey]",
+      "shieldAdminPassword": "[steps('shieldStep').es_admin.shieldAdminPassword]",
+      "shieldReadPassword": "[steps('shieldStep').es_read.shieldReadPassword]",
+      "shieldKibanaPassword": "[steps('shieldStep').es_kibana.shieldKibanaPassword]",
+      "location": "[location()]"
     }
   }
 }
+Status API Training Shop Blog About Pricing
+© 2016 GitHub, Inc. Terms Privacy Security Contact Help
