@@ -205,9 +205,9 @@
             "name": "FEVmSize",
             "type": "Microsoft.Compute.SizeSelector",
             "label": "Front-End Virtual machine size",
+            "defaultValue": "Standard_D1",
             "toolTip": "The size of the Front-End VMs.",
             "recommendedSizes": [
-              "Standard_A1",
               "Standard_D1",
               "Standard_DS2",
               "Standard_DS3",
@@ -215,7 +215,6 @@
             ],
             "constraints": {
               "allowedSizes": [
-                "Standard_A1",
                 "Standard_D1",
                 "Standard_D2",
                 "Standard_DS2",
@@ -266,7 +265,7 @@
             "name": "ContName",
             "type": "Microsoft.Common.TextBox",
             "label": "Deployment Controller server hostname",
-            "defaultValue": "CONT",
+            "defaultValue": "DC",
             "toolTip": "The name of the Deployment Controller server VM.",
             "constraints": {
               "required": true
@@ -277,9 +276,9 @@
             "name": "ContVmSize",
             "type": "Microsoft.Compute.SizeSelector",
             "label": "Deployment Controller Virtual Machine size",
+            "defaultValue": "Standard_D1",
             "toolTip": "The size of the virtual machine for the Deployment Controller.",
             "recommendedSizes": [
-              "Standard_A1",
               "Standard_D1",
               "Standard_DS2",
               "Standard_DS3",
@@ -287,7 +286,6 @@
             ],
             "constraints": {
               "allowedSizes": [
-                "Standard_A1",
                 "Standard_D1",
                 "Standard_D2",
                 "Standard_DS2",
@@ -363,9 +361,8 @@
             "type": "Microsoft.Compute.SizeSelector",
             "label": "Virtual machine size",
             "toolTip": "The size of the virtual machine for the SQL server.",
-            "defaultValue": "Standard_A1",
+            "defaultValue": "Standard_D1",
             "recommendedSizes": [
-              "Standard_A1",
               "Standard_D1",
               "Standard_DS2",
               "Standard_DS3",
@@ -373,7 +370,6 @@
             ],
             "constraints": {
               "allowedSizes": [
-                "Standard_A1",
                 "Standard_D1",
                 "Standard_D2",
                 "Standard_DS2",
@@ -425,9 +421,31 @@
 
     ],
     "outputs": {
-
-
-
+      "AdminUserName": "[steps('FESetup').WFEadminUsername]",
+      "AdminPassword": "[steps('FESetup').WFEadminPassword]",
+      "virtualNetworkName": "[steps('VNETSetup').vnetSpec.name]",
+      "vnetNewOrExisting": "[steps('VNETSetup').vnetSpec.newOrExisting]",
+      "virtualNetworkExistingRGName": "[steps('VNETSetup').vnetSpec.name]",
+      "vnetAddressPrefix": "[steps('VNETSetup').vnetSpec.addressPrefixSize]",
+      "FESubnetName": "[steps('VNETSetup').vnetSpec.subnets.subnet1.name]",
+      "FESubnetAddressPrefix": "[steps('VNETSetup').vnetSpec.subnets.subnet1.addressPrefix]",
+      "BESubnetName": "[steps('VNETSetup').vnetSpec.subnets.subnet2.name]",
+      "BESubnetAddressPrefix": "[steps('VNETSetup').vnetSpec.subnets.subnet2.addressPrefix]",
+      "StorageNewOrExisting": "[steps('FESetup').storageAccount2.newOrExisting]",
+      "StorageACCName": "[steps('FESetup').storageAccount2.name]",
+      "StorageACCType": "[steps('FESetup').storageAccount2.type]",
+      "CreateLBchoosebox": "[steps('FESetup').deployLB.name]",
+      "dnsNameforLBIP": "[steps('FESetup').publicDNS.domainNameLabel]",
+      "FEName": "[steps('FESetup').FENAME]",
+      "FEVmSize": "[steps('FESetup').FEVmSize]",
+      "count": "[steps('FESetup').FEVmCount]",
+      "CreateDCSchoosebox": "[steps('FESetup').deployDCS.name]",
+      "CONTName": "[steps('FESetup').ContName]",
+      "CONTVmSize": "[steps('FESetup').ContVmSize]",
+      "CreateSQLchoosebox": "[steps('SQLSetup').deploySQL]",
+      "SQLName": "[steps('SQLSetup').SQLNAME]",
+      "SQLVmSize": "[steps('SQLSetup').SQLVmSize]",
+      "SQLWindowsOSVersion": "[steps('SQLSetup').SQL_SKU]"
     }
   }
 }
