@@ -245,7 +245,7 @@
             "name": "DCSsection",
             "type": "Microsoft.Common.Section",
             "label": "DCS Setup"
-           },
+           }, 
 
               {
                 "name": "deployCONT",
