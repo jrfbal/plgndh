@@ -244,10 +244,7 @@
           {
             "name": "TESTE",
             "type": "Microsoft.Common.Section",
-            "label": "TESTE",
-            "elements": [
-
-            ]
+            "label": "TESTE"
            },
 
               {
