@@ -244,79 +244,102 @@
           {
             "name": "TESTE",
             "type": "Microsoft.Common.Section",
-            "label": "TESTE"
-          },
+            "label": "TESTE",
+            "elements": [
+              {
+                "name": "deployCONT",
+                "type": "Microsoft.Common.OptionsGroup",
+                "label": "Standalone Deployment Controller server?",
+                "toolTip": "Check if you wish to deploy a dedicated Deployment Controller server",
+                "defaultValue": "yCONT",
+                "constraints": {
+                  "allowedValues": [
+                    {
+                      "label": "Yes",
+                      "value": "yCONT"
+                    },
+                    {
+                      "label": "No",
+                      "value": "nCONT"
+                    }
+                  ]
+                }
 
-            {
-              "name": "deployCONT",
-              "type": "Microsoft.Common.OptionsGroup",
-              "label": "Standalone Deployment Controller server?",
-              "toolTip": "Check if you wish to deploy a dedicated Deployment Controller server",
-              "defaultValue": "yCONT",
-              "constraints": {
-                "allowedValues": [
-                  {
-                    "label": "Yes",
-                    "value": "yCONT"
-                  },
-                  {
-                    "label": "No",
-                    "value": "nCONT"
-                  }
-                ]
               }
-            },
 
-            {
-              "name": "ContName",
-              "type": "Microsoft.Common.TextBox",
-              "label": "Deployment Controller server hostname",
-              "defaultValue": "DC",
-              "toolTip": "The name of the Deployment Controller server VM.",
-              "constraints": {
-                "required": true
-              }
-            },
 
-            {
-              "name": "ContVmSize",
-              "type": "Microsoft.Compute.SizeSelector",
-              "label": "Deployment Controller Virtual Machine size",
-              "defaultValue": "Standard_D1",
-              "toolTip": "The size of the virtual machine for the Deployment Controller.",
-              "recommendedSizes": [
-                "Standard_D1",
-                "Standard_DS2",
-                "Standard_DS3",
-                "Standard_DS4"
-              ],
-              "constraints": {
-                "allowedSizes": [
+           },
+
+              {
+                "name": "deployCONT",
+                "type": "Microsoft.Common.OptionsGroup",
+                "label": "Standalone Deployment Controller server?",
+                "toolTip": "Check if you wish to deploy a dedicated Deployment Controller server",
+                "defaultValue": "yCONT",
+                "constraints": {
+                  "allowedValues": [
+                    {
+                      "label": "Yes",
+                      "value": "yCONT"
+                    },
+                    {
+                      "label": "No",
+                      "value": "nCONT"
+                    }
+                  ]
+                }
+              },
+
+              {
+                "name": "ContName",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Deployment Controller server hostname",
+                "defaultValue": "DC",
+                "toolTip": "The name of the Deployment Controller server VM.",
+                "constraints": {
+                  "required": true
+                }
+              },
+
+              {
+                "name": "ContVmSize",
+                "type": "Microsoft.Compute.SizeSelector",
+                "label": "Deployment Controller Virtual Machine size",
+                "defaultValue": "Standard_D1",
+                "toolTip": "The size of the virtual machine for the Deployment Controller.",
+                "recommendedSizes": [
                   "Standard_D1",
-                  "Standard_D2",
                   "Standard_DS2",
-                  "Standard_D3",
                   "Standard_DS3",
-                  "Standard_D4",
-                  "Standard_DS4",
-                  "Standard_D11",
-                  "Standard_DS11",
-                  "Standard_D12",
-                  "Standard_DS12",
-                  "Standard_D13",
-                  "Standard_DS13",
-                  "Standard_D14",
-                  "Standard_DS14"
-                ]
-              },
-              "osPlatform": "Windows",
-              "imageReference": {
-                "publisher": "MicrosoftWindowsServer",
-                "offer": "WindowsServer",
-                "sku": "2012-R2-Datacenter"
-              },
-              "count": 1
-            }
+                  "Standard_DS4"
+                ],
+                "constraints": {
+                  "allowedSizes": [
+                    "Standard_D1",
+                    "Standard_D2",
+                    "Standard_DS2",
+                    "Standard_D3",
+                    "Standard_DS3",
+                    "Standard_D4",
+                    "Standard_DS4",
+                    "Standard_D11",
+                    "Standard_DS11",
+                    "Standard_D12",
+                    "Standard_DS12",
+                    "Standard_D13",
+                    "Standard_DS13",
+                    "Standard_D14",
+                    "Standard_DS14"
+                  ]
+                },
+                "osPlatform": "Windows",
+                "imageReference": {
+                  "publisher": "MicrosoftWindowsServer",
+                  "offer": "WindowsServer",
+                  "sku": "2012-R2-Datacenter"
+                },
+                "count": 1
+              }
 
 
             ]
