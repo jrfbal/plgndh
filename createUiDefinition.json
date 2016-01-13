@@ -242,9 +242,9 @@
           },
 
           {
-            "name": "TESTE",
+            "name": "DCSsection",
             "type": "Microsoft.Common.Section",
-            "label": "TESTE"
+            "label": "DCS Setup"
            },
 
               {
