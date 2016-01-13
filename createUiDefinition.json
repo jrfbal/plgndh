@@ -291,38 +291,7 @@
       }
     ],
     "outputs": {
-      "siteName": "[basics('webSiteName')]",
-      "hostingPlanName": "[steps('wordpressInfo').webSiteHostingPlan]",
-      "sku": "[steps('wordpressInfo').sku]",
-      "workerSize": "[steps('wordpressInfo').workerSize]",
-      "wpDbUsername": "[steps('wordpressInfo').wpDBUser]",
-      "wpDbPassword": "[steps('wordpressInfo').wpDBPassword]",
-      "webDeploy_AuthenticationKey": "[steps('wordpressInfo').wpDBPassword]",
-      "webDeploy_SecureAuthenticationKey": "[steps('wordpressInfo').wpDBPassword]",
-      "webDeploy_LoggedInKey": "[steps('wordpressInfo').wpDBPassword]",
-      "webDeploy_NonceKey": "[steps('wordpressInfo').wpDBPassword]",
-      "webDeploy_AuthenticationSalt": "[steps('wordpressInfo').wpDBPassword]",
-      "webDeploy_SecureAuthenticationSalt": "[steps('wordpressInfo').wpDBPassword]",
-      "webDeploy_LoggedInSalt": "[steps('wordpressInfo').wpDBPassword]",
-      "webDeploy_NonceSalt": "[steps('wordpressInfo').wpDBPassword]",
-      "dnsName": "[steps('databaseCluster').dbDNSName.domainNameLabel]",
-      "location": "[location()]",
-      "publicIPName": "[steps('databaseCluster').dbDNSName.name]",
-      "vmUserName": "[steps('databaseCluster').vmUsername]",
-      "vmPassword": "[steps('databaseCluster').vmPassword]",
-      "vmSize": "[steps('databaseCluster').vmSize]",
-      "storageAccountType": "[steps('databaseCluster').storageAccount.type]",
-      "storageAccountNamePrefix": "[steps('databaseCluster').storageAccount.prefix]",
-      "mysqlRootPassword": "[steps('databaseCluster').mysqlPassword]",
-      "mysqlReplicationPassword": "[steps('databaseCluster').mysqlPassword]",
-      "mysqlProbePassword": "[steps('databaseCluster').mysqlPassword]",
-      "virtualNetworkName": "[steps('networkInfo').vnetSpec.name]",
-      "vnetNewOrExisting": "[steps('networkInfo').vnetSpec.newOrExisting]",
-      "virtualNetworkExistingRGName": "[steps('networkInfo').vnetSpec.resourceGroup]",
-      "dbSubnetName": "[steps('networkInfo').vnetSpec.subnets.subnet1.name]",
-      "vnetAddressPrefix": "[steps('networkInfo').vnetSpec.addressPrefix]",
-      "dbSubnetAddressPrefix": "[steps('networkInfo').vnetSpec.subnets.subnet1.addressPrefix]",
-      "dbSubnetStartAddress": "[steps('networkInfo').vnetSpec.subnets.subnet1.startAddress]"
+
     }
   }
 }
