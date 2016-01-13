@@ -2,7 +2,8 @@
   "handler": "Microsoft.Compute.MultiVm",
   "version": "0.0.1-preview",
   "parameters": {
-    "basics": [ ],
+    "basics": [
+    ],
     "steps": [
       {
         "name": "VNETSetup",
@@ -58,6 +59,8 @@
               }
             }
           }
+
+
         ]
       },
       {
@@ -88,6 +91,8 @@
             },
             "osPlatform": "Windows"
           },
+
+
           {
             "name": "storageAccount2",
             "type": "Microsoft.Storage.StorageAccountSelector",
@@ -103,6 +108,8 @@
               ]
             }
           },
+
+
           {
             "name": "deployLB",
             "type": "Microsoft.Common.OptionsGroup",
@@ -138,6 +145,8 @@
               "hideNone": true
             }
           },
+
+
           {
             "name": "FENAME",
             "type": "Microsoft.Common.TextBox",
@@ -191,6 +200,7 @@
               ]
             }
           },
+
           {
             "name": "FEVmSize",
             "type": "Microsoft.Compute.SizeSelector",
@@ -230,83 +240,82 @@
             },
             "count": "[steps('FESetup').FEVmCount]"
           },
+
           {
-            "name": "sectionCONT",
-            "type": "Microsoft.Common.Section",
-            "label": "Deployment Controller Setup",
-            "elements": [
-              {
-                "name": "deployCONT",
-                "type": "Microsoft.Common.OptionsGroup",
-                "label": "Standalone Deployment Controller server?",
-                "toolTip": "Check if you wish to deploy a dedicated Deployment Controller server",
-                "defaultValue": "yCONT",
-                "constraints": {
-                  "allowedValues": [
-                    {
-                      "label": "Yes",
-                      "value": "yCONT"
-                    },
-                    {
-                      "label": "No",
-                      "value": "nCONT"
-                    }
-                  ]
-                }
-              },
-              {
-                "name": "ContName",
-                "type": "Microsoft.Common.TextBox",
-                "label": "Deployment Controller server hostname",
-                "defaultValue": "DC",
-                "toolTip": "The name of the Deployment Controller server VM.",
-                "constraints": {
-                  "required": true
-                }
-              },
-              {
-                "name": "ContVmSize",
-                "type": "Microsoft.Compute.SizeSelector",
-                "label": "Deployment Controller Virtual Machine size",
-                "defaultValue": "Standard_D1",
-                "toolTip": "The size of the virtual machine for the Deployment Controller.",
-                "recommendedSizes": [
-                  "Standard_D1",
-                  "Standard_DS2",
-                  "Standard_DS3",
-                  "Standard_DS4"
-                ],
-                "constraints": {
-                  "allowedSizes": [
-                    "Standard_D1",
-                    "Standard_D2",
-                    "Standard_DS2",
-                    "Standard_D3",
-                    "Standard_DS3",
-                    "Standard_D4",
-                    "Standard_DS4",
-                    "Standard_D11",
-                    "Standard_DS11",
-                    "Standard_D12",
-                    "Standard_DS12",
-                    "Standard_D13",
-                    "Standard_DS13",
-                    "Standard_D14",
-                    "Standard_DS14"
-                  ]
+            "name": "deployCONT",
+            "type": "Microsoft.Common.OptionsGroup",
+            "label": "Standalone Deployment Controller server?",
+            "toolTip": "Check if you wish to deploy a dedicated Deployment Controller server",
+            "defaultValue": "yCONT",
+            "constraints": {
+              "allowedValues": [
+                {
+                  "label": "Yes",
+                  "value": "yCONT"
                 },
-                "osPlatform": "Windows",
-                "imageReference": {
-                  "publisher": "MicrosoftWindowsServer",
-                  "offer": "WindowsServer",
-                  "sku": "2012-R2-Datacenter"
-                },
-                "count": 1
-              }
-            ]
+                {
+                  "label": "No",
+                  "value": "nCONT"
+                }
+              ]
+            }
+          },
+
+          {
+            "name": "ContName",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Deployment Controller server hostname",
+            "defaultValue": "DC",
+            "toolTip": "The name of the Deployment Controller server VM.",
+            "constraints": {
+              "required": true
+            }
+          },
+
+          {
+            "name": "ContVmSize",
+            "type": "Microsoft.Compute.SizeSelector",
+            "label": "Deployment Controller Virtual Machine size",
+            "defaultValue": "Standard_D1",
+            "toolTip": "The size of the virtual machine for the Deployment Controller.",
+            "recommendedSizes": [
+              "Standard_D1",
+              "Standard_DS2",
+              "Standard_DS3",
+              "Standard_DS4"
+            ],
+            "constraints": {
+              "allowedSizes": [
+                "Standard_D1",
+                "Standard_D2",
+                "Standard_DS2",
+                "Standard_D3",
+                "Standard_DS3",
+                "Standard_D4",
+                "Standard_DS4",
+                "Standard_D11",
+                "Standard_DS11",
+                "Standard_D12",
+                "Standard_DS12",
+                "Standard_D13",
+                "Standard_DS13",
+                "Standard_D14",
+                "Standard_DS14"
+              ]
+            },
+            "osPlatform": "Windows",
+            "imageReference": {
+              "publisher": "MicrosoftWindowsServer",
+              "offer": "WindowsServer",
+              "sku": "2012-R2-Datacenter"
+            },
+            "count": 1
           }
+
+
         ]
       },
+
       {
         "name": "SQLSetup",
         "label": "SQL settings setup",
@@ -335,6 +344,7 @@
               ]
             }
           },
+
           {
             "name": "SQLNAME",
             "type": "Microsoft.Common.TextBox",
@@ -345,6 +355,7 @@
               "required": true
             }
           },
+
           {
             "name": "SQLVmSize",
             "type": "Microsoft.Compute.SizeSelector",
@@ -384,6 +395,7 @@
             },
             "count": 1
           },
+
           {
             "name": "storageAccount",
             "type": "Microsoft.Storage.StorageAccountSelector",
@@ -399,6 +411,7 @@
               ]
             }
           },
+
           {
             "name": "SQL_SKU",
             "type": "Microsoft.Common.DropDown",
@@ -418,8 +431,10 @@
               ]
             }
           }
+
         ]
       }
+
     ],
     "outputs": {
       "AdminUserName": "[steps('FESetup').WFEadminUsername]",
