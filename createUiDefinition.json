@@ -397,6 +397,22 @@
           },
 
           {
+            "name": "storageAccount",
+            "type": "Microsoft.Storage.StorageAccountSelector",
+            "label": "SQL Storage account",
+            "defaultValue": {
+              "type": "Standard_LRS",
+              "recommendedSizes": [
+                "Standard_LRS",
+                "Standard_ZRS",
+                "Standard_GRS",
+                "Standard_RAGRS",
+                "Premium_LRS"
+              ]
+            }
+          },
+
+          {
             "name": "SQL_SKU",
             "type": "Microsoft.Common.DropDown",
             "label": "SQL Version",
@@ -445,7 +461,10 @@
       "CreateSQLchoosebox": "[steps('SQLSetup').deploySQL]",
       "SQLName": "[steps('SQLSetup').SQLNAME]",
       "SQLVmSize": "[steps('SQLSetup').SQLVmSize]",
-      "SQLWindowsOSVersion": "[steps('SQLSetup').SQL_SKU]"
+      "SQLWindowsOSVersion": "[steps('SQLSetup').SQL_SKU]",
+      "SQLStorageNewOrExisting": "[steps('SQLSetup').storageAccount.newOrExisting]",
+      "SQLStorageACCName": "[steps('SQLSetup').storageAccount.name]",
+      "SQLStorageACCType": "[steps('SQLSetup').storageAccount.type]"
     }
   }
 }
