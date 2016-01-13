@@ -142,7 +142,7 @@
               "domainNameLabel": "DNS label for the public IP address. This option is only used if a LoadBalancer is selected."
             },
             "options": {
-              "hidepublicIpAddressName": true
+ 
             }
           },
 
