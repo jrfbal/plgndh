@@ -4,294 +4,135 @@
   "parameters": {
     "basics": [
       {
-        "name": "webSiteName",
-        "type": "Microsoft.Common.TextBox",
-        "label": "Web site name .azurewebsites.net",
-        "toolTip": "Full url will be web_site_name.azurewebsites.net, must be unique",
-        "defaultValue": "change_me_to_be_unique",
-        "constraints": {
-          "required": true,
-          "regex": "^[a-z][a-z0-9-]{1,61}[a-z0-9]$",
-          "validationMessage": "Only alphanumeric characters and hyphen are allowed, and the value must be less than 64 characters long."
-        }
+        "name": "adminUsername",
+        "type": "Microsoft.Compute.UserNameTextBox",
+        "label": "Username",
+        "toolTip": "Admin username for the virtual machines.",
+        "osPlatform": "Windows"
+      },
+      {
+        "name": "adminPassword",
+        "type": "Microsoft.Compute.CredentialsCombo",
+        "label": {
+          "password": "Password",
+          "confirmPassword": "Confirm password"
+        },
+        "toolTip": {
+          "password": "Admin password for the virtual machines."
+        },
+        "osPlatform": "Windows"
       }
     ],
     "steps": [
       {
-        "name": "wordpressInfo",
-        "label": "WordPress information",
+        "name": "infrastructureConfig",
+        "label": "Infrastructure settings",
         "subLabel": {
-          "preValidation": "Provide WordPress information",
+          "preValidation": "Configure the infrastructure settings",
           "postValidation": "Done"
         },
-        "bladeTitle": "WordPress information",
+        "bladeTitle": "Infrastructure settings",
         "elements": [
           {
-            "name": "sku",
+            "name": "VmCount",
             "type": "Microsoft.Common.DropDown",
-            "label": "Web site SKU",
-            "defaultValue": "Standard",
+            "label": "Number of VMs",
+            "defaultValue": "2",
             "toolTip": "",
             "constraints": {
               "allowedValues": [
                 {
-                  "label": "Basic",
-                  "value": "Basic"
+                  "label": "2",
+                  "value": 2
                 },
                 {
-                  "label": "Standard",
-                  "value": "Standard"
+                  "label": "4",
+                  "value": 4
                 },
                 {
-                  "label": "Premium",
-                  "value": "Premium"
+                  "label": "8",
+                  "value": 8
+                },
+                {
+                  "label": "16",
+                  "value": 16
                 }
-              ],
-              "required": true
+              ]
             }
           },
           {
-            "name": "workerSize",
-            "type": "Microsoft.Common.DropDown",
-            "label": "Web site instance size",
-            "defaultValue": "Medium",
-            "toolTip": "",
-            "constraints": {
-              "allowedValues": [
-                {
-                  "label": "Small",
-                  "value": "0"
-                },
-                {
-                  "label": "Medium",
-                  "value": "1"
-                },
-                {
-                  "label": "Large",
-                  "value": "2"
-                }
-              ],
-              "required": true
-            }
-          },
-          {
-            "name": "webSiteHostingPlan",
-            "type": "Microsoft.Common.TextBox",
-            "label": "Web site hosting plan",
-            "toolTip": "",
-            "defaultValue": "wordpressMySQLplan",
-            "constraints": {
-              "required": true,
-              "regex": "^[a-z0-9A-Z]{1,40}$",
-              "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-40 characters long."
-            }
-          },
-          {
-            "name": "wpDBUser",
-            "type": "Microsoft.Compute.UserNameTextBox",
-            "label": "web site db user name",
-            "defaultValue": "wpuser",
-            "toolTip": "",
-            "constraints": {
-              "required": true
-            },
-            "osPlatform": "Linux"
-          },
-          {
-            "name": "wpDBPassword",
-            "type": "Microsoft.Common.PasswordBox",
-            "label": {
-              "password": "Web site db user password",
-              "confirmPassword": "Confirm password"
-            },
-            "toolTip": "web site db user password, also used for WebDeploy authentication",
-            "constraints": {
-              "required": true,
-              "regex": "",
-              "validationMessage": ""
-            },
-            "options": {
-              "hideConfirmation": false
-            }
-          }
-        ]
-      },
-      {
-        "name": "databaseCluster",
-        "label": "Database cluster information",
-        "subLabel": {
-          "preValidation": "Provide database cluster information",
-          "postValidation": "Done"
-        },
-        "bladeTitle": "Database cluster information",
-        "elements": [
-          {
-            "name": "dbDNSName",
-            "type": "Microsoft.Network.PublicIpAddressCombo",
-            "label": {
-              "publicIpAddress": "New public IP name",
-              "domainNameLabel": "Domain name for MySQL"
-            },
-            "toolTip": {
-              "publicIpAddress": "Only new public IP is currently supported",
-              "domainNameLabel": "MySQL will be accessible from port 3306 of this domain"
-            },
+            "name": "storageAccount",
+            "type": "Microsoft.Storage.StorageAccountSelector",
+            "label": "Storage account",
             "defaultValue": {
-              "publicIpAddressName": "mysqlpip",
-              "domainNameLabel": "change_me_to_be_unique"
-            },
-            "constraints": {
-              "required": true
-            },
-            "options": {
-              "hideNone": true,
-              "hideDomainNameLabel": false
+              "type": "Standard_LRS"
             }
           },
           {
             "name": "vmSize",
             "type": "Microsoft.Compute.SizeSelector",
-            "label": "Database VM size",
-            "toolTip": "",
+            "label": "Virtual machine size",
+            "toolTip": "The size of the virtual machine for the domain controller.",
             "recommendedSizes": [
+              "Standard_D1",
               "Standard_D2",
-              "Standard_DS2",
-              "Standard_D3",
-              "Standard_DS3"
+              "Standard_D3"
             ],
             "constraints": {
-              "required": true,
-              "excludedSizes": [
-                "Basic_A0",
-                "ExtraSmall"
+              "allowedSizes": [
+                "Standard_D1",
+                "Standard_D2",
+                "Standard_D3",
+                "Standard_D4",
+                "Standard_D11",
+                "Standard_D12",
+                "Standard_D13",
+                "Standard_D14"
               ]
             },
-            "osPlatform": "Linux",
+            "osPlatform": "Windows",
             "imageReference": {
-              "publisher": "OpenLogic",
-              "offer": "CentOS",
-              "sku": "6.6"
+              "publisher": "MicrosoftWindowsServer",
+              "offer": "WindowsServer",
+              "sku": "2012-R2-Datacenter"
             },
-            "count": 2
+            "count": "[steps('infrastructureConfig').vmCount]"
           },
           {
-            "name": "storageAccount",
-            "type": "Microsoft.Storage.MultiStorageAccountCombo",
+            "name": "dnsAndPublicIP",
+            "type": "Microsoft.Network.PublicIpAddressCombo",
             "label": {
-              "prefix": "Storage account prefix",
-              "type": "Storage account type"
+              "publicIpAddress": "Public IP address",
+              "domainNameLabel": "DNS Prefix"
             },
             "toolTip": {
-              "prefix": "Storage account for the database VMs, only new storage account is supported",
-              "type": "Premium or Standard storage types"
+              "domainNameLabel": "DNS Prefix for the VM public IP addresses."
             },
             "defaultValue": {
-              "prefix": "change_me_to_be_unique",
-              "type": "Standard_LRS"
-            },
-            "constraints": {
-              "allowedTypes": [
-                "Standard_LRS",
-                "Premium_LRS"
-              ],
-              "count": 1,
-              "required": true
-            }
-          },
-          {
-            "name": "vmUsername",
-            "type": "Microsoft.Compute.UserNameTextBox",
-            "label": "VM user name",
-            "defaultValue": "",
-            "toolTip": "",
-            "constraints": {
-              "required": true
-            },
-            "osPlatform": "Linux"
-          },
-          {
-            "name": "vmPassword",
-            "type": "Microsoft.Common.PasswordBox",
-            "label": {
-              "password": "VM Password",
-              "confirmPassword": "Confirm password"
-            },
-            "toolTip": "",
-            "constraints": {
-              "required": true,
-              "regex": "",
-              "validationMessage": ""
+              "publicIpAddressName": "publicIP"
             },
             "options": {
-              "hideConfirmation": false
-            }
-          },
-          {
-            "name": "mysqlPassword",
-            "type": "Microsoft.Common.PasswordBox",
-            "label": {
-              "password": "MySQL Password",
-              "confirmPassword": "Confirm password"
-            },
-            "toolTip": "",
-            "constraints": {
-              "required": true,
-              "regex": "^[^'\\\\]{6,72}$",
-              "validationMessage": "The password must be between 6 and 72 characters long, and cannot contain the single quote (apostrophe) character."
-            },
-            "options": {
-              "hideConfirmation": false
-            }
-          }
-        ]
-      },
-      {
-        "name": "networkInfo",
-        "label": "Virtual network information",
-        "subLabel": {
-          "preValidation": "Provide virtual network information",
-          "postValidation": "Done"
-        },
-        "bladeTitle": "Virtual network information",
-        "elements": [
-          {
-            "name": "vnetSpec",
-            "type": "Microsoft.Network.VirtualNetworkCombo",
-            "label": {
-              "virtualNetwork": "Virtual network",
-              "subnets": "Subnets"
-            },
-            "toolTip": {
-              "virtualNetwork": "",
-              "subnets": ""
-            },
-            "defaultValue": {
-              "name": "appserviceVnet",
-              "addressPrefixSize": "/16"
-            },
-            "constraints": {
-              "minAddressPrefixSize": "/29"
-            },
-            "subnets": {
-              "subnet1": {
-                "label": "MySQL subnet",
-                "defaultValue": {
-                  "name": "dbsubnet",
-                  "addressPrefixSize": "/24"
-                },
-                "constraints": {
-                  "minAddressPrefixSize": "/29",
-                  "minAddressCount": 2,
-                  "requireContiguousAddresses": true
-                }
-              }
+              "hideNone": true
             }
           }
         ]
       }
     ],
     "outputs": {
-
+      "location": "[location()]",
+      "adminUsername": "[steps('basics').adminUsername]",
+      "adminPassword": "[steps('basics').adminPassword]",
+      "storageAccountNewOrExisting": "[steps('infrastructureConfig').storageAccount.newOrExisting]",
+      "StorageAccountName": "[steps('infrastructureConfig').storageAccount.name]",
+      "storageAccountType": "[steps('infrastructureConfig').storageAccount.type]",
+      "existingStorageAccountRG": "[steps('infrastructureConfig').storageAccount.resourceGroup]",
+      "domainName": "[steps('infrastructureConfig').domainName]",
+      "vmSize": "[steps('infrastructureConfig').vmSize]",
+      "vmCount": "[steps('infrastructureConfig').vmCount]",
+      "publicIPAddressName": "[steps('infrastructureConfig').DnsAndPublicIP.name]",
+      "dnsNameForPublicIP": "[steps('infrastructureConfig').dnsAndPublicIP.domainNameLabel]",
+      "existingIPRGName": "[steps('infrastructureConfig').dnsAndPublicIP.resourceGroup]",
+      "publicIPNewOrExisting": "[steps('infrastructureConfig').dnsAndPublicIP.newOrExistingOrNone]"
     }
   }
 }
