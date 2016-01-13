@@ -246,27 +246,7 @@
             "type": "Microsoft.Common.Section",
             "label": "TESTE",
             "elements": [
-              {
-                "name": "deployCONT",
-                "type": "Microsoft.Common.OptionsGroup",
-                "label": "Standalone Deployment Controller server?",
-                "toolTip": "Check if you wish to deploy a dedicated Deployment Controller server",
-                "defaultValue": "yCONT",
-                "constraints": {
-                  "allowedValues": [
-                    {
-                      "label": "Yes",
-                      "value": "yCONT"
-                    },
-                    {
-                      "label": "No",
-                      "value": "nCONT"
-                    }
-                  ]
-                }
 
-
-              }
             ]
            },
 
