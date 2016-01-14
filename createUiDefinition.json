@@ -1,445 +1,478 @@
 {
-  "markup": {
-    "type": "reference",
-    "reference": {
-      "bladeName": "CreateVirtualMachineBlade",
-      "bladeExtension": "Microsoft_Azure_Classic_Compute",
-      "partName": "VirtualMachinePart",
-      "partExtension": "Microsoft_Azure_Classic_Compute",
-      "provisioningPartName": "ProvisionerPart",
-      "provisioningPartExtension": "HubsExtension",
-      "partKeyId": "id"
-    }
-  },
+  "handler": "Microsoft.Compute.MultiVm",
+  "version": "0.0.1-preview",
   "parameters": {
-    "ClassicVirtualMachine": {
-      "vmLocation": {
-        "displayName": "vmLocation"
-      },
-      "vmHardwareSize": {
-        "displayName": "vmHardwareSize"
-      },
-      "vmHostName": {
-        "displayName": "vmHostName"
-      },
-      "vmUserName": {
-        "displayName": "vmUserName"
-      },
-      "isNewAvailabilitySet": {
-        "displayName": "isNewAvailabilitySet"
-      },
-      "vmAvailabilitySet": {
-        "displayName": "vmAvailabilitySet"
-      },
-      "vmSSHKey": {
-        "displayName": "vmSSHKey"
-      },
-      "isLinuxVMPasswordProvided": {
-        "displayName": "isLinuxVMPasswordProvided"
-      },
-      "vmType": {
-        "defaultValue": "Linux",
-        "displayName": "Virtual Machine Type",
-        "constraints": {
-          "required": false,
-          "hidden": true,
-          "hasDigit": false,
-          "hasLetter": false,
-          "hasUpperCaseLetter": false,
-          "hasLowerCaseLetter": false,
-          "hasPunctuation": false,
-          "numeric": false
-        }
-      },
-      "vmMedia": {
-        "defaultValue": "9fe1eb6f3266453e9cb134da09617194__K3QCFJRC4XJLFTBJVAXBSAYWFCHVRFMLKCTPTXPEBC3ORH4N2YMA",
-        "displayName": "Virtual Machine Image Name",
-        "constraints": {
-          "required": false,
-          "hidden": true,
-          "hasDigit": false,
-          "hasLetter": false,
-          "hasUpperCaseLetter": false,
-          "hasLowerCaseLetter": false,
-          "hasPunctuation": false,
-          "numeric": false
-        }
-      },
-      "vmRecommendedSizes": {
-        "defaultValue": "A5",
-        "displayName": "Virtual Machine Recommended Sizes",
-        "constraints": {
-          "required": false,
-          "hidden": true,
-          "allowedValues": [
-            {
-              "text": "A5",
-              "value": "A5"
+    "basics": [
+    ],
+    "steps": [
+      {
+        "name": "VNETSetup",
+        "label": "Virtual Network Setup",
+        "subLabel": {
+          "preValidation": "Configure the Virtual Network",
+          "postValidation": "Done"
+        },
+        "bladeTitle": "Virtual Network Settings",
+        "elements": [
+          {
+            "name": "vnetSpec",
+            "type": "Microsoft.Network.VirtualNetworkCombo",
+            "label": {
+              "virtualNetwork": "Virtual network",
+              "subnets": "Subnets"
             },
-            {
-              "text": "A8",
-              "value": "A8"
+            "toolTip": {
+              "virtualNetwork": "",
+              "subnets": ""
             },
-            {
-              "text": "Small",
-              "value": "Small"
+            "defaultValue": {
+              "name": "OutSystems_VN",
+              "addressPrefixSize": "/16"
+            },
+            "constraints": {
+              "minAddressPrefixSize": "/29"
+            },
+            "subnets": {
+              "subnet1": {
+                "label": "Front-End subnet",
+                "defaultValue": {
+                  "name": "FEsubnet",
+                  "addressPrefixSize": "/24"
+                },
+                "constraints": {
+                  "minAddressPrefixSize": "/29",
+                  "minAddressCount": 2,
+                  "requireContiguousAddresses": true
+                }
+              },
+              "subnet2": {
+                "label": "Back-End subnet",
+                "defaultValue": {
+                  "name": "BEsubnet",
+                  "addressPrefixSize": "/24"
+                },
+                "constraints": {
+                  "minAddressPrefixSize": "/29",
+                  "minAddressCount": 2,
+                  "requireContiguousAddresses": true
+                }
+              }
             }
-          ],
-          "hasDigit": false,
-          "hasLetter": false,
-          "hasUpperCaseLetter": false,
-          "hasLowerCaseLetter": false,
-          "hasPunctuation": false,
-          "numeric": false
-        }
+          }
+
+
+        ]
       },
-      "vmPassword": {
-        "displayName": "vmPassword",
-        "constraints": {
-          "required": false,
-          "hidden": true,
-          "hasDigit": false,
-          "hasLetter": false,
-          "hasUpperCaseLetter": false,
-          "hasLowerCaseLetter": false,
-          "hasPunctuation": false,
-          "numeric": false
-        }
-      },
-      "vmSSHData": {
-        "displayName": "vmSSHData",
-        "constraints": {
-          "required": true,
-          "hidden": false,
-          "hasDigit": false,
-          "hasLetter": false,
-          "hasUpperCaseLetter": false,
-          "hasLowerCaseLetter": false,
-          "hasPunctuation": false,
-          "numeric": false
-        }
-      },
-      "vmSSHThumbprint": {
-        "displayName": "vmSSHThumbprint",
-        "constraints": {
-          "required": false,
-          "hidden": false,
-          "hasDigit": false,
-          "hasLetter": false,
-          "hasUpperCaseLetter": false,
-          "hasLowerCaseLetter": false,
-          "hasPunctuation": false,
-          "numeric": false
-        }
-      }
-    },
-    "OSSettings": {
-      "vmAutomaticUpdates": {
-        "defaultValue": "true",
-        "displayName": "vmAutomaticUpdates",
-        "uiHint": "radio",
-        "constraints": {
-          "required": false,
-          "hidden": true,
-          "allowedValues": [
-            {
-              "text": "On",
-              "value": "true"
+      {
+        "name": "FESetup",
+        "label": "Front-End Setup",
+        "subLabel": {
+          "preValidation": "Configure the Front-End Environment",
+          "postValidation": "Done"
+        },
+        "bladeTitle": "Front-End Settings",
+        "elements": [
+          {
+            "name": "WFEadminUsername",
+            "type": "Microsoft.Compute.UserNameTextBox",
+            "label": "Username",
+            "toolTip": "Admin username for the production virtual machines.",
+            "osPlatform": "Windows"
+          },
+          {
+            "name": "WFEadminPassword",
+            "type": "Microsoft.Compute.CredentialsCombo",
+            "label": {
+              "password": "Password",
+              "confirmPassword": "Confirm password"
             },
-            {
-              "text": "Off",
-              "value": "false"
+            "toolTip": {
+              "password": "Admin password for the production virtual machines."
+            },
+            "osPlatform": "Windows"
+          },
+
+
+          {
+            "name": "storageAccount2",
+            "type": "Microsoft.Storage.StorageAccountSelector",
+            "label": "Storage account",
+            "defaultValue": {
+              "type": "Standard_LRS",
+              "recommendedSizes": [
+                "Standard_LRS",
+                "Standard_ZRS",
+                "Standard_GRS",
+                "Standard_RAGRS",
+                "Premium_LRS"
+              ]
             }
-          ],
-          "hasDigit": false,
-          "hasLetter": false,
-          "hasUpperCaseLetter": false,
-          "hasLowerCaseLetter": false,
-          "hasPunctuation": false,
-          "numeric": false
-        }
-      },
-      "vmOsRelease": {
-        "displayName": "vmOsRelease",
-        "constraints": {
-          "required": false,
-          "hidden": true,
-          "hasDigit": false,
-          "hasLetter": false,
-          "hasUpperCaseLetter": false,
-          "hasLowerCaseLetter": false,
-          "hasPunctuation": false,
-          "numeric": false
-        }
-      },
-      "vmTimeZone": {
-        "defaultValue": "UTC",
-        "displayName": "vmTimeZone",
-        "constraints": {
-          "required": false,
-          "hidden": true,
-          "hasDigit": false,
-          "hasLetter": false,
-          "hasUpperCaseLetter": false,
-          "hasLowerCaseLetter": false,
-          "hasPunctuation": false,
-          "numeric": false
-        }
-      },
-      "vmDomainToJoin": {
-        "displayName": "vmDomainToJoin",
-        "constraints": {
-          "required": false,
-          "hidden": true,
-          "hasDigit": false,
-          "hasLetter": false,
-          "hasUpperCaseLetter": false,
-          "hasLowerCaseLetter": false,
-          "hasPunctuation": false,
-          "numeric": false
-        }
-      },
-      "vmDomainName": {
-        "displayName": "vmDomainName",
-        "constraints": {
-          "required": false,
-          "hidden": true,
-          "hasDigit": false,
-          "hasLetter": false,
-          "hasUpperCaseLetter": false,
-          "hasLowerCaseLetter": false,
-          "hasPunctuation": false,
-          "numeric": false
-        }
-      },
-      "vmDomainUser": {
-        "displayName": "vmDomainUser",
-        "constraints": {
-          "required": false,
-          "hidden": true,
-          "hasDigit": false,
-          "hasLetter": false,
-          "hasUpperCaseLetter": false,
-          "hasLowerCaseLetter": false,
-          "hasPunctuation": false,
-          "numeric": false
-        }
-      },
-      "vmDomainPassword": {
-        "displayName": "vmDomainPassword",
-        "constraints": {
-          "required": false,
-          "hidden": true,
-          "hasDigit": false,
-          "hasLetter": false,
-          "hasUpperCaseLetter": false,
-          "hasLowerCaseLetter": false,
-          "hasPunctuation": false,
-          "numeric": false
-        }
-      }
-    },
-    "Network": {
-      "vnetResourceId": {
-        "displayName": "vnetResourceId"
-      },
-      "vnetName": {
-        "displayName": "vnetName"
-      },
-      "vnetAddressSpace": {
-        "displayName": "vnetAddressSpace"
-      },
-      "vnetPrimaryDns": {
-        "displayName": "vnetPrimaryDns"
-      },
-      "vnetSecondaryDns": {
-        "displayName": "vnetSecondaryDns"
-      },
-      "vnetSubnetName": {
-        "displayName": "vnetSubnetName"
-      },
-      "vnetSubnetAddress": {
-        "displayName": "vnetSubnetAddress"
-      },
-      "vmSubnetName": {
-        "displayName": "vmSubnetName"
-      },
-      "vmSubnetAddress": {
-        "displayName": "vmSubnetAddress"
-      },
-      "vmPrimaryDns": {
-        "displayName": "vmPrimaryDns"
-      },
-      "vmSecondaryDns": {
-        "displayName": "vmSecondaryDns"
-      },
-      "vmDomainName": {
-        "displayName": "vmDomainName"
-      },
-      "vmDomainNameResourceId": {
-        "displayName": "vmDomainNameResourceId"
-      },
-      "vmDomainLocation": {
-        "displayName": "vmDomainLocation"
-      },
-      "vmSlotsCount": {},
-      "vmStaticIpAddress": {
-        "displayName": "vmStaticIpAddress"
-      },
-      "vmReservedIPAddressId": {
-        "displayName": "vmReservedIPAddressId"
-      },
-      "vmReservedIPAddressName": {
-        "displayName": "vmReservedIPAddressName"
-      },
-      "vmReservedIPAddressValue": {
-        "displayName": "vmReservedIPAddressValue"
-      },
-      "vmReservedIPAddressType": {
-        "displayName": "vmReservedIPAddressType"
-      },
-      "vmReservedIPAddressLocation": {
-        "displayName": "vmReservedIPAddressLocation"
-      },
-      "vmInstanceIPAddressId": {
-        "displayName": "vmInstanceIPAddressId"
-      },
-      "vmInstanceIPAddressName": {
-        "displayName": "vmInstanceIPAddressName"
-      },
-      "vmInstanceIPAddressType": {
-        "displayName": "vmInstanceIPAddressType"
-      },
-      "idleTimeoutInMinutes": {
-        "displayName": "idleTimeoutInMinutes"
-      }
-    },
-    "ResourceExtensionsConfiguration": {
-      "extensions": {
-        "displayName": "extensions"
-      }
-    },
-    "Storage": {
-      "storageAccountName": {
-        "displayName": "storageAccountName"
-      },
-      "storageAccountEndpointUri": {
-        "displayName": "storageAccountEndpointUri"
-      },
-      "storageAccountLocation": {
-        "displayName": "storageAccountLocation"
-      },
-      "storageAccountSubscriptionId": {
-        "displayName": "storageAccountSubscriptionId"
-      },
-      "storageAccountType": {
-        "displayName": "storageAccountType"
-      }
-    },
-    "Diagnostics": {
-      "storageAccountName": {
-        "displayName": "storageAccountName"
-      },
-      "autoEnableInFuture": {
-        "displayName": "autoEnableInFuture"
-      },
-      "status": {
-        "displayName": "status"
-      },
-      "retention": {
-        "displayName": "retention"
-      },
-      "resourceType": {
-        "displayName": "resourceType"
-      },
-      "diagnosticsConfigurations": {
-        "displayName": "diagnosticsConfigurations"
-      },
-      "options": {
-        "displayName": "options"
-      }
-    },
-    "EndpointsConfiguration": {
-      "newEndpoints": {
-        "displayName": "newEndpoints"
-      }
-    },
-    "ImageVersion": {
-      "version": {
-        "displayName": "version"
-      }
-    },
-    "PerformanceMonitoringProvider": {
-      "providerId": {
-        "displayName": "providerId"
-      },
-      "enabled": {
-        "displayName": "enabled"
-      },
-      "accountId": {
-        "displayName": "accountId"
-      },
-      "licenseKey": {
-        "displayName": "licenseKey"
-      },
-      "accountName": {
-        "displayName": "accountName"
-      }
-    },
-    "SqlIaaSAgentSettings": {
-      "isExtensionSupported": {
-        "defaultValue": "false",
-        "displayName": "isExtensionSupported"
-      },
-      "isAutoBackupSupported": {
-        "defaultValue": "false",
-        "displayName": "isAutoBackupSupported"
-      },
-      "isAutoPatchingSupported": {
-        "defaultValue": "false",
-        "displayName": "isAutoPatchingSupported"
-      },
-      "enableAutoPatching": {
-        "defaultValue": "false",
-        "displayName": "enableAutoPatching"
-      },
-      "maintenanceSchedule": {
-        "defaultValue": "Everyday",
-        "displayName": "maintenanceSchedule"
-      },
-      "maintenanceStartHour": {
-        "defaultValue": "0",
-        "displayName": "maintenanceStartHour"
-      },
-      "maintenanceWindowDuration": {
-        "defaultValue": "60",
-        "displayName": "maintenanceWindowDuration"
-      },
-      "enableAutoBackup": {
-        "defaultValue": "false",
-        "displayName": "enableAutoBackup"
-      },
-      "retentionPeriod": {
-        "defaultValue": "30",
-        "displayName": "retentionPeriod"
-      },
-      "enableEncryption": {
-        "defaultValue": "false",
-        "displayName": "enableEncryption"
-      },
-      "encryptionPassword": {
-        "displayName": "encryptionPassword"
-      },
-      "storageAccountName": {
-        "displayName": "storageAccountName"
-      },
-      "storageAccountResourceGroup": {
-        "displayName": "storageAccountResourceGroup"
-      },
-      "storageAccountBlobUrl": {
-        "displayName": "storageAccountBlobUrl"
-      }
+          },
+
+
+          {
+            "name": "deployLB",
+            "type": "Microsoft.Common.OptionsGroup",
+            "label": "Deploy LoadBalancer and Availability Set?",
+            "toolTip": "Choose if you wish to deploy a LoadBalancer for multiple VM",
+            "defaultValue": "yLB",
+            "constraints": {
+              "allowedValues": [
+                {
+                  "label": "Yes",
+                  "value": "yLB"
+                },
+                {
+                  "label": "No",
+                  "value": "nLB"
+                }
+              ]
+            }
+          },
+          {
+            "name": "publicDNS",
+            "type": "Microsoft.Network.PublicIpAddressCombo",
+            "label": {
+              "domainNameLabel": "DNS label"
+            },
+            "defaultValue": {
+              "publicIpAddressName": "ip01"
+            },
+            "toolTip": {
+              "domainNameLabel": "DNS label for the public IP address. This option is only used if a LoadBalancer is selected."
+            },
+            "options": {
+ 
+            }
+          },
+
+
+          {
+            "name": "FENAME",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Front-End hostname prefix",
+            "toolTip": "Hostname prefix for the Front-End.",
+            "defaultValue": "FE",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "FEVmCount",
+            "type": "Microsoft.Common.DropDown",
+            "label": "Number of Front-End VMs",
+            "defaultValue": "2",
+            "toolTip": "",
+            "constraints": {
+              "allowedValues": [
+                {
+                  "label": "1",
+                  "value": 1
+                },
+                {
+                  "label": "2",
+                  "value": 2
+                },
+                {
+                  "label": "3",
+                  "value": 3
+                },
+                {
+                  "label": "4",
+                  "value": 4
+                },
+                {
+                  "label": "5",
+                  "value": 5
+                },
+                {
+                  "label": "6",
+                  "value": 6
+                },
+                {
+                  "label": "7",
+                  "value": 7
+                },
+                {
+                  "label": "8",
+                  "value": 8
+                }
+              ]
+            }
+          },
+
+          {
+            "name": "FEVmSize",
+            "type": "Microsoft.Compute.SizeSelector",
+            "label": "Front-End Virtual machine size",
+            "defaultValue": "Standard_D1",
+            "toolTip": "The size of the Front-End VMs.",
+            "recommendedSizes": [
+              "Standard_D1",
+              "Standard_DS2",
+              "Standard_DS3",
+              "Standard_DS4"
+            ],
+            "constraints": {
+              "allowedSizes": [
+                "Standard_D1",
+                "Standard_D2",
+                "Standard_DS2",
+                "Standard_D3",
+                "Standard_DS3",
+                "Standard_D4",
+                "Standard_DS4",
+                "Standard_D11",
+                "Standard_DS11",
+                "Standard_D12",
+                "Standard_DS12",
+                "Standard_D13",
+                "Standard_DS13",
+                "Standard_D14",
+                "Standard_DS14"
+              ]
+            },
+            "osPlatform": "Windows",
+            "imageReference": {
+              "publisher": "MicrosoftWindowsServer",
+              "offer": "WindowsServer",
+              "sku": "2012-R2-Datacenter"
+            },
+            "count": "[steps('FESetup').FEVmCount]"
+          },
+
+          {
+            "name": "DCSsection",
+            "type": "Microsoft.Common.Section",
+            "label": "DCS Setup"
+           }, 
+
+              {
+                "name": "deployCONT",
+                "type": "Microsoft.Common.OptionsGroup",
+                "label": "Standalone Deployment Controller server?",
+                "toolTip": "Check if you wish to deploy a dedicated Deployment Controller server",
+                "defaultValue": "yCONT",
+                "constraints": {
+                  "allowedValues": [
+                    {
+                      "label": "Yes",
+                      "value": "yCONT"
+                    },
+                    {
+                      "label": "No",
+                      "value": "nCONT"
+                    }
+                  ]
+                }
+              },
+
+              {
+                "name": "ContName",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Deployment Controller server hostname",
+                "defaultValue": "DC",
+                "toolTip": "The name of the Deployment Controller server VM.",
+                "constraints": {
+                  "required": true
+                }
+              },
+
+              {
+                "name": "ContVmSize",
+                "type": "Microsoft.Compute.SizeSelector",
+                "label": "Deployment Controller Virtual Machine size",
+                "defaultValue": "Standard_D1",
+                "toolTip": "The size of the virtual machine for the Deployment Controller.",
+                "recommendedSizes": [
+                  "Standard_D1",
+                  "Standard_DS2",
+                  "Standard_DS3",
+                  "Standard_DS4"
+                ],
+                "constraints": {
+                  "allowedSizes": [
+                    "Standard_D1",
+                    "Standard_D2",
+                    "Standard_DS2",
+                    "Standard_D3",
+                    "Standard_DS3",
+                    "Standard_D4",
+                    "Standard_DS4",
+                    "Standard_D11",
+                    "Standard_DS11",
+                    "Standard_D12",
+                    "Standard_DS12",
+                    "Standard_D13",
+                    "Standard_DS13",
+                    "Standard_D14",
+                    "Standard_DS14"
+                  ]
+                },
+                "osPlatform": "Windows",
+                "imageReference": {
+                  "publisher": "MicrosoftWindowsServer",
+                  "offer": "WindowsServer",
+                  "sku": "2012-R2-Datacenter"
+                },
+                "count": 1
+              }
+
+
+            ]
+          },
+
+          {
+            "name": "SQLSetup",
+            "label": "SQL settings setup",
+            "subLabel": {
+              "preValidation": "Configure the SQL settings",
+              "postValidation": "Done"
+            },
+            "bladeTitle": "SQL settings setup",
+            "elements": [
+              {
+                "name": "deploySQL",
+                "type": "Microsoft.Common.OptionsGroup",
+                "label": "Deploy SQL server?",
+                "toolTip": "Choose if you wish to deploy a SQL server",
+                "defaultValue": "ySQL",
+                "constraints": {
+                  "allowedValues": [
+                    {
+                      "label": "Yes",
+                      "value": "ySQL"
+                    },
+                    {
+                      "label": "No",
+                      "value": "nSQL"
+                    }
+                  ]
+                }
+              },
+
+              {
+                "name": "SQLNAME",
+                "type": "Microsoft.Common.TextBox",
+                "label": "SQL hostname",
+                "toolTip": "Hostname for the SQL server.",
+                "defaultValue": "SQL",
+                "constraints": {
+                  "required": true
+                }
+              },
+
+              {
+                "name": "SQLVmSize",
+                "type": "Microsoft.Compute.SizeSelector",
+                "label": "Virtual machine size",
+                "toolTip": "The size of the virtual machine for the SQL server.",
+                "defaultValue": "Standard_D1",
+                "recommendedSizes": [
+                  "Standard_D1",
+                  "Standard_DS2",
+                  "Standard_DS3",
+                  "Standard_DS4"
+                ],
+                "constraints": {
+                  "allowedSizes": [
+                    "Standard_D1",
+                    "Standard_D2",
+                    "Standard_DS2",
+                    "Standard_D3",
+                    "Standard_DS3",
+                    "Standard_D4",
+                    "Standard_DS4",
+                    "Standard_D11",
+                    "Standard_DS11",
+                    "Standard_D12",
+                    "Standard_DS12",
+                    "Standard_D13",
+                    "Standard_DS13",
+                    "Standard_D14",
+                    "Standard_DS14"
+                  ]
+                },
+                "osPlatform": "Windows",
+                "imageReference": {
+                  "publisher": "MicrosoftWindowsServer",
+                  "offer": "SQL2014-WS2012R2",
+                  "sku": "Standard"
+                },
+                "count": 1
+              },
+
+              {
+                "name": "storageAccount",
+                "type": "Microsoft.Storage.StorageAccountSelector",
+                "label": "SQL Storage account",
+                "defaultValue": {
+                  "type": "Standard_LRS",
+                  "recommendedSizes": [
+                    "Standard_LRS",
+                    "Standard_ZRS",
+                    "Standard_GRS",
+                    "Standard_RAGRS",
+                    "Premium_LRS"
+                  ]
+                }
+              },
+
+              {
+                "name": "SQL_SKU",
+                "type": "Microsoft.Common.DropDown",
+                "label": "SQL Version",
+                "defaultValue": "Enterprise",
+                "toolTip": "",
+                "constraints": {
+                  "allowedValues": [
+                    {
+                      "label": "Enterprise",
+                      "value": "Enterprise"
+                    },
+                    {
+                      "label": "Standard",
+                      "value": "Standard"
+                    }
+                  ]
+                }
+              }
+
+            ]
+          }
+
+        ],
+    "outputs": {
+	
+	  "AdminUserName": "[steps('FESetup').WFEadminUsername]",
+      "AdminPassword": "[steps('FESetup').WFEadminPassword]",
+      "virtualNetworkName": "[steps('VNETSetup').vnetSpec.name]",
+      "vnetNewOrExisting": "[steps('VNETSetup').vnetSpec.newOrExisting]",
+      "virtualNetworkExistingRGName": "[steps('VNETSetup').vnetSpec.name]",
+      "vnetAddressPrefix": "[steps('VNETSetup').vnetSpec.addressPrefixSize]",
+      "FESubnetName": "[steps('VNETSetup').vnetSpec.subnets.subnet1.name]",
+      "FESubnetAddressPrefix": "[steps('VNETSetup').vnetSpec.subnets.subnet1.addressPrefix]",
+      "BESubnetName": "[steps('VNETSetup').vnetSpec.subnets.subnet2.name]",
+      "BESubnetAddressPrefix": "[steps('VNETSetup').vnetSpec.subnets.subnet2.addressPrefix]",
+      "StorageNewOrExisting": "[steps('FESetup').storageAccount2.newOrExisting]",
+      "StorageACCName": "[steps('FESetup').storageAccount2.name]",
+      "StorageACCType": "[steps('FESetup').storageAccount2.type]",
+      "CreateLBchoosebox": "[steps('FESetup').deployLB.name]",
+      "dnsNameforLBIP": "[steps('FESetup').publicDNS.domainNameLabel]",
+      "FEName": "[steps('FESetup').FENAME]",
+      "FEVmSize": "[steps('FESetup').FEVmSize]",
+      "count": "[steps('FESetup').FEVmCount]",
+      "CreateDCSchoosebox": "[steps('FESetup').deployDCS.name]",
+      "CONTName": "[steps('FESetup').ContName]",
+      "CONTVmSize": "[steps('FESetup').ContVmSize]",
+      "CreateSQLchoosebox": "[steps('SQLSetup').deploySQL]",
+      "SQLName": "[steps('SQLSetup').SQLNAME]",
+      "SQLVmSize": "[steps('SQLSetup').SQLVmSize]",
+      "SQLWindowsOSVersion": "[steps('SQLSetup').SQL_SKU]",
+      "SQLStorageNewOrExisting": "[steps('SQLSetup').storageAccount.newOrExisting]",
+      "SQLStorageACCName": "[steps('SQLSetup').storageAccount.name]",
+      "SQLStorageACCType": "[steps('SQLSetup').storageAccount.type]"
+
     }
-  },
-  "options": {}
+  }
 }
