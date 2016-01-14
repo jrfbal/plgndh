@@ -205,6 +205,7 @@
             "name": "FEVmSize",
             "type": "Microsoft.Compute.SizeSelector",
             "label": "Front-End Virtual machine size",
+            "defaultValue": "Standard_D2",
             "toolTip": "The size of the Front-End VMs.",
             "recommendedSizes": [
               "Standard_DS11",
