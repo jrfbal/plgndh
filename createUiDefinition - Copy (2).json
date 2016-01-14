@@ -210,7 +210,8 @@
             "recommendedSizes": [
               "Standard_D1",
               "Standard_DS2",
-              "Standard_DS3"
+              "Standard_DS3",
+              "Standard_DS4"
             ],
             "constraints": {
               "allowedSizes": [
@@ -286,7 +287,8 @@
                 "recommendedSizes": [
                   "Standard_D1",
                   "Standard_DS2",
-                  "Standard_DS3"
+                  "Standard_DS3",
+                  "Standard_DS4"
                 ],
                 "constraints": {
                   "allowedSizes": [
@@ -369,7 +371,8 @@
                 "recommendedSizes": [
                   "Standard_D1",
                   "Standard_DS2",
-                  "Standard_DS3"
+                  "Standard_DS3",
+                  "Standard_DS4"
                 ],
                 "constraints": {
                   "allowedSizes": [
