@@ -152,7 +152,7 @@
             "type": "Microsoft.Common.TextBox",
             "label": "Front-End hostname prefix",
             "toolTip": "Hostname prefix for the Front-End.",
-            "defaultValue": "[uniqueString(resourceGroup().id)]",
+            "defaultValue": uniqueString(resourceGroup().id),
             "constraints": {
               "required": true
             }
