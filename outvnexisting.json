@@ -67,7 +67,7 @@
     }
   },
   "variables": {
-    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkExistingRGName'))]"
+    "vnetID": "[resourceId(parameters('virtualNetworkExistingRGName'),concat('Microsoft.Network','/','virtualNetworks'),parameters('virtualNetworkName'))]"
   },
   "resources": [
 
