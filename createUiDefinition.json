@@ -433,7 +433,35 @@
           ]
         }
       ],
-        "outputs": {
-     }
+      "outputs": {
+        "AdminUserName": "[steps('FESetup').WFEadminUsername]",
+        "AdminPassword": "[steps('FESetup').WFEadminPassword]",
+        "virtualNetworkName": "[steps('VNETSetup').vnetSpec.name]",
+        "vnetNewOrExisting": "[steps('VNETSetup').vnetSpec.newOrExisting]",
+        "virtualNetworkExistingRGName": "[steps('VNETSetup').vnetSpec.name]",
+        "vnetAddressPrefix": "[steps('VNETSetup').vnetSpec.addressPrefixSize]",
+        "FESubnetName": "[steps('VNETSetup').vnetSpec.subnets.subnet1.name]",
+        "FESubnetAddressPrefix": "[steps('VNETSetup').vnetSpec.subnets.subnet1.addressPrefix]",
+        "BESubnetName": "[steps('VNETSetup').vnetSpec.subnets.subnet2.name]",
+        "BESubnetAddressPrefix": "[steps('VNETSetup').vnetSpec.subnets.subnet2.addressPrefix]",
+        "StorageNewOrExisting": "[steps('FESetup').storageAccount2.newOrExisting]",
+        "StorageACCName": "[steps('FESetup').storageAccount2.name]",
+        "StorageACCType": "[steps('FESetup').storageAccount2.type]",
+        "CreateLBchoosebox": "[steps('FESetup').deployLB.name]",
+        "dnsNameforLBIP": "[steps('FESetup').publicDNS.domainNameLabel]",
+        "FEName": "[steps('FESetup').FENAME]",
+        "FEVmSize": "[steps('FESetup').FEVmSize]",
+        "count": "[steps('FESetup').FEVmCount]",
+        "CreateDCSchoosebox": "[steps('FESetup').deployDCS.name]",
+        "CONTName": "[steps('FESetup').ContName]",
+        "CONTVmSize": "[steps('FESetup').ContVmSize]",
+        "CreateSQLchoosebox": "[steps('SQLSetup').deploySQL]",
+        "SQLName": "[steps('SQLSetup').SQLNAME]",
+        "SQLVmSize": "[steps('SQLSetup').SQLVmSize]",
+        "SQLWindowsOSVersion": "[steps('SQLSetup').SQL_SKU]",
+        "SQLStorageNewOrExisting": "[steps('SQLSetup').storageAccount.newOrExisting]",
+        "SQLStorageACCName": "[steps('SQLSetup').storageAccount.name]",
+        "SQLStorageACCType": "[steps('SQLSetup').storageAccount.type]"
+      }
     }
 }
