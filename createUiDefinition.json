@@ -209,11 +209,12 @@
             "label": "Front-End Virtual machine size",
             "toolTip": "The size of the Front-End VMs.",
             "recommendedSizes": [
-              "Standard_D1",
               "Standard_DS2",
+              "Standard_D1",
               "Standard_DS3"
             ],
             "constraints": {
+              "required": true,
               "allowedSizes": [
                 "Standard_D1",
                 "Standard_D2",
