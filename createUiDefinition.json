@@ -98,8 +98,7 @@
             "type": "Microsoft.Storage.StorageAccountSelector",
             "label": "Front-End Storage account",
             "defaultValue": {
-              "name": "FEstorage1",
-              "prefix":  "FEprefix1",
+              "name": "festorage1",
               "type": "Standard_LRS",
               "recommendedSizes": [
                 "Standard_LRS",
@@ -181,10 +180,11 @@
               "domainNameLabel": "DNS label"
             },
             "defaultValue": {
-              "publicIpAddressName": "ip01"
+              "publicIpAddressName": "ip01",
+               "name": "change-to-be-unique"
             },
             "toolTip": {
-              "domainNameLabel": "DNS label for the public IP address. This option is only used if a LoadBalancer is selected."
+              "domainNameLabel": "DNS label for the public IP address. This option is only used if a LoadBalancer is selected."                
             },
             "options": {
               "hidepublicIpAddressName": true
@@ -212,8 +212,7 @@
             "recommendedSizes": [
               "Standard_D1",
               "Standard_DS2",
-              "Standard_DS3",
-              "Standard_DS4"
+              "Standard_DS3"
             ],
             "constraints": {
               "allowedSizes": [
@@ -240,7 +239,7 @@
               "offer": "WindowsServer",
               "sku": "2012-R2-Datacenter"
             },
-            "count": 1
+            "count": "[steps('FESetup').FEVmCount]"
           },
 
           {
@@ -283,8 +282,7 @@
             "recommendedSizes": [
               "Standard_D1",
               "Standard_DS2",
-              "Standard_DS3",
-              "Standard_DS4"
+              "Standard_DS3"
             ],
             "constraints": {
               "allowedSizes": [
@@ -367,8 +365,7 @@
             "recommendedSizes": [
               "Standard_D1",
               "Standard_DS2",
-              "Standard_DS3",
-              "Standard_DS4"
+              "Standard_DS3"
             ],
             "constraints": {
               "allowedSizes": [
