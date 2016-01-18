@@ -95,24 +95,20 @@
 
           {
             "name": "storageAccount2",
-            "type": "Microsoft.Storage.MultiStorageAccountCombo",
-            "label": {
-              "prefix": "Data node storage account name",
-              "type": "Data node storage account type"
-            },
-            "toolTip": {
-              "type": "Choose Premium_LRS for SSD or Standard_LRS for HDD storage.",
-              "prefix": "Choose a globally unique prefix."
-            },
+            "type": "Microsoft.Storage.StorageAccountSelector",
+            "label": "Front-End Storage account",
             "defaultValue": {
-              "prefix": "[FESetup('FENAME')]",
-              "type": "Standard_LRS"
-            },
-            "constraints": {
-              "allowedTypes": [ "Premium_LRS", "Standard_LRS" ],
-              "excludedTypes": [ ]
-            },
-            "count": 2
+              "name": "FEstorage1",
+              "prefix":  "FEprefix1",
+              "type": "Standard_LRS",
+              "recommendedSizes": [
+                "Standard_LRS",
+                "Standard_ZRS",
+                "Standard_GRS",
+                "Standard_RAGRS",
+                "Premium_LRS"
+              ]
+            }
           },
 
           {
