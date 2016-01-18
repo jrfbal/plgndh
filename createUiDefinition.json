@@ -436,9 +436,9 @@
       "outputs": {
         "AdminUserName": "[steps('FESetup').WFEadminUsername]",
         "AdminPassword": "[steps('FESetup').WFEadminPassword]",
-        "StorageNewOrExisting": "[steps('FESetup').storageAccount2.newOrExisting]",
         "StorageACCName": "[steps('FESetup').storageAccount2.name]",
         "StorageACCType": "[steps('FESetup').storageAccount2.type]",
+        "StorageNewOrExisting": "[steps('FESetup').storageAccount2.newOrExisting]",
         "CreateLBchoosebox": "[steps('FESetup').deployLB.name]",
         "dnsNameforLBIP": "[steps('FESetup').publicDNS.domainNameLabel]",
         "FEName": "[steps('FESetup').FENAME]",
