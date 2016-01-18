@@ -442,7 +442,10 @@
         "CONTName": "[steps('FESetup').ContName]",
         "CONTVmSize": "[steps('FESetup').ContVmSize]",
         "SQLName": "[steps('SQLSetup').SQLNAME]",
-        "SQLVmSize": "[steps('SQLSetup').SQLVmSize]"
+        "SQLVmSize": "[steps('SQLSetup').SQLVmSize]",
+        "virtualNetworkName": "[steps('VNETSetup').vnetSpec.name]",
+        "vnetNewOrExisting": "[steps('VNETSetup').vnetSpec.newOrExisting]",
+        "virtualNetworkExistingRGName": "[steps('VNETSetup').vnetSpec.name]"
       }
     }
 }
