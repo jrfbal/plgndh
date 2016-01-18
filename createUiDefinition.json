@@ -1,13 +1,156 @@
+Skip to content
+This repository  
+Search
+Pull requests
+Issues
+Gist
+ @jrfbal
+ Watch 137
+  Star 564
+  Fork 754 Azure/azure-quickstart-templates
+ Code  Issues 28  Pull requests 22  Wiki  Pulse  Graphs
+Branch: master Find file Copy pathazure-quickstart-templates/marketplace-samples/simple-windows-vm/createUiDefinition.json
+334074b  on Aug 24, 2015
+@VybavaRamadoss VybavaRamadoss Update createUiDefinition.json
+1 contributor
+RawBlameHistory     139 lines (138 sloc)  5.24 KB
 {
   "handler": "Microsoft.Compute.MultiVm",
   "version": "0.0.1-preview",
   "parameters": {
     "basics": [
+      {
+        "name": "adminUsername",
+        "type": "Microsoft.Compute.UserNameTextBox",
+        "label": "Username",
+        "toolTip": "Admin username for the virtual machines.",
+        "osPlatform": "Windows"
+      },
+      {
+        "name": "adminPassword",
+        "type": "Microsoft.Compute.CredentialsCombo",
+        "label": {
+          "password": "Password",
+          "confirmPassword": "Confirm password"
+        },
+        "toolTip": {
+          "password": "Admin password for the virtual machines."
+        },
+        "osPlatform": "Windows"
+      }
     ],
     "steps": [
+      {
+        "name": "infrastructureConfig",
+        "label": "Infrastructure settings",
+        "subLabel": {
+          "preValidation": "Configure the infrastructure settings",
+          "postValidation": "Done"
+        },
+        "bladeTitle": "Infrastructure settings",
+        "elements": [
+          {
+            "name": "VmCount",
+            "type": "Microsoft.Common.DropDown",
+            "label": "Number of VMs",
+            "defaultValue": "2",
+            "toolTip": "",
+            "constraints": {
+              "allowedValues": [
+                {
+                  "label": "2",
+                  "value": 2
+                },
+                {
+                  "label": "4",
+                  "value": 4
+                },
+                {
+                  "label": "8",
+                  "value": 8
+                },
+                {
+                  "label": "16",
+                  "value": 16
+                }
+              ]
+            }
+          },
+          {
+            "name": "storageAccount",
+            "type": "Microsoft.Storage.StorageAccountSelector",
+            "label": "Storage account",
+            "defaultValue": {
+              "type": "Standard_LRS"
+            }
+          },
+          {
+            "name": "vmSize",
+            "type": "Microsoft.Compute.SizeSelector",
+            "label": "Virtual machine size",
+            "toolTip": "The size of the virtual machine for the domain controller.",
+            "recommendedSizes": [
+              "Standard_D1",
+              "Standard_D2",
+              "Standard_D3"
+            ],
+            "constraints": {
+              "allowedSizes": [
+                "Standard_D1",
+                "Standard_D2",
+                "Standard_D3",
+                "Standard_D4",
+                "Standard_D11",
+                "Standard_D12",
+                "Standard_D13",
+                "Standard_D14"
+              ]
+            },
+            "osPlatform": "Windows",
+            "imageReference": {
+              "publisher": "MicrosoftWindowsServer",
+              "offer": "WindowsServer",
+              "sku": "2012-R2-Datacenter"
+            },
+            "count": "[steps('infrastructureConfig').vmCount]"
+          },
+          {
+            "name": "dnsAndPublicIP",
+            "type": "Microsoft.Network.PublicIpAddressCombo",
+            "label": {
+              "publicIpAddress": "Public IP address",
+              "domainNameLabel": "DNS Prefix"
+            },
+            "toolTip": {
+              "domainNameLabel": "DNS Prefix for the VM public IP addresses."
+            },
+            "defaultValue": {
+              "publicIpAddressName": "publicIP"
+            },
+            "options": {
+              "hideNone": true
+            }
+          }
+        ]
+      }
     ],
     "outputs": {
-      "location": "[location()]"
+      "location": "[location()]",
+      "adminUsername": "[steps('basics').adminUsername]",
+      "adminPassword": "[steps('basics').adminPassword]",
+      "storageAccountNewOrExisting": "[steps('infrastructureConfig').storageAccount.newOrExisting]",
+      "StorageAccountName": "[steps('infrastructureConfig').storageAccount.name]",
+      "storageAccountType": "[steps('infrastructureConfig').storageAccount.type]",
+      "existingStorageAccountRG": "[steps('infrastructureConfig').storageAccount.resourceGroup]",
+      "domainName": "[steps('infrastructureConfig').domainName]",
+      "vmSize": "[steps('infrastructureConfig').vmSize]",
+      "vmCount": "[steps('infrastructureConfig').vmCount]",
+      "publicIPAddressName": "[steps('infrastructureConfig').DnsAndPublicIP.name]",
+      "dnsNameForPublicIP": "[steps('infrastructureConfig').dnsAndPublicIP.domainNameLabel]",
+      "existingIPRGName": "[steps('infrastructureConfig').dnsAndPublicIP.resourceGroup]",
+      "publicIPNewOrExisting": "[steps('infrastructureConfig').dnsAndPublicIP.newOrExistingOrNone]"
     }
   }
 }
+Status API Training Shop Blog About Pricing
+© 2016 GitHub, Inc. Terms Privacy Security Contact Help
