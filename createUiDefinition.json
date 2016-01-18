@@ -450,7 +450,10 @@
         "FESubnetName": "[steps('VNETSetup').vnetSpec.subnets.subnet1.name]",
         "FESubnetAddressPrefix": "[steps('VNETSetup').vnetSpec.subnets.subnet1.addressPrefix]",
         "BESubnetName": "[steps('VNETSetup').vnetSpec.subnets.subnet2.name]",
-        "BESubnetAddressPrefix": "[steps('VNETSetup').vnetSpec.subnets.subnet2.addressPrefix]"
+        "BESubnetAddressPrefix": "[steps('VNETSetup').vnetSpec.subnets.subnet2.addressPrefix]",
+        "StorageNewOrExisting": "[steps('FESetup').storageAccount2.newOrExisting]",
+        "StorageACCName": "[steps('FESetup').storageAccount2.name]",
+        "StorageACCType": "[steps('FESetup').storageAccount2.type]"
       }
     }
 }
