@@ -436,9 +436,6 @@
       "outputs": {
         "AdminUserName": "[steps('FESetup').WFEadminUsername]",
         "AdminPassword": "[steps('FESetup').WFEadminPassword]",
-        "StorageACCName": "[steps('FESetup').storageAccount2.name]",
-        "StorageACCType": "[steps('FESetup').storageAccount2.type]",
-        "StorageNewOrExisting": "[steps('FESetup').storageAccount2.newOrExisting]",
         "CreateLBchoosebox": "[steps('FESetup').deployLB.name]",
         "dnsNameforLBIP": "[steps('FESetup').publicDNS.domainNameLabel]",
         "FEName": "[steps('FESetup').FENAME]",
@@ -451,7 +448,6 @@
         "SQLName": "[steps('SQLSetup').SQLNAME]",
         "SQLVmSize": "[steps('SQLSetup').SQLVmSize]",
         "SQLWindowsOSVersion": "[steps('SQLSetup').SQL_SKU]",
-        "SQLStorageNewOrExisting": "[steps('SQLSetup').storageAccount.newOrExisting]",
         "SQLStorageACCName": "[steps('SQLSetup').storageAccount.name]",
         "SQLStorageACCType": "[steps('SQLSetup').storageAccount.type]"
       }
