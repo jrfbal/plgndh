@@ -111,6 +111,55 @@
           },
 
           {
+            "name": "deployLB",
+            "type": "Microsoft.Common.OptionsGroup",
+            "label": "Deploy LoadBalancer and Availability Set?",
+            "toolTip": "Choose if you wish to deploy a LoadBalancer for multiple VM",
+            "defaultValue": "yLB",
+            "constraints": {
+              "allowedValues": [
+                {
+                  "label": "Yes",
+                  "value": "yLB"
+                },
+                {
+                  "label": "No",
+                  "value": "nLB"
+                }
+              ]
+            }
+          },
+          {
+            "name": "publicDNS",
+            "type": "Microsoft.Network.PublicIpAddressCombo",
+            "label": {
+              "domainNameLabel": "DNS label"
+            },
+            "defaultValue": {
+              "publicIpAddressName": "ip01",
+              "label": "change-to-be-unique"
+            },
+            "toolTip": {
+              "domainNameLabel": "DNS label for the public IP address. This option is only used if a LoadBalancer is selected."
+            },
+            "options": {
+              "hidepublicIpAddressName": true
+            }
+          },
+
+
+          {
+            "name": "FENAME",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Front-End hostname prefix",
+            "toolTip": "Hostname prefix for the Front-End.",
+            "defaultValue": "FE",
+            "constraints": {
+              "required": true
+            }
+          },
+
+          {
             "name": "FEVmCount",
             "type": "Microsoft.Common.DropDown",
             "label": "Number of Front-End VMs",
@@ -151,55 +200,6 @@
                   "value": 8
                 }
               ]
-            }
-          },
-
-          {
-            "name": "deployLB",
-            "type": "Microsoft.Common.OptionsGroup",
-            "label": "Deploy LoadBalancer and Availability Set?",
-            "toolTip": "Choose if you wish to deploy a LoadBalancer for multiple VM",
-            "defaultValue": "yLB",
-            "constraints": {
-              "allowedValues": [
-                {
-                  "label": "Yes",
-                  "value": "yLB"
-                },
-                {
-                  "label": "No",
-                  "value": "nLB"
-                }
-              ]
-            }
-          },
-          {
-            "name": "publicDNS",
-            "type": "Microsoft.Network.PublicIpAddressCombo",
-            "label": {
-              "domainNameLabel": "DNS label"
-            },
-            "defaultValue": {
-              "publicIpAddressName": "ip01",
-               "name": "change-to-be-unique"
-            },
-            "toolTip": {
-              "domainNameLabel": "DNS label for the public IP address. This option is only used if a LoadBalancer is selected."                
-            },
-            "options": {
-              "hidepublicIpAddressName": true
-            }
-          },
-
-
-          {
-            "name": "FENAME",
-            "type": "Microsoft.Common.TextBox",
-            "label": "Front-End hostname prefix",
-            "toolTip": "Hostname prefix for the Front-End.",
-            "defaultValue": "FE",
-            "constraints": {
-              "required": true
             }
           },
 
