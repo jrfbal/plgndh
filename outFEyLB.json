@@ -259,7 +259,7 @@
             "name": "[concat('FEOSDisk', copyIndex(1))]",
             "osType": "windows",
             "image": {
-              "uri": "http://omgoutsystems7175.blob.core.windows.net/system/Microsoft.Compute/Images/mytemplates/OutSystems-osDisk.79bfc452-d539-430c-8877-9f3eb3a7f522.vhd?sv=2014-02-14&sr=c&sig=7fcUUxMGDskQLbDG%2BfJYtcWl2HfbChYvU%2F6UB30%2FTdI%3D&st=2016-01-14T00%3A00%3A00Z&se=2016-01-23T00%3A00%3A00Z&sp=rl"
+              "uri": "https://outsysstorage.blob.core.windows.net/system/Microsoft.Compute/Images/mytemplates/OutSystems-osDisk.79bfc452-d539-430c-8877-9f3eb3a7f522.vhd"
             },
             "vhd": {
               "uri": "[concat('http://', parameters('StorageACCName'), '.blob.core.windows.net/', parameters('FEStorageAccountContainerName'), '/', concat(parameters('FEName'),'OSDisk', copyIndex(1)), '.vhd')]"
