@@ -434,8 +434,26 @@
         }
       ],
       "outputs": {
-      "AdminUserName": "[steps('FESetup').WFEadminUsername]",
-      "AdminPassword": "[steps('FESetup').WFEadminPassword]"
+        "AdminUserName": "[steps('FESetup').WFEadminUsername]",
+        "AdminPassword": "[steps('FESetup').WFEadminPassword]",
+        "StorageNewOrExisting": "[steps('FESetup').storageAccount2.newOrExisting]",
+        "StorageACCName": "[steps('FESetup').storageAccount2.name]",
+        "StorageACCType": "[steps('FESetup').storageAccount2.type]",
+        "CreateLBchoosebox": "[steps('FESetup').deployLB.name]",
+        "dnsNameforLBIP": "[steps('FESetup').publicDNS.domainNameLabel]",
+        "FEName": "[steps('FESetup').FENAME]",
+        "FEVmSize": "[steps('FESetup').FEVmSize]",
+        "count": "[steps('FESetup').FEVmCount]",
+        "CreateDCSchoosebox": "[steps('FESetup').deployDCS.name]",
+        "CONTName": "[steps('FESetup').ContName]",
+        "CONTVmSize": "[steps('FESetup').ContVmSize]",
+        "CreateSQLchoosebox": "[steps('SQLSetup').deploySQL]",
+        "SQLName": "[steps('SQLSetup').SQLNAME]",
+        "SQLVmSize": "[steps('SQLSetup').SQLVmSize]",
+        "SQLWindowsOSVersion": "[steps('SQLSetup').SQL_SKU]",
+        "SQLStorageNewOrExisting": "[steps('SQLSetup').storageAccount.newOrExisting]",
+        "SQLStorageACCName": "[steps('SQLSetup').storageAccount.name]",
+        "SQLStorageACCType": "[steps('SQLSetup').storageAccount.type]"
       }
     }
 }
