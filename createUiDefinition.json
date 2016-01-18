@@ -137,7 +137,7 @@
             },
             "defaultValue": {
               "publicIpAddressName": "ip01",
-              "label": "change-to-be-unique"
+              "domainNameLabel": "change-to-be-unique"
             },
             "toolTip": {
               "domainNameLabel": "DNS label for the public IP address. This option is only used if a LoadBalancer is selected."
@@ -207,7 +207,6 @@
             "name": "FEVmSize",
             "type": "Microsoft.Compute.SizeSelector",
             "label": "Front-End Virtual machine size",
-            "defaultValue": "Standard_D1",
             "toolTip": "The size of the Front-End VMs.",
             "recommendedSizes": [
               "Standard_D1",
@@ -277,7 +276,6 @@
             "name": "ContVmSize",
             "type": "Microsoft.Compute.SizeSelector",
             "label": "Deployment Controller Virtual Machine size",
-            "defaultValue": "Standard_D1",
             "toolTip": "The size of the virtual machine for the Deployment Controller.",
             "recommendedSizes": [
               "Standard_D1",
@@ -361,7 +359,6 @@
             "type": "Microsoft.Compute.SizeSelector",
             "label": "Virtual machine size",
             "toolTip": "The size of the virtual machine for the SQL server.",
-            "defaultValue": "Standard_D1",
             "recommendedSizes": [
               "Standard_D1",
               "Standard_DS2",
