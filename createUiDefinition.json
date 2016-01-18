@@ -436,20 +436,13 @@
       "outputs": {
         "AdminUserName": "[steps('FESetup').WFEadminUsername]",
         "AdminPassword": "[steps('FESetup').WFEadminPassword]",
-        "CreateLBchoosebox": "[steps('FESetup').deployLB.name]",
-        "dnsNameforLBIP": "[steps('FESetup').publicDNS.domainNameLabel]",
         "FEName": "[steps('FESetup').FENAME]",
         "FEVmSize": "[steps('FESetup').FEVmSize]",
         "count": "[steps('FESetup').FEVmCount]",
-        "CreateDCSchoosebox": "[steps('FESetup').deployDCS.name]",
         "CONTName": "[steps('FESetup').ContName]",
         "CONTVmSize": "[steps('FESetup').ContVmSize]",
-        "CreateSQLchoosebox": "[steps('SQLSetup').deploySQL]",
         "SQLName": "[steps('SQLSetup').SQLNAME]",
-        "SQLVmSize": "[steps('SQLSetup').SQLVmSize]",
-        "SQLWindowsOSVersion": "[steps('SQLSetup').SQL_SKU]",
-        "SQLStorageACCName": "[steps('SQLSetup').storageAccount.name]",
-        "SQLStorageACCType": "[steps('SQLSetup').storageAccount.type]"
+        "SQLVmSize": "[steps('SQLSetup').SQLVmSize]"
       }
     }
 }
