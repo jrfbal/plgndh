@@ -5,11 +5,9 @@
     "basics": [
     ],
     "steps": [
-
-
     ],
     "outputs": {
-  
+      "location": "[location()]"
     }
   }
 }
