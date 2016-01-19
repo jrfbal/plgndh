@@ -126,20 +126,6 @@
               "priority": 120,
               "direction": "Inbound"
             }
-          },
-          {
-            "name": "DCS_rule",
-            "properties": {
-              "description": "Allow DCS",
-              "protocol": "Tcp",
-              "sourcePortRange": "*",
-              "destinationPortRange": "12000-12004",
-              "sourceAddressPrefix": "[parameters('BESubnetAddressPrefix')]",
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "priority": 130,
-              "direction": "Inbound"
-            }
           }
         ]
       }
