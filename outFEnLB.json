@@ -73,7 +73,19 @@
       "metadata": {
         "description": "VM Size Controller"
       }
-    }
+    },
+      "_artifactsLocation": {
+          "type": "string",
+          "metadata": {
+              "description": "Auto-generated container in staging storage account to receive post-build staging folder upload"
+          }
+      },
+      "_artifactsLocationSasToken": {
+          "type": "securestring",
+          "metadata": {
+              "description": "Auto-generated token to access _artifactsLocation"
+          }
+      }
 
   },
   "variables": {
@@ -85,7 +97,8 @@
     "lbID": "[resourceId('Microsoft.Network/loadBalancers', variables('lbName'))]",
     "AVsetName": "[concat('AVset-', parameters('FEName'))]",
     "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]",
-    "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]"
+    "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]",
+    "firewallRulesConfigurationFunction": "firewallRulesConfiguration.ps1\\Main"
   },
   "resources": [
 
@@ -185,7 +198,35 @@
       "copy": {
         "name": "VMcopy",
         "count": "[parameters('count')]"
-      }
+      },
+        "resources": [
+            {
+                "name": "firewallRules",
+                "type": "extensions",
+                "location": "[variables('location')]",
+                "apiVersion": "2015-06-15",
+                "dependsOn": [
+                    "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('FEName'), copyIndex(1)))]"
+                ],
+                "tags": {
+                    "displayName": "firewallRules"
+                },
+                "properties": {
+                    "publisher": "Microsoft.Powershell",
+                    "type": "DSC",
+                    "typeHandlerVersion": "2.9",
+                    "autoUpgradeMinorVersion": true,
+                  "settings": {
+                    "modulesUrl": "https://raw.githubusercontent.com/jrfbal/plgndh/master/scripts/FEDSC.zip",
+                    "configurationFunction": "[variables('firewallRulesConfigurationFunction')]",
+                    "properties": {
+                      "nodeName": "[concat(parameters('FEName'), copyIndex(1))]"
+                    }
+                  },
+                    "protectedSettings": { }
+                }
+            }
+        ]
     }
   ],
   "outputs": {
