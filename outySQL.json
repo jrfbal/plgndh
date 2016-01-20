@@ -62,11 +62,24 @@
       "metadata": {
         "description": "Storage Container Name"
       }
-    }
+    },
+      "_artifactsLocation": {
+          "type": "string",
+          "metadata": {
+              "description": "Auto-generated container in staging storage account to receive post-build staging folder upload"
+          }
+      },
+      "_artifactsLocationSasToken": {
+          "type": "securestring",
+          "metadata": {
+              "description": "Auto-generated token to access _artifactsLocation"
+          }
+      }
   },
 
   "variables": {
-    "SQLImagePublisher": "MicrosoftSQLServer"
+    "SQLImagePublisher": "MicrosoftSQLServer",
+      "SQL PortsConfigurationFunction": "SQL PortsConfiguration.ps1\\Main"
   },
   "resources": [
     {
@@ -134,7 +147,35 @@
       "tags": {
         "displayName": "[parameters('SQLName')]"
       },
-      "type": "Microsoft.Compute/virtualMachines"
+      "type": "Microsoft.Compute/virtualMachines",
+        "resources": [
+            {
+                "name": "SQL Ports",
+                "type": "extensions",
+                "location": "[resourceGroup().location]",
+                "apiVersion": "2015-06-15",
+                "dependsOn": [
+                    "[concat('Microsoft.Compute/virtualMachines/', parameters('SQLName'))]"
+                ],
+                "tags": {
+                    "displayName": "SQL Ports"
+                },
+                "properties": {
+                    "publisher": "Microsoft.Powershell",
+                    "type": "DSC",
+                    "typeHandlerVersion": "2.9",
+                    "autoUpgradeMinorVersion": true,
+                    "settings": {
+                        "modulesUrl": "[concat(parameters('_artifactsLocation'), '/', 'dsc.zip')]",
+                        "configurationFunction": "[variables('SQL PortsConfigurationFunction')]",
+                        "properties": {
+                            "nodeName": "[parameters('SQLName')]"
+                        }
+                    },
+                    "protectedSettings": { }
+                }
+            }
+        ]
     }
 
 
