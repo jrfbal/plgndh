@@ -146,7 +146,7 @@
               "[concat('Microsoft.Compute/virtualMachines/', parameters('SQLName'))]"
             ],
             "tags": {
-              "displayName": "SQL Ports"
+              "displayName": "SQLPorts"
             },
             "properties": {
               "publisher": "Microsoft.Powershell",
