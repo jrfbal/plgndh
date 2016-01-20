@@ -67,7 +67,7 @@
 
   "variables": {
     "SQLImagePublisher": "MicrosoftSQLServer",
-      "SQL PortsConfigurationFunction": "SQL PortsConfiguration.ps1\\Main"
+      "SQLPortsConfigurationFunction": "SQLPortsConfiguration.ps1\\Main"
   },
   "resources": [
     {
@@ -137,32 +137,32 @@
       },
       "type": "Microsoft.Compute/virtualMachines",
         "resources": [
-            {
-                "name": "SQL Ports",
-                "type": "extensions",
-                "location": "[resourceGroup().location]",
-                "apiVersion": "2015-06-15",
-                "dependsOn": [
-                    "[concat('Microsoft.Compute/virtualMachines/', parameters('SQLName'))]"
-                ],
-                "tags": {
-                    "displayName": "SQL Ports"
-                },
+          {
+            "name": "SQLPorts",
+            "type": "extensions",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [
+              "[concat('Microsoft.Compute/virtualMachines/', parameters('SQLName'))]"
+            ],
+            "tags": {
+              "displayName": "SQL Ports"
+            },
+            "properties": {
+              "publisher": "Microsoft.Powershell",
+              "type": "DSC",
+              "typeHandlerVersion": "2.9",
+              "autoUpgradeMinorVersion": true,
+              "settings": {
+                "modulesUrl": "https://raw.githubusercontent.com/jrfbal/plgndh/master/scripts/DSC.zip",
+                "configurationFunction": "[variables('SQLPortsConfigurationFunction')]",
                 "properties": {
-                    "publisher": "Microsoft.Powershell",
-                    "type": "DSC",
-                    "typeHandlerVersion": "2.9",
-                    "autoUpgradeMinorVersion": true,
-                  "settings": {
-                    "modulesUrl": "https://raw.githubusercontent.com/jrfbal/plgndh/master/scripts/DSC.zip",
-                    "configurationFunction": "[variables('SQL PortsConfigurationFunction')]",
-                    "properties": {
-                      "nodeName": "[parameters('SQLName')]"
-                    }
-                  },
-                    "protectedSettings": { }
+                  "nodeName": "[parameters('SQLName')]"
                 }
+              },
+              "protectedSettings": { }
             }
+          }
         ]
     }
 
