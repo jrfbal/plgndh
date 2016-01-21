@@ -111,9 +111,9 @@
               }
             },
             {
-              "name": "Front-End Settings",
+              "name": "FEsettings",
               "type": "Microsoft.Common.Selector",
-              "label": "Some selector",
+              "label": "Front-End Settings",
               "sublabel": {
                 "prevalidation": "Before",
                 "postvalidation": "After"
