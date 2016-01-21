@@ -64,7 +64,16 @@
 
           ]
         },
-
+        {
+          "name": "FESetup",
+          "label": "Front-End Setup",
+          "subLabel": {
+            "preValidation": "Configure the Front-End Environment",
+            "postValidation": "Done"
+          },
+          "bladeTitle": "Front-End Settings",
+          "elements": [
+ 
             {
               "name": "FEsettings",
               "type": "Microsoft.Common.Selector",
@@ -89,8 +98,6 @@
                 }
               ]
             }
-  
-
 
           ]
         },
