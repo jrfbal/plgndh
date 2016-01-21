@@ -73,30 +73,15 @@
           },
           "bladeTitle": "Front-End Settings",
           "elements": [
- 
+
             {
-              "name": "FEsettings",
+              "name": "selector1",
               "type": "Microsoft.Common.Selector",
-              "label": "Front-End Setup",
+              "label": "Some selector",
               "sublabel": {
-                "prevalidation": "Required",
-                "postvalidation": "Done"
-              },
-              "toolTip": "",
-              "bladeTitle": "Some title",
-              "bladeSubtitle": "Some subtitle",
-              "elements": [
-                {
-                  "name": "element1",
-                  "type": "Microsoft.Common.TextBox",
-                  "label": "Some text box 1"
-                },
-                {
-                  "name": "element2",
-                  "type": "Microsoft.Common.TextBox",
-                  "label": "Some text box 2"
-                }
-              ]
+                "prevalidation": "Before",
+                "postvalidation": "After"
+              }
             }
 
           ]
