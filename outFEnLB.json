@@ -86,12 +86,13 @@
     "AVsetName": "[concat('AVset-', parameters('FEName'))]",
     "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]",
     "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]",
+    "apiver": "2015-06-15",
     "firewallRulesConfigurationFunction": "firewallRulesConfiguration.ps1\\Main"
   },
   "resources": [
 
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiver')]",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[concat('publicip',toLower(parameters('FEName')), copyIndex(1))]",
       "location": "[resourceGroup().location]",
@@ -111,7 +112,7 @@
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/', concat('publicip',toLower(parameters('FEName')), copyIndex(1)))]"
       ],
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiver')]",
       "tags": {
         "displayName": "[concat(parameters('FEName'), copyIndex(1), 'NIC')]"
       },
@@ -140,7 +141,7 @@
 
 
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiver')]",
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', parameters('FEName'), copyIndex(1), 'NIC')]"
       ],
@@ -187,34 +188,34 @@
         "name": "VMcopy",
         "count": "[parameters('count')]"
       },
-        "resources": [
-            {
-                "name": "firewallRules",
-                "type": "extensions",
-                "location": "[variables('location')]",
-                "apiVersion": "2015-06-15",
-                "dependsOn": [
-                    "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('FEName'), copyIndex(1)))]"
-                ],
-                "tags": {
-                    "displayName": "firewallRules"
-                },
-                "properties": {
-                    "publisher": "Microsoft.Powershell",
-                    "type": "DSC",
-                    "typeHandlerVersion": "2.9",
-                    "autoUpgradeMinorVersion": true,
-                  "settings": {
-                    "modulesUrl": "https://raw.githubusercontent.com/jrfbal/plgndh/master/scripts/FEDSC.zip",
-                    "configurationFunction": "[variables('firewallRulesConfigurationFunction')]",
-                    "properties": {
-                      "nodeName": "[concat(parameters('FEName'), copyIndex(1))]"
-                    }
-                  },
-                    "protectedSettings": { }
-                }
-            }
-        ]
+      "resources": [
+        {
+          "name": "firewallRules",
+          "type": "extensions",
+          "location": "[variables('location')]",
+          "apiVersion": "2015-06-15",
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('FEName'), copyIndex(1)))]"
+          ],
+          "tags": {
+            "displayName": "firewallRules"
+          },
+          "properties": {
+            "publisher": "Microsoft.Powershell",
+            "type": "DSC",
+            "typeHandlerVersion": "2.9",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "modulesUrl": "https://raw.githubusercontent.com/jrfbal/plgndh/master/scripts/FEDSC.zip",
+              "configurationFunction": "[variables('firewallRulesConfigurationFunction')]",
+              "properties": {
+                "nodeName": "[concat(parameters('FEName'), copyIndex(1))]"
+              }
+            },
+            "protectedSettings": { }
+          }
+        }
+      ]
     }
   ],
   "outputs": {

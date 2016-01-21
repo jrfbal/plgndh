@@ -71,7 +71,8 @@
 
   },
   "variables": {
-    "location": "[resourceGroup().location]"
+    "location": "[resourceGroup().location]",
+    "apiver":  "2015-06-15"
 
   },
   "resources": [
@@ -79,7 +80,7 @@
       "name": "[concat(parameters('CONTName'), 'NIC')]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[variables('location')]",
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiver')]",
       "tags": {
         "displayName": "[concat(parameters('CONTName'), 'NIC')]"
       },
@@ -99,7 +100,7 @@
     },
 
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiver')]",
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', parameters('CONTName'), 'NIC')]"
       ],
@@ -115,13 +116,14 @@
           "adminPassword": "[parameters('AdminPassword')]"
         },
         "storageProfile": {
-
+          "imageReference": {
+            "publisher": "[parameters('FEImagePublisher')]",
+            "offer": "[parameters('FEImageOffer')]",
+            "sku": "[parameters('FEWindowsOSVersion')]",
+            "version": "latest"
+          },
           "osDisk": {
             "name": "CONTOSDisk",
-            "osType": "windows",
-            "image": {
-              "uri": "https://outsysstorage.blob.core.windows.net/system/Microsoft.Compute/Images/mytemplates/OutSystems-osDisk.ee77be21-00d1-41c5-a6af-f8f7ada7ea2d.vhd"
-            },
             "vhd": {
               "uri": "[concat('http://', parameters('StorageACCName'), '.blob.core.windows.net/', parameters('FEStorageAccountContainerName'), '/', parameters('CONTName'),'OSDisk', '.vhd')]"
             },

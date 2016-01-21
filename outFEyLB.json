@@ -85,14 +85,17 @@
     "lbID": "[resourceId('Microsoft.Network/loadBalancers', variables('lbName'))]",
     "AVsetName": "[concat('AVset-', parameters('FEName'))]",
     "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]",
-    "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]"
+    "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]",
+    "apiver": "2015-06-15",
+    "firewallRulesConfigurationFunction": "firewallRulesConfiguration.ps1\\Main"
+ 
   },
   "resources": [
     {
       "name": "[concat(parameters('FEName'), copyIndex(1), 'NIC')]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[variables('location')]",
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiver')]",
       "dependsOn": [
         "[concat('Microsoft.Network/loadBalancers/', variables('lbName'))]",
         "[concat('Microsoft.Network/loadBalancers/', variables('lbName'), '/inboundNatRules/', 'RDP-VM', copyIndex(1))]"
@@ -134,14 +137,14 @@
       "name": "[variables('AVsetName')]",
       "type": "Microsoft.Compute/availabilitySets",
       "location": "[variables('location')]",
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiver')]",
       "dependsOn": [ ],
       "tags": {
         "displayName": "[variables('AVsetName')]"
       }
     },
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiver')]",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('publicIPName')]",
       "location": "[variables('location')]",
@@ -153,7 +156,7 @@
       }
     },
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiver')]",
       "name": "[variables('lbName')]",
       "type": "Microsoft.Network/loadBalancers",
       "location": "[variables('location')]",
@@ -212,7 +215,7 @@
     },
 
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiver')]",
       "type": "Microsoft.Network/loadBalancers/inboundNatRules",
       "name": "[concat(variables('lbName'), '/', 'RDP-VM', copyIndex(1))]",
       "location": "[variables('location')]",
@@ -234,7 +237,7 @@
       }
     },
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiver')]",
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', parameters('FEName'), copyIndex(1), 'NIC')]",
         "[concat('Microsoft.Compute/availabilitySets/', variables('AVsetName'))]"
@@ -254,13 +257,14 @@
           "adminPassword": "[parameters('AdminPassword')]"
         },
         "storageProfile": {
-
+          "imageReference": {
+            "publisher": "[parameters('FEImagePublisher')]",
+            "offer": "[parameters('FEImageOffer')]",
+            "sku": "[parameters('FEWindowsOSVersion')]",
+            "version": "latest"
+          },
           "osDisk": {
             "name": "[concat('FEOSDisk', copyIndex(1))]",
-            "osType": "windows",
-            "image": {
-              "uri": "https://outsysstorage.blob.core.windows.net/system/Microsoft.Compute/Images/mytemplates/OutSystems-osDisk.ee77be21-00d1-41c5-a6af-f8f7ada7ea2d.vhd"
-            },
             "vhd": {
               "uri": "[concat('http://', parameters('StorageACCName'), '.blob.core.windows.net/', parameters('FEStorageAccountContainerName'), '/', concat(parameters('FEName'),'OSDisk', copyIndex(1)), '.vhd')]"
             },
@@ -277,15 +281,43 @@
         }
       },
       "tags": {
-        "displayName": "FE"
+        "displayName": "[concat(parameters('FEName'), copyIndex(1))]"
       },
       "type": "Microsoft.Compute/virtualMachines",
       "copy": {
         "name": "VMcopy",
         "count": "[parameters('count')]"
-      }
+      },
+      "resources": [
+        {
+          "name": "firewallRules",
+          "type": "extensions",
+          "location": "[variables('location')]",
+          "apiVersion": "2015-06-15",
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('FEName'), copyIndex(1)))]"
+          ],
+          "tags": {
+            "displayName": "firewallRules"
+          },
+          "properties": {
+            "publisher": "Microsoft.Powershell",
+            "type": "DSC",
+            "typeHandlerVersion": "2.9",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "modulesUrl": "https://raw.githubusercontent.com/jrfbal/plgndh/master/scripts/FEDSC.zip",
+              "configurationFunction": "[variables('firewallRulesConfigurationFunction')]",
+              "properties": {
+                "nodeName": "[concat(parameters('FEName'), copyIndex(1))]"
+              }
+            },
+            "protectedSettings": { }
+          }
+        }
+      ]
     }
   ],
-    "outputs": {
-    }
+  "outputs": {
+  }
 }

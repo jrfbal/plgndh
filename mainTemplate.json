@@ -168,9 +168,8 @@
     },
     "FEVmSize": {
       "type": "string",
-      "defaultValue": "Standard_A1",
+      "defaultValue": "Standard_D1",
       "allowedValues": [
-        "Standard_A1",
         "Standard_D1",
         "Standard_D2",
         "Standard_DS2",
@@ -220,7 +219,7 @@
     },
     "CONTVmSize": {
       "type": "string",
-      "defaultValue": "Standard_A1",
+      "defaultValue": "Standard_D1",
       "allowedValues": [
         "Standard_A1",
         "Standard_D1",
@@ -265,7 +264,7 @@
 
     "SQLVmSize": {
       "type": "string",
-      "defaultValue": "Standard_A1",
+      "defaultValue": "Standard_D1",
       "allowedValues": [
         "Standard_A1",
         "Standard_D1",
@@ -299,21 +298,20 @@
     }
   },
   "variables": {
-    "URIbase": "https://raw.githubusercontent.com/jrfbal/plgndh/master/",
+    "URIbase": "https://raw.githubusercontent.com/jrfbal/outsystems/master/",
     "VnetURI": "[concat(variables('URIbase'),'outvn', parameters('vnetNeworExisting'), '.json')]",
     "StorageURI": "[concat(variables('URIbase'),'outstr', parameters('StorageNewOrExisting'), '.json')]",
-    "SQLStorageURI": "[concat(variables('URIbase'),'outstr', parameters('CreateSQLchoosebox'),parameters('SQLStorageNewOrExisting'), '.json')]",
+    "SQLStorageURI": "[concat(variables('URIbase'),'outstr', parameters('SQLStorageNewOrExisting'), '.json')]",
     "DCSURI": "[concat(variables('URIbase'),'out', parameters('CreateDCSchoosebox'), '.json')]",
     "FEURI": "[concat(variables('URIbase'),'outFE', parameters('CreateLBchoosebox'), '.json')]",
     "SQLURI": "[concat(variables('URIbase'),'out', parameters('CreateSQLchoosebox'), '.json')]",
-    "FEImagePublisher": "MicrosoftWindowsServer",
-    "FEImageOffer": "WindowsServer",
+    "FEImagePublisher": "outsystems",
+    "FEImageOffer": "outsystems",
     "SQLImagePublisher": "MicrosoftSQLServer",
     "ImagePublisher": "MicrosoftWindowsServer",
-    "ImageOffer": "WindowsServer",
     "FEStorageAccountContainerName": "vhds",
     "templateAPIVersion": "2015-01-01",
-    "FEWindowsOSVersion": "2012-R2-Datacenter",
+    "FEWindowsOSVersion": "outsystems_azure_intro",
     "SQLImageOffer": "SQL2014-WS2012R2"
 
   },
@@ -364,7 +362,7 @@
     {
       "name": "deployStorage",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
+      "apiVersion": "[variables('templateAPIVersion')]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -385,7 +383,7 @@
     {
       "name": "createDCS",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
+      "apiVersion": "[variables('templateAPIVersion')]",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'deployStorage')]"
       ],
@@ -438,7 +436,7 @@
     {
       "name": "createFE",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
+      "apiVersion": "[variables('templateAPIVersion')]",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'deployStorage')]"
       ],
@@ -493,7 +491,7 @@
     {
       "name": "SQLdeployStorage",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
+      "apiVersion": "[variables('templateAPIVersion')]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -516,7 +514,7 @@
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'deployStorage')]"
       ],
-      "apiVersion": "2015-01-01",
+      "apiVersion": "[variables('templateAPIVersion')]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {

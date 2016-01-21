@@ -21,14 +21,15 @@
     }
   },
   "variables": {
-    "location": "[resourceGroup().location]"
+    "location": "[resourceGroup().location]",
+    "apiver":  "2015-06-15"
   },
   "resources": [
     {
       "name": "[parameters('StorageACCName')]",
       "type": "Microsoft.Storage/storageAccounts",
       "location": "[variables('location')]",
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiver')]",
       "dependsOn": [ ],
       "tags": {
         "displayName": "[parameters('StorageACCName')]"
