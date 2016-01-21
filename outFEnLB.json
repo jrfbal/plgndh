@@ -193,7 +193,7 @@
           "name": "firewallRules",
           "type": "extensions",
           "location": "[variables('location')]",
-          "apiVersion": "2015-06-15",
+          "apiVersion": "[variables('apiver')]",
           "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('FEName'), copyIndex(1)))]"
           ],

@@ -73,7 +73,7 @@
   "variables": {
     "location": "[resourceGroup().location]",
     "apiver":  "2015-06-15"
-
+    "firewallRulesConfigurationFunction": "firewallRulesConfiguration.ps1\\Main"
   },
   "resources": [
     {
@@ -142,7 +142,35 @@
       "tags": {
         "displayName": "CONT"
       },
-      "type": "Microsoft.Compute/virtualMachines"
+      "type": "Microsoft.Compute/virtualMachines",
+      "resources": [
+        {
+          "name": "firewallRules",
+          "type": "extensions",
+          "location": "[variables('location')]",
+          "apiVersion": "[variables('apiver')]",
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('CONTName')))]"
+          ],
+          "tags": {
+            "displayName": "firewallRules"
+          },
+          "properties": {
+            "publisher": "Microsoft.Powershell",
+            "type": "DSC",
+            "typeHandlerVersion": "2.9",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "modulesUrl": "https://raw.githubusercontent.com/jrfbal/plgndh/master/scripts/FEDSC.zip",
+              "configurationFunction": "[variables('firewallRulesConfigurationFunction')]",
+              "properties": {
+                "nodeName": "[parameters('CONTName')]"
+              }
+            },
+            "protectedSettings": { }
+          }
+        }
+      ]
     }
 
 

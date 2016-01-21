@@ -1,451 +1,63 @@
 ﻿{
-  "handler": "Microsoft.Compute.MultiVm",
-  "version": "0.0.1-preview",
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
   "parameters": {
-    "basics": [
-    ],
-    "steps": [
-      {
-        "name": "VNETSetup",
-        "label": "Virtual Network Setup",
-        "subLabel": {
-          "preValidation": "Configure the Virtual Network",
-          "postValidation": "Done"
-        },
-        "bladeTitle": "Virtual Network Settings",
-        "elements": [
-          {
-            "name": "vnetSpec",
-            "type": "Microsoft.Network.VirtualNetworkCombo",
-            "label": {
-              "virtualNetwork": "Virtual network",
-              "subnets": "Subnets"
-            },
-            "toolTip": {
-              "virtualNetwork": "",
-              "subnets": ""
-            },
-            "defaultValue": {
-              "name": "OutSystems_VN",
-              "addressPrefixSize": "/16"
-            },
-            "constraints": {
-              "minAddressPrefixSize": "/29"
-            },
-            "subnets": {
-              "subnet1": {
-                "label": "Front-End subnet",
-                "defaultValue": {
-                  "name": "FEsubnet",
-                  "addressPrefixSize": "/24"
-                },
-                "constraints": {
-                  "minAddressPrefixSize": "/29",
-                  "minAddressCount": 2,
-                  "requireContiguousAddresses": true
-                }
-              },
-              "subnet2": {
-                "label": "Back-End subnet",
-                "defaultValue": {
-                  "name": "BEsubnet",
-                  "addressPrefixSize": "/24"
-                },
-                "constraints": {
-                  "minAddressPrefixSize": "/29",
-                  "minAddressCount": 2,
-                  "requireContiguousAddresses": true
-                }
-              }
-            }
-          }
-
-
-        ]
+    "virtualNetworkExistingRGName": {
+      "value": "OMG-TESTES"
+    },
+    "BESubnetName": {
+      "value": "BEsubnet"
+    },
+    "virtualNetworkName": {
+      "value": "virtual"
+    },
+    "vnetNewOrExisting": {
+      "value": "new"
+    },
+    "StorageACCName": {
+      "value": "outsysstorage"
+    },
+    "StorageNewOrExisting": {
+      "value": "existing"
+    },
+    "AdminUserName": {
+      "value": "jrfbal"
+    },
+    "FESubnetName": {
+      "value": "FEsubnet"
+    },
+    "CreateDCSchoosebox": {
+      "value": "yDCS"
+    },
+    "count": {
+      "value": 1
+    },
+    "dnsNameforLBIP": {
+      "value": "addeadzxxz"
+    },
+    "CreateLBchoosebox": {
+      "value": "nLB"
+    },
+    "FEName": {
+      "value": "FEsbbcvb"
+    },
+    "SQLWindowsOSVersion": {
+      "value": "Standard"
+    },
+    "SQLName": {
+      "value": "SQLdsdk"
+    },
+    "CONTName": {
+      "value": "DCSbbxzx"
+    },
+    "CreateSQLchoosebox": {
+      "value": "ySQL"
+    },
+      "SQLStorageACCName": {
+          "value": "outsysstorage"
       },
-      {
-        "name": "FESetup",
-        "label": "Front-End Setup",
-        "subLabel": {
-          "preValidation": "Configure the Front-End Environment",
-          "postValidation": "Done"
-        },
-        "bladeTitle": "Front-End Settings",
-        "elements": [
-          {
-            "name": "WFEadminUsername",
-            "type": "Microsoft.Compute.UserNameTextBox",
-            "label": "Username",
-            "toolTip": "Admin username for the production virtual machines.",
-            "osPlatform": "Windows"
-          },
-          {
-            "name": "WFEadminPassword",
-            "type": "Microsoft.Compute.CredentialsCombo",
-            "label": {
-              "password": "Password",
-              "confirmPassword": "Confirm password"
-            },
-            "toolTip": {
-              "password": "Admin password for the production virtual machines."
-            },
-            "osPlatform": "Windows"
-          },
-
-
-          {
-            "name": "storageAccount2",
-            "type": "Microsoft.Storage.StorageAccountSelector",
-            "label": "Storage account",
-            "defaultValue": {
-              "type": "Standard_LRS",
-              "recommendedSizes": [
-                "Standard_LRS",
-                "Standard_ZRS",
-                "Standard_GRS",
-                "Standard_RAGRS",
-                "Premium_LRS"
-              ]
-            }
-          },
-
-          {
-            "name": "FEVmCount",
-            "type": "Microsoft.Common.DropDown",
-            "label": "Number of Front-End VMs",
-            "defaultValue": "2",
-            "toolTip": "",
-            "constraints": {
-              "allowedValues": [
-                {
-                  "label": "1",
-                  "value": 1
-                },
-                {
-                  "label": "2",
-                  "value": 2
-                },
-                {
-                  "label": "3",
-                  "value": 3
-                },
-                {
-                  "label": "4",
-                  "value": 4
-                },
-                {
-                  "label": "5",
-                  "value": 5
-                },
-                {
-                  "label": "6",
-                  "value": 6
-                },
-                {
-                  "label": "7",
-                  "value": 7
-                },
-                {
-                  "label": "8",
-                  "value": 8
-                }
-              ]
-            }
-          },
-
-          {
-            "name": "deployLB",
-            "type": "Microsoft.Common.OptionsGroup",
-            "label": "Deploy LoadBalancer and Availability Set?",
-            "toolTip": "Choose if you wish to deploy a LoadBalancer for multiple VM",
-            "defaultValue": "yLB",
-            "constraints": {
-              "allowedValues": [
-                {
-                  "label": "Yes",
-                  "value": "yLB"
-                },
-                {
-                  "label": "No",
-                  "value": "nLB"
-                }
-              ]
-            }
-          },
-          {
-            "name": "publicDNS",
-            "type": "Microsoft.Network.PublicIpAddressCombo",
-            "label": {
-              "domainNameLabel": "DNS label"
-            },
-            "defaultValue": {
-              "publicIpAddressName": "ip01"
-            },
-            "toolTip": {
-              "domainNameLabel": "DNS label for the public IP address. This option is only used if a LoadBalancer is selected."
-            },
-            "options": {
-              "hideNone": true
-            }
-          },
-
-
-          {
-            "name": "FENAME",
-            "type": "Microsoft.Common.TextBox",
-            "label": "Front-End hostname prefix",
-            "toolTip": "Hostname prefix for the Front-End.",
-            "defaultValue": "FE",
-            "constraints": {
-              "required": true
-            }
-          },
-
-          {
-            "name": "FEVmSize",
-            "type": "Microsoft.Compute.SizeSelector",
-            "label": "Front-End Virtual machine size",
-            "defaultValue": "Standard_D1",
-            "toolTip": "The size of the Front-End VMs.",
-            "recommendedSizes": [
-              "Standard_D1",
-              "Standard_DS2",
-              "Standard_DS3",
-              "Standard_DS4"
-            ],
-            "constraints": {
-              "allowedSizes": [
-                "Standard_D1",
-                "Standard_D2",
-                "Standard_DS2",
-                "Standard_D3",
-                "Standard_DS3",
-                "Standard_D4",
-                "Standard_DS4",
-                "Standard_D11",
-                "Standard_DS11",
-                "Standard_D12",
-                "Standard_DS12",
-                "Standard_D13",
-                "Standard_DS13",
-                "Standard_D14",
-                "Standard_DS14"
-              ]
-            },
-            "osPlatform": "Windows",
-            "imageReference": {
-              "publisher": "MicrosoftWindowsServer",
-              "offer": "WindowsServer",
-              "sku": "2012-R2-Datacenter"
-            },
-            "count": 1
-          },
-
-          {
-            "name": "deployCONT",
-            "type": "Microsoft.Common.OptionsGroup",
-            "label": "Standalone Deployment Controller server?",
-            "toolTip": "Check if you wish to deploy a dedicated Deployment Controller server",
-            "defaultValue": "yCONT",
-            "constraints": {
-              "allowedValues": [
-                {
-                  "label": "Yes",
-                  "value": "yCONT"
-                },
-                {
-                  "label": "No",
-                  "value": "nCONT"
-                }
-              ]
-            }
-          },
-
-          {
-            "name": "ContName",
-            "type": "Microsoft.Common.TextBox",
-            "label": "Deployment Controller server hostname",
-            "defaultValue": "DC",
-            "toolTip": "The name of the Deployment Controller server VM.",
-            "constraints": {
-              "required": true
-            }
-          },
-
-          {
-            "name": "ContVmSize",
-            "type": "Microsoft.Compute.SizeSelector",
-            "label": "Deployment Controller Virtual Machine size",
-            "defaultValue": "Standard_D1",
-            "toolTip": "The size of the virtual machine for the Deployment Controller.",
-            "recommendedSizes": [
-              "Standard_D1",
-              "Standard_DS2",
-              "Standard_DS3",
-              "Standard_DS4"
-            ],
-            "constraints": {
-              "allowedSizes": [
-                "Standard_D1",
-                "Standard_D2",
-                "Standard_DS2",
-                "Standard_D3",
-                "Standard_DS3",
-                "Standard_D4",
-                "Standard_DS4",
-                "Standard_D11",
-                "Standard_DS11",
-                "Standard_D12",
-                "Standard_DS12",
-                "Standard_D13",
-                "Standard_DS13",
-                "Standard_D14",
-                "Standard_DS14"
-              ]
-            },
-            "osPlatform": "Windows",
-            "imageReference": {
-              "publisher": "MicrosoftWindowsServer",
-              "offer": "WindowsServer",
-              "sku": "2012-R2-Datacenter"
-            },
-            "count": 1
-          }
-
-
-        ]
-      },
-
-      {
-        "name": "SQLSetup",
-        "label": "SQL settings setup",
-        "subLabel": {
-          "preValidation": "Configure the SQL settings",
-          "postValidation": "Done"
-        },
-        "bladeTitle": "SQL settings setup",
-        "elements": [
-          {
-            "name": "deploySQL",
-            "type": "Microsoft.Common.OptionsGroup",
-            "label": "Deploy SQL server?",
-            "toolTip": "Choose if you wish to deploy a SQL server",
-            "defaultValue": "ySQL",
-            "constraints": {
-              "allowedValues": [
-                {
-                  "label": "Yes",
-                  "value": "ySQL"
-                },
-                {
-                  "label": "No",
-                  "value": "nSQL"
-                }
-              ]
-            }
-          },
-
-          {
-            "name": "SQLNAME",
-            "type": "Microsoft.Common.TextBox",
-            "label": "SQL hostname",
-            "toolTip": "Hostname for the SQL server.",
-            "defaultValue": "SQL",
-            "constraints": {
-              "required": true
-            }
-          },
-
-          {
-            "name": "SQLVmSize",
-            "type": "Microsoft.Compute.SizeSelector",
-            "label": "Virtual machine size",
-            "toolTip": "The size of the virtual machine for the SQL server.",
-            "defaultValue": "Standard_D1",
-            "recommendedSizes": [
-              "Standard_D1",
-              "Standard_DS2",
-              "Standard_DS3",
-              "Standard_DS4"
-            ],
-            "constraints": {
-              "allowedSizes": [
-                "Standard_D1",
-                "Standard_D2",
-                "Standard_DS2",
-                "Standard_D3",
-                "Standard_DS3",
-                "Standard_D4",
-                "Standard_DS4",
-                "Standard_D11",
-                "Standard_DS11",
-                "Standard_D12",
-                "Standard_DS12",
-                "Standard_D13",
-                "Standard_DS13",
-                "Standard_D14",
-                "Standard_DS14"
-              ]
-            },
-            "osPlatform": "Windows",
-            "imageReference": {
-              "publisher": "MicrosoftWindowsServer",
-              "offer": "SQL2014-WS2012R2",
-              "sku": "Standard"
-            },
-            "count": 1
-          },
-
-          {
-            "name": "SQL_SKU",
-            "type": "Microsoft.Common.DropDown",
-            "label": "SQL Version",
-            "defaultValue": "Enterprise",
-            "toolTip": "",
-            "constraints": {
-              "allowedValues": [
-                {
-                  "label": "Enterprise",
-                  "value": "Enterprise"
-                },
-                {
-                  "label": "Standard",
-                  "value": "Standard"
-                }
-              ]
-            }
-          }
-
-        ]
+      "SQLStorageNewOrExisting": {
+          "value": "existing"
       }
-
-    ],
-    "outputs": {
-      "AdminUserName": "[steps('FESetup').WFEadminUsername]",
-      "AdminPassword": "[steps('FESetup').WFEadminPassword]",
-      "virtualNetworkName": "[steps('VNETSetup').vnetSpec.name]",
-      "vnetNewOrExisting": "[steps('VNETSetup').vnetSpec.newOrExisting]",
-      "virtualNetworkExistingRGName": "[steps('VNETSetup').vnetSpec.name]",
-      "vnetAddressPrefix": "[steps('VNETSetup').vnetSpec.addressPrefixSize]",
-      "FESubnetName": "[steps('VNETSetup').vnetSpec.subnets.subnet1.name]",
-      "FESubnetAddressPrefix": "[steps('VNETSetup').vnetSpec.subnets.subnet1.addressPrefix]",
-      "BESubnetName": "[steps('VNETSetup').vnetSpec.subnets.subnet2.name]",
-      "BESubnetAddressPrefix": "[steps('VNETSetup').vnetSpec.subnets.subnet2.addressPrefix]",
-      "StorageNewOrExisting": "[steps('FESetup').storageAccount2.newOrExisting]",
-      "StorageACCName": "[steps('FESetup').storageAccount2.name]",
-      "StorageACCType": "[steps('FESetup').storageAccount2.type]",
-      "CreateLBchoosebox": "[steps('FESetup').deployLB.name]",
-      "dnsNameforLBIP": "[steps('FESetup').publicDNS.domainNameLabel]",
-      "FEName": "[steps('FESetup').FENAME]",
-      "FEVmSize": "[steps('FESetup').FEVmSize]",
-      "count": "[steps('FESetup').FEVmCount]",
-      "CreateDCSchoosebox": "[steps('FESetup').deployDCS.name]",
-      "CONTName": "[steps('FESetup').ContName]",
-      "CONTVmSize": "[steps('FESetup').ContVmSize]",
-      "CreateSQLchoosebox": "[steps('SQLSetup').deploySQL]",
-      "SQLName": "[steps('SQLSetup').SQLNAME]",
-      "SQLVmSize": "[steps('SQLSetup').SQLVmSize]",
-      "SQLWindowsOSVersion": "[steps('SQLSetup').SQL_SKU]"
-    }
   }
 }
