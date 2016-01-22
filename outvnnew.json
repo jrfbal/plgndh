@@ -168,35 +168,6 @@
               "priority": 110,
               "direction": "Inbound"
             }
-          },
-
-          {
-            "name": "Block_FE",
-            "properties": {
-              "description": "Block App Subnet",
-              "protocol": "*",
-              "sourcePortRange": "*",
-              "destinationPortRange": "*",
-              "sourceAddressPrefix": "[parameters('FESubnetAddressPrefix')]",
-              "destinationAddressPrefix": "*",
-              "access": "Deny",
-              "priority": 150,
-              "direction": "Inbound"
-            }
-          },
-          {
-            "name": "Block_Internet",
-            "properties": {
-              "description": "Block Internet",
-              "protocol": "*",
-              "sourcePortRange": "*",
-              "destinationPortRange": "*",
-              "sourceAddressPrefix": "*",
-              "destinationAddressPrefix": "Internet",
-              "access": "Deny",
-              "priority": 200,
-              "direction": "Outbound"
-            }
           }
         ]
       }
