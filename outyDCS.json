@@ -72,7 +72,7 @@
   },
   "variables": {
     "location": "[resourceGroup().location]",
-    "apiver":  "2015-06-15"
+    "apiver":  "2015-06-15",
     "firewallRulesConfigurationFunction": "firewallRulesConfiguration.ps1\\Main"
   },
   "resources": [
