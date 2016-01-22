@@ -30,25 +30,25 @@
       "value": "yDCS"
     },
     "count": {
-      "value": 1
+      "value": 2
     },
     "dnsNameforLBIP": {
-      "value": "addeadzxxz"
+      "value": "addeadzxxzz"
     },
     "CreateLBchoosebox": {
-      "value": "nLB"
+      "value": "yLB"
     },
     "FEName": {
-      "value": "FEszbb"
+      "value": "FEszbbzzz"
     },
     "SQLWindowsOSVersion": {
       "value": "Standard"
     },
     "SQLName": {
-      "value": "SQLzbb"
+      "value": "SQLzbbzzz"
     },
     "CONTName": {
-      "value": "DCSzbb"
+      "value": "DCSzbbzzz"
     },
     "CreateSQLchoosebox": {
       "value": "ySQL"
