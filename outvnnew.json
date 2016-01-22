@@ -142,9 +142,9 @@
       "properties": {
         "securityRules": [
 
-  
+
           {
-            "name": "Allow_Azure",
+            "name": "Allow_Azure_out",
             "properties": {
               "description": "Allow Azure Services",
               "protocol": "Tcp",
@@ -155,6 +155,21 @@
               "access": "Allow",
               "priority": 105,
               "direction": "Outbound"
+            }
+          },
+
+          {
+            "name": "Allow_Azure_in",
+            "properties": {
+              "description": "Allow Azure Services",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "168.63.129.16",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 106,
+              "direction": "Inbound"
             }
           },
 
