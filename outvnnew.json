@@ -153,7 +153,7 @@
               "sourceAddressPrefix": "168.63.129.16",
               "destinationAddressPrefix": "*",
               "access": "Allow",
-              "priority": 90,
+              "priority": 105,
               "direction": "Outbound"
             }
           },
@@ -168,7 +168,7 @@
               "sourceAddressPrefix": "[parameters('FESubnetAddressPrefix')]",
               "destinationAddressPrefix": "*",
               "access": "Allow",
-              "priority": 100,
+              "priority": 110,
               "direction": "Inbound"
             }
           },
