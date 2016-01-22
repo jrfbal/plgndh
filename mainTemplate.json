@@ -357,15 +357,201 @@
 
         }
       }
+    },
+
+    {
+      "name": "deployStorage",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "[variables('templateAPIVersion')]",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('StorageURI')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "StorageACCType": {
+            "value": "[parameters('StorageACCType')]"
+          },
+          "StorageACCName": {
+            "value": "[parameters('StorageACCName')]"
+          }
+        }
+      }
+    },
+
+    {
+      "name": "createDCS",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "[variables('templateAPIVersion')]",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'deployStorage')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('DCSURI')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "AdminUserName": {
+            "value": "[parameters('AdminUserName')]"
+          },
+          "AdminPassword": {
+            "value": "[parameters('AdminPassword')]"
+          },
+          "CONTName": {
+            "value": "[parameters('CONTName')]"
+          },
+          "CONTVmSize": {
+            "value": "[parameters('CONTVmSize')]"
+          },
+          "virtualNetworkName": {
+            "value": "[parameters('virtualNetworkName')]"
+          },
+          "StorageACCName": {
+            "value": "[parameters('StorageACCName')]"
+          },
+          "FEImagePublisher": {
+            "value": "[variables('FEImagePublisher')]"
+          },
+          "FEImageOffer": {
+            "value": "[variables('FEImageOffer')]"
+          },
+          "FEWindowsOSVersion": {
+            "value": "[variables('FEWindowsOSVersion')]"
+          },
+          "FEStorageAccountContainerName": {
+            "value": "[variables('FEStorageAccountContainerName')]"
+          },
+          "FESubnetRef": {
+            "value": "[reference('deployVnet').outputs.FESubnetRef.value]"
+          }
+
+
+        }
+      }
+    },
+
+    {
+      "name": "createFE",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "[variables('templateAPIVersion')]",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'deployStorage')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('FEURI')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "AdminUserName": {
+            "value": "[parameters('AdminUserName')]"
+          },
+          "AdminPassword": {
+            "value": "[parameters('AdminPassword')]"
+          },
+          "FEName": {
+            "value": "[parameters('FEName')]"
+          },
+          "FEVmSize": {
+            "value": "[parameters('FEVmSize')]"
+          },
+          "StorageACCName": {
+            "value": "[parameters('StorageACCName')]"
+          },
+          "FEImagePublisher": {
+            "value": "[variables('FEImagePublisher')]"
+          },
+          "FEImageOffer": {
+            "value": "[variables('FEImageOffer')]"
+          },
+          "FEWindowsOSVersion": {
+            "value": "[variables('FEWindowsOSVersion')]"
+          },
+          "FEStorageAccountContainerName": {
+            "value": "[variables('FEStorageAccountContainerName')]"
+          },
+          "FESubnetRef": {
+            "value": "[reference('deployVnet').outputs.FESubnetRef.value]"
+          },
+          "count": {
+            "value": "[parameters('count')]"
+          },
+          "dnsNameforLBIP": {
+            "value": "[parameters('dnsNameforLBIP')]"
+          }
+
+
+        }
+      }
+    },
+    {
+      "name": "SQLdeployStorage",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "[variables('templateAPIVersion')]",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('SQLStorageURI')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "StorageACCType": {
+            "value": "[parameters('SQLStorageACCType')]"
+          },
+          "StorageACCName": {
+            "value": "[parameters('SQLStorageACCName')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "createSQL",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'deployStorage')]"
+      ],
+      "apiVersion": "[variables('templateAPIVersion')]",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('SQLURI')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "AdminUserName": {
+            "value": "[parameters('AdminUserName')]"
+          },
+          "AdminPassword": {
+            "value": "[parameters('AdminPassword')]"
+          },
+          "SQLWindowsOSVersion": {
+            "value": "[parameters('SQLWindowsOSVersion')]"
+          },
+          "SQLName": {
+            "value": "[parameters('SQLName')]"
+          },
+          "SQLImageOffer": {
+            "value": "[variables('SQLImageOffer')]"
+          },
+          "SubnetRef": {
+            "value": "[reference('deployVnet').outputs.BESubnetRef.value]"
+          },
+          "StorageACCName": {
+            "value": "[parameters('SQLStorageACCName')]"
+          },
+          "SQLVmSize": {
+            "value": "[parameters('SQLVmSize')]"
+          },
+          "StorageAccountContainerName": {
+            "value": "[variables('FEStorageAccountContainerName')]"
+          }
+        }
+      }
     }
-
-
-
-
-
- 
- 
-
 
   ],
   "outputs": {
