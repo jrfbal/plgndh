@@ -116,7 +116,7 @@
               "type": "Microsoft.Common.OptionsGroup",
               "label": "Deploy LoadBalancer and Availability Set?",
               "toolTip": "Choose if you wish to deploy a LoadBalancer for multiple VM",
-              "defaultValue": "yLB",
+              "defaultValue": "Yes",
               "constraints": {
                 "allowedValues": [
                   {
@@ -248,7 +248,7 @@
               "type": "Microsoft.Common.OptionsGroup",
               "label": "Standalone Deployment Controller server?",
               "toolTip": "Check if you wish to deploy a dedicated Deployment Controller server",
-              "defaultValue": "yCONT",
+              "defaultValue": "Yes",
               "constraints": {
                 "allowedValues": [
                   {
@@ -330,7 +330,7 @@
               "type": "Microsoft.Common.OptionsGroup",
               "label": "Deploy SQL server?",
               "toolTip": "Choose if you wish to deploy a SQL server",
-              "defaultValue": "ySQL",
+              "defaultValue": "Yes",
               "constraints": {
                 "allowedValues": [
                   {

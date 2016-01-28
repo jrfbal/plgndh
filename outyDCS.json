@@ -66,14 +66,18 @@
       "metadata": {
         "description": "Subnet Reference"
       }
+    },
+
+    "FERulesConfigurationFunction": {
+      "type": "string"
+
     }
 
 
   },
   "variables": {
     "location": "[resourceGroup().location]",
-    "apiver":  "2015-06-15",
-    "firewallRulesConfigurationFunction": "firewallRulesConfiguration.ps1\\Main"
+    "apiver": "2015-06-15"
   },
   "resources": [
     {
@@ -162,7 +166,7 @@
             "autoUpgradeMinorVersion": true,
             "settings": {
               "modulesUrl": "https://raw.githubusercontent.com/jrfbal/plgndh/master/scripts/FEDSC.zip",
-              "configurationFunction": "[variables('firewallRulesConfigurationFunction')]",
+              "configurationFunction": "[parameters('FERulesConfigurationFunction')]",
               "properties": {
                 "nodeName": "[parameters('CONTName')]"
               }

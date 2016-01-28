@@ -15,10 +15,10 @@
       "value": "new"
     },
     "StorageACCName": {
-      "value": "outsysstorage"
+      "value": "outsysstoragezzns"
     },
     "StorageNewOrExisting": {
-      "value": "existing"
+      "value": "new"
     },
     "AdminUserName": {
       "value": "jrfbal"
@@ -27,37 +27,37 @@
       "value": "FEsubnet"
     },
     "CreateDCSchoosebox": {
-      "value": "yDCS"
+      "value": "nDCS"
     },
     "count": {
-      "value": 2
+      "value": 1
     },
     "dnsNameforLBIP": {
-      "value": "addeadzxxzz"
+      "value": "addeadzaans"
     },
     "CreateLBchoosebox": {
-      "value": "yLB"
+      "value": "nLB"
     },
     "FEName": {
-      "value": "FEszbbzzz"
+      "value": "FEzz"
     },
     "SQLWindowsOSVersion": {
       "value": "Standard"
     },
     "SQLName": {
-      "value": "SQLzbbzzz"
+      "value": "SQLzbbzzz69"
     },
     "CONTName": {
       "value": "DCSzbbzzz"
     },
     "CreateSQLchoosebox": {
-      "value": "ySQL"
+      "value": "nSQL"
     },
       "SQLStorageACCName": {
-          "value": "outsysstorage"
+          "value": "outsysstoragezzns"
       },
       "SQLStorageNewOrExisting": {
-          "value": "existing"
+          "value": "new"
       }
   }
 }
