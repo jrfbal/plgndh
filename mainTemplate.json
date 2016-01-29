@@ -516,7 +516,7 @@
       "name": "createSQL",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'deployStorage')]"
+        "[concat('Microsoft.Resources/deployments/', 'SQLdeployStorage')]"
       ],
       "apiVersion": "[variables('templateAPIVersion')]",
       "properties": {

@@ -27,7 +27,7 @@
       "value": "FEsubnet"
     },
     "CreateDCSchoosebox": {
-      "value": "nDCS"
+      "value": "yDCS"
     },
     "count": {
       "value": 1
@@ -36,22 +36,22 @@
       "value": "addeadzaans"
     },
     "CreateLBchoosebox": {
-      "value": "nLB"
+      "value": "yLB"
     },
     "FEName": {
-      "value": "FEzz"
+      "value": "FE"
     },
     "SQLWindowsOSVersion": {
       "value": "Standard"
     },
     "SQLName": {
-      "value": "SQLzbbzzz69"
+      "value": "SQL9"
     },
     "CONTName": {
-      "value": "DCSzbbzzz"
+      "value": "DCS"
     },
     "CreateSQLchoosebox": {
-      "value": "nSQL"
+      "value": "ySQL"
     },
       "SQLStorageACCName": {
           "value": "outsysstoragezzns"
