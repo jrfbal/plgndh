@@ -293,7 +293,7 @@
       },
       "resources": [
         {
-          "name": "firewallRules",
+          "name": "FERules",
           "type": "extensions",
           "location": "[variables('location')]",
           "apiVersion": "2015-06-15",
@@ -301,7 +301,7 @@
             "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('FEName'), copyIndex(1)))]"
           ],
           "tags": {
-            "displayName": "firewallRules"
+            "displayName": "FERules"
           },
           "properties": {
             "publisher": "Microsoft.Powershell",

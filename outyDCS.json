@@ -149,7 +149,7 @@
       "type": "Microsoft.Compute/virtualMachines",
       "resources": [
         {
-          "name": "firewallRules",
+          "name": "FERules",
           "type": "extensions",
           "location": "[variables('location')]",
           "apiVersion": "[variables('apiver')]",
@@ -157,7 +157,7 @@
             "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('CONTName')))]"
           ],
           "tags": {
-            "displayName": "firewallRules"
+            "displayName": "FERules"
           },
           "properties": {
             "publisher": "Microsoft.Powershell",

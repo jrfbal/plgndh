@@ -15,7 +15,7 @@
       "value": "new"
     },
     "StorageACCName": {
-      "value": "outsysstoragezzns"
+      "value": "outsysstoragezznsz"
     },
     "StorageNewOrExisting": {
       "value": "new"
@@ -39,22 +39,22 @@
       "value": "yLB"
     },
     "FEName": {
-      "value": "FE"
+      "value": "FEx"
     },
     "SQLWindowsOSVersion": {
       "value": "Standard"
     },
     "SQLName": {
-      "value": "SQL9"
+      "value": "SQLx"
     },
     "CONTName": {
-      "value": "DCS"
+      "value": "DCSx"
     },
     "CreateSQLchoosebox": {
       "value": "ySQL"
     },
       "SQLStorageACCName": {
-          "value": "outsysstoragezzns"
+          "value": "outsysstoragezznsz"
       },
       "SQLStorageNewOrExisting": {
           "value": "new"
