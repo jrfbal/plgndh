@@ -15,7 +15,7 @@
       "value": "new"
     },
     "StorageACCName": {
-      "value": "outsysstoragezznsz"
+      "value": "outsysstorx"
     },
     "StorageNewOrExisting": {
       "value": "new"
@@ -33,7 +33,7 @@
       "value": 1
     },
     "dnsNameforLBIP": {
-      "value": "addeadzaans"
+      "value": "addeadzaanszx"
     },
     "CreateLBchoosebox": {
       "value": "yLB"
@@ -54,7 +54,7 @@
       "value": "ySQL"
     },
       "SQLStorageACCName": {
-          "value": "outsysstoragezznsz"
+          "value": "outsysstorx"
       },
       "SQLStorageNewOrExisting": {
           "value": "new"
