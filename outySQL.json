@@ -158,11 +158,17 @@
               "configurationFunction": "[variables('SQLPortsConfigurationFunction')]",
               "properties": {
                 "nodeName": "[parameters('SQLName')]",
-                "user": "[parameters('AdminUserName')]",
-                "pwd": "[parameters('AdminPassword')]"
+                "adminCreds": {
+                  "userName": "[parameters('AdminUserName')]",
+                  "password": "PrivateSettingsRef:AdminPassword"
+                }
+                }
+              },
+            "protectedSettings": {
+              "items": {
+                "AdminPassword": "[parameters('AdminPassword')]"
               }
-            },
-            "protectedSettings": { }
+            }
           }
         }
       ]
