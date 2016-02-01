@@ -157,18 +157,10 @@
               "modulesUrl": "https://raw.githubusercontent.com/jrfbal/plgndh/master/scripts/DSC.zip",
               "configurationFunction": "[variables('SQLPortsConfigurationFunction')]",
               "properties": {
-                "nodeName": "[parameters('SQLName')]",
-                "adminCreds": {
-                  "userName": "[parameters('AdminUserName')]",
-                  "password": "PrivateSettingsRef:AdminPassword"
+                "nodeName": "[parameters('SQLName')]"                
                 }
-                }
-              },
-            "protectedSettings": {
-              "items": {
-                "AdminPassword": "[parameters('AdminPassword')]"
               }
-            }
+           
           }
         }
       ]
