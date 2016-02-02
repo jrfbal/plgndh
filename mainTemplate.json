@@ -298,7 +298,7 @@
     }
   },
   "variables": {
-    "URIbase": "https://raw.githubusercontent.com/jrfbal/outsystems/master/",
+    "URIbase": "https://raw.githubusercontent.com/jrfbal/plgndh/master/",
     "VnetURI": "[concat(variables('URIbase'),'outvn', parameters('vnetNeworExisting'), '.json')]",
     "StorageURI": "[concat(variables('URIbase'),'outstr', parameters('StorageNewOrExisting'), '.json')]",
     "SQLStorageURI": "[concat(variables('URIbase'),'outstr', parameters('SQLStorageNewOrExisting'), '.json')]",

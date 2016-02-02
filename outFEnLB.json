@@ -158,7 +158,7 @@
         "storageProfile": {
           "osDisk": {
             "name": "[concat('FEOSDisk', copyIndex(1))]",
-            "osType": "windows",
+            "osType": "Windows",
             "caching": "ReadWrite",
             "createOption": "FromImage",
             "image": {
