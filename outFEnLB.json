@@ -165,6 +165,7 @@
             "vhd": {
               "uri": "[concat('http://', parameters('StorageACCName'), '.blob.core.windows.net/', parameters('FEStorageAccountContainerName'), '/', concat(parameters('FEName'), 'OSDisk', copyIndex(1)), '.vhd')]"
             },
+            "osType": "windows",
             "caching": "ReadWrite",
             "createOption": "FromImage",
             "image": {
