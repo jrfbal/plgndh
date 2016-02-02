@@ -158,15 +158,14 @@
         "storageProfile": {
           "osDisk": {
             "name": "[concat('FEOSDisk', copyIndex(1))]",
-            "vhd": {
-              "uri": "[concat('http://', parameters('StorageACCName'), '.blob.core.windows.net/', parameters('FEStorageAccountContainerName'), '/', concat(parameters('FEName'), 'OSDisk', copyIndex(1)), '.vhd')]"
-            },
             "osType": "windows",
             "caching": "ReadWrite",
             "createOption": "FromImage",
             "image": {
               "uri": "https://outsysstorage.blob.core.windows.net/system/Microsoft.Compute/Images/outsystems/outsystems-osDisk.7c69922f-3654-4678-a2f8-5bff93b63c12.vhd"
-
+            },
+            "vhd": {
+              "uri": "[concat('http://', parameters('StorageACCName'), '.blob.core.windows.net/', parameters('FEStorageAccountContainerName'), '/', concat(parameters('FEName'), 'OSDisk', copyIndex(1)), '.vhd')]"
             }
           }
         },

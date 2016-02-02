@@ -298,22 +298,21 @@
     }
   },
   "variables": {
-    "URIbase": "https://raw.githubusercontent.com/jrfbal/plgndh/master/",
+    "URIbase": "https://raw.githubusercontent.com/jrfbal/outsystems/master/",
     "VnetURI": "[concat(variables('URIbase'),'outvn', parameters('vnetNeworExisting'), '.json')]",
     "StorageURI": "[concat(variables('URIbase'),'outstr', parameters('StorageNewOrExisting'), '.json')]",
     "SQLStorageURI": "[concat(variables('URIbase'),'outstr', parameters('SQLStorageNewOrExisting'), '.json')]",
     "DCSURI": "[concat(variables('URIbase'),'out', parameters('CreateDCSchoosebox'), '.json')]",
     "FEURI": "[concat(variables('URIbase'),'outFE', parameters('CreateLBchoosebox'), '.json')]",
     "SQLURI": "[concat(variables('URIbase'),'out', parameters('CreateSQLchoosebox'), '.json')]",
-    "FEImagePublisher": "MicrosoftWindowsServer",
-    "FEImageOffer": "WindowsServer",
+    "FEImagePublisher": "outsystems",
+    "FEImageOffer": "outsystems-baseline",
     "SQLImagePublisher": "MicrosoftSQLServer",
     "ImagePublisher": "MicrosoftWindowsServer",
     "FEStorageAccountContainerName": "vhds",
     "templateAPIVersion": "2015-01-01",
-    "FEWindowsOSVersion": "2012-R2-Datacenter",
-    "SQLImageOffer": "SQL2014-WS2012R2",
-    "FERulesConfigurationFunction": "FERulesConfiguration.ps1\\Main"
+    "FEWindowsOSVersion": "baseline",
+    "SQLImageOffer": "SQL2014-WS2012R2"
 
   },
   "resources": [
@@ -427,10 +426,9 @@
           },
           "FESubnetRef": {
             "value": "[reference('deployVnet').outputs.FESubnetRef.value]"
-          },
-          "FERulesConfigurationFunction": {
-            "value": "[variables('FERulesConfigurationFunction')]"
           }
+
+
         }
       }
     },
@@ -484,13 +482,11 @@
           },
           "dnsNameforLBIP": {
             "value": "[parameters('dnsNameforLBIP')]"
-          },
-          "FERulesConfigurationFunction": {
-            "value": "[variables('FERulesConfigurationFunction')]"
           }
 
-          }
+
         }
+      }
     },
     {
       "name": "SQLdeployStorage",
@@ -516,7 +512,7 @@
       "name": "createSQL",
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'SQLdeployStorage')]"
+        "[concat('Microsoft.Resources/deployments/', 'deployStorage')]"
       ],
       "apiVersion": "[variables('templateAPIVersion')]",
       "properties": {
