@@ -73,10 +73,6 @@
       "metadata": {
         "description": "VM Size Controller"
       }
-    },
-    "FERulesConfigurationFunction": {
-      "type": "string"
-
     }
 
   },
@@ -189,35 +185,7 @@
       "copy": {
         "name": "VMcopy",
         "count": "[parameters('count')]"
-      },
-      "resources": [
-        {
-          "name": "FERules",
-          "type": "extensions",
-          "location": "[variables('location')]",
-          "apiVersion": "[variables('apiver')]",
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('FEName'), copyIndex(1)))]"
-          ],
-          "tags": {
-            "displayName": "FERules"
-          },
-          "properties": {
-            "publisher": "Microsoft.Powershell",
-            "type": "DSC",
-            "typeHandlerVersion": "2.9",
-            "autoUpgradeMinorVersion": true,
-            "settings": {
-              "modulesUrl": "https://raw.githubusercontent.com/jrfbal/plgndh/master/scripts/FEDSC.zip",
-              "configurationFunction": "[parameters('FERulesConfigurationFunction')]",
-              "properties": {
-                "nodeName": "[concat(parameters('FEName'), copyIndex(1))]"
-              }
-            },
-            "protectedSettings": { }
-          }
-        }
-      ]
+      }
     }
   ],
   "outputs": {
