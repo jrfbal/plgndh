@@ -150,12 +150,18 @@
         "hardwareProfile": {
           "vmSize": "[parameters('FEVmSize')]"
         },
-        "osProfile": {
-          "computerName": "[concat(parameters('FEName'), copyIndex(1))]",
-          "adminUsername": "[parameters('AdminUsername')]",
-          "adminPassword": "[parameters('AdminPassword')]"
-        },
+          "osProfile": {
+            "computerName": "[concat(parameters('FEName'), copyIndex(1))]",
+            "adminUsername": "[parameters('AdminUsername')]",
+            "adminPassword": "[parameters('AdminPassword')]"
+          },
         "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsServerEssentials",
+            "offer": "WindowsServerEssentials",
+            "sku": "WindowsServerEssentials",
+            "version": "latest"
+          },
           "osDisk": {
             "name": "[concat('FEOSDisk', copyIndex(1))]",
             "osType": "Windows",
@@ -169,23 +175,23 @@
             }
           }
         },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('FEName'), copyIndex(1), 'NIC'))]"
-            }
-          ]
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('FEName'), copyIndex(1), 'NIC'))]"
+              }
+            ]
+          }
+        },
+        "tags": {
+          "displayName": "[concat(parameters('FEName'), copyIndex(1))]"
+        },
+        "type": "Microsoft.Compute/virtualMachines",
+        "copy": {
+          "name": "VMcopy",
+          "count": "[parameters('count')]"
         }
-      },
-      "tags": {
-        "displayName": "[concat(parameters('FEName'), copyIndex(1))]"
-      },
-      "type": "Microsoft.Compute/virtualMachines",
-      "copy": {
-        "name": "VMcopy",
-        "count": "[parameters('count')]"
       }
-    }
   ],
   "outputs": {
   }
