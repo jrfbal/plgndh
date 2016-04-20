@@ -141,38 +141,6 @@
       },
       "properties": {
         "securityRules": [
-
-
-          {
-            "name": "Allow_Azure_out",
-            "properties": {
-              "description": "Allow Azure Services",
-              "protocol": "*",
-              "sourcePortRange": "*",
-              "destinationPortRange": "*",
-              "sourceAddressPrefix": "168.63.129.16/32",
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "priority": 105,
-              "direction": "Outbound"
-            }
-          },
-
-          {
-            "name": "Allow_Azure_in",
-            "properties": {
-              "description": "Allow Azure Services",
-              "protocol": "*",
-              "sourcePortRange": "*",
-              "destinationPortRange": "*",
-              "sourceAddressPrefix": "168.63.129.16/32",
-              "destinationAddressPrefix": "*",
-              "access": "Allow",
-              "priority": 106,
-              "direction": "Inbound"
-            }
-          },
-
           {
             "name": "Allow_FE",
             "properties": {
@@ -183,7 +151,7 @@
               "sourceAddressPrefix": "[parameters('FESubnetAddressPrefix')]",
               "destinationAddressPrefix": "*",
               "access": "Allow",
-              "priority": 110,
+              "priority": 100,
               "direction": "Inbound"
             }
           },
@@ -197,12 +165,10 @@
               "sourceAddressPrefix": "[parameters('FESubnetAddressPrefix')]",
               "destinationAddressPrefix": "*",
               "access": "Allow",
-              "priority": 115,
+              "priority": 110,
               "direction": "Inbound"
             }
           },
-
-
 
           {
             "name": "Block_FE",
@@ -216,6 +182,20 @@
               "access": "Deny",
               "priority": 150,
               "direction": "Inbound"
+            }
+          },
+          {
+            "name": "Block_Internet",
+            "properties": {
+              "description": "Block Internet",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "Internet",
+              "access": "Deny",
+              "priority": 200,
+              "direction": "Outbound"
             }
           }
         ]

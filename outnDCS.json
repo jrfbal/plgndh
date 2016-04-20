@@ -66,11 +66,6 @@
       "metadata": {
         "description": "Subnet Reference"
       }
-    },
-
-    "FERulesConfigurationFunction": {
-      "type": "string"
-
     }
 
 

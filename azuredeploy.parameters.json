@@ -12,10 +12,10 @@
       "value": "virtual"
     },
     "vnetNewOrExisting": {
-      "value": "new"
+      "value": "existing"
     },
     "StorageACCName": {
-      "value": "outsysstorx"
+      "value": "d3dadd23saz"
     },
     "StorageNewOrExisting": {
       "value": "new"
@@ -33,31 +33,31 @@
       "value": 1
     },
     "dnsNameforLBIP": {
-      "value": "addeadzaanszx"
+      "value": "ltijasid1"
     },
     "CreateLBchoosebox": {
-      "value": "yLB"
+      "value": "nLB"
     },
     "FEName": {
-      "value": "FEx"
+      "value": "LT"
     },
     "SQLWindowsOSVersion": {
       "value": "Standard"
     },
     "SQLName": {
-      "value": "SQLx"
+      "value": "SQL"
     },
     "CONTName": {
-      "value": "DCSx"
+      "value": "DCS"
     },
     "CreateSQLchoosebox": {
-      "value": "ySQL"
+      "value": "nSQL"
     },
       "SQLStorageACCName": {
-          "value": "outsysstorx"
+          "value": "d3dadd23"
       },
       "SQLStorageNewOrExisting": {
-          "value": "new"
+          "value": "existing"
       }
   }
 }

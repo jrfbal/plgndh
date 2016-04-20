@@ -66,18 +66,14 @@
       "metadata": {
         "description": "Subnet Reference"
       }
-    },
-
-    "FERulesConfigurationFunction": {
-      "type": "string"
-
     }
 
 
   },
   "variables": {
     "location": "[resourceGroup().location]",
-    "apiver": "2015-06-15"
+    "apiver":  "2015-06-15"
+
   },
   "resources": [
     {
@@ -146,35 +142,7 @@
       "tags": {
         "displayName": "CONT"
       },
-      "type": "Microsoft.Compute/virtualMachines",
-      "resources": [
-        {
-          "name": "FERules",
-          "type": "extensions",
-          "location": "[variables('location')]",
-          "apiVersion": "[variables('apiver')]",
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('CONTName')))]"
-          ],
-          "tags": {
-            "displayName": "FERules"
-          },
-          "properties": {
-            "publisher": "Microsoft.Powershell",
-            "type": "DSC",
-            "typeHandlerVersion": "2.9",
-            "autoUpgradeMinorVersion": true,
-            "settings": {
-              "modulesUrl": "https://raw.githubusercontent.com/jrfbal/plgndh/master/scripts/FEDSC.zip",
-              "configurationFunction": "[parameters('FERulesConfigurationFunction')]",
-              "properties": {
-                "nodeName": "[parameters('CONTName')]"
-              }
-            },
-            "protectedSettings": { }
-          }
-        }
-      ]
+      "type": "Microsoft.Compute/virtualMachines"
     }
 
 
