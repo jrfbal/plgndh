@@ -413,4 +413,4 @@
       "lifetimeVMsize": "[steps('vmSizing').environmentVmSize.lifetimevmsizeselector]"
     }
   }
-}
+} 
