@@ -104,11 +104,7 @@
         "VMSize": "[steps('VMsetup').FEVmSize]",
         "location": "[location()]",
         "VnetName": "OSTRIAL-VNET",
-        "VnetAddressSpace": {
-          "value": [
-            "19.0.0.0/26"
-          ]
-        },
+        "VnetAddressSpace": ["19.0.0.0/26"],
         "trialSubnetName": "Subnet",
         "trialSubnetAddressSpace": "19.0.0.0/28",
         "GatewaySubnetName": "Gateway-Subnet",
